@@ -1,11 +1,17 @@
-FROM ubuntu:latest AS build
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+FROM adoptium/openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY gradle/wrapper /gradle/wrapper
+
 COPY . .
-RUN sudo ./gradlew bootjar --no-daemon
 
-FROM openjdk:17-jdk-slim
+RUN /gradle/wrapper gradle build
+
+COPY build/libs/edu-connect-1.jar app.jar
+
+WORKDIR /app
+
 EXPOSE 8080
-COPY --from=build /build/libs/educonnect-1.jar app.jar
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+CMD ["java", "-jar", "app.jar"]
