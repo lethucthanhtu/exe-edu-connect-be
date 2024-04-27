@@ -1,4 +1,4 @@
-EXE: Edu-connect
+**EXE: Edu-connect**
 
 # Note:
 - Pull về đổi branch, không push lên main
@@ -21,6 +21,7 @@ EXE: Edu-connect
 - FE: https://github.com/lethucthanhtu/exe-edu-connect-fe
 - BE: https://github.com/lethucthanhtu/exe-edu-connect-be
 - DB:
+    ```
 	Postgre 16 (1  Gb) (render.com) (main)
   	  + name: edu-connect
     	  + host: dpg-cnvvu5qcn0vc73c9r8g0-a.singapore-postgres.render.com
@@ -35,18 +36,21 @@ EXE: Edu-connect
    	  + instance: verceldb
   	  + username: default
   	  + password: wjgEOs57uhoM
+    ```
 
 # Deploy:
-- FE: https://theeduconnect.vercel.app/
+- FE: [website](https://theeduconnect.vercel.app/)
 - BE:
 	https://exe-edu-connect-be.onrender.com/
 	13.228.225.19
 	18.142.128.26
 	54.254.162.138
 - DB:
+    ```
 	render
   	  + external DB URL: postgres://edu_connect_user:jJUTG4j6tZvPtgB0IVNkzrUl9fpDOdH8@dpg-cnvvu5qcn0vc73c9r8g0-a.singapore-postgres.render.com/edu_connect
   	  + PSQL: PGPASSWORD=jJUTG4j6tZvPtgB0IVNkzrUl9fpDOdH8 psql -h dpg-cnvvu5qcn0vc73c9r8g0-a.singapore-postgres.render.com -U edu_connect_user edu_connect
 	vercel
 	  + external DB URL: postgres://default:wjgEOs57uhoM@ep-purple-recipe-a1sezflj-pooler.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require
 	  + PSQL: psql "postgres://default:wjgEOs57uhoM@ep-purple-recipe-a1sezflj.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require"
+    ```
