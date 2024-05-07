@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 @RestController
 public class ExeEduConnectBeApplication {
+    @GetMapping("/hello")
+    public ResponseEntity<?> hello() {
+        return ResponseEntity.ok().body("hello");
+    }
 
-	@GetMapping("/hello")
-	public ResponseEntity<?> hello() {
-		return ResponseEntity.ok().body("hello");
-	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(ExeEduConnectBeApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(ExeEduConnectBeApplication.class, args);
+    }
 }
