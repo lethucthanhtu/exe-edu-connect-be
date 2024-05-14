@@ -40,23 +40,18 @@ public class Course {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacherid", nullable = false)
-    private Teacher teacherid;
+    private Teacher teacher;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coursecategoryid", nullable = false)
-    private CourseCategory coursecategoryid;
+    private CourseCategory coursecategory;
 
-    @OneToMany(mappedBy = "courseid")
-    private Set<com.theeduconnect.exeeduconnectbe.domain.entities.AttendingCourse> attendingCourses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "course")
+    private Set<AttendingCourse> attendingCourses = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "courseid")
+    @OneToMany(mappedBy = "course")
     private Set<CourseSchedule> courseSchedules = new LinkedHashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "likes",
-            joinColumns = @JoinColumn(name = "courseid"),
-            inverseJoinColumns = @JoinColumn(name = "studentid"))
-    private Set<Student> students = new LinkedHashSet<>();
-
+    @OneToMany(mappedBy="course")
+    private Set<Like> likes = new LinkedHashSet<>();
 }

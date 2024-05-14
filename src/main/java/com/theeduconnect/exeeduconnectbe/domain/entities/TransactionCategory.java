@@ -22,7 +22,7 @@ public class TransactionCategory {
     @Column(name = "categoryname", length = 50)
     private String categoryname;
 
-    @OneToMany(mappedBy = "transactioncategoryid")
+    @OneToMany(mappedBy = "transactioncategory")
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
 }

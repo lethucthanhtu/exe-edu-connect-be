@@ -19,15 +19,14 @@ public class Student {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
-    private User users;
+    private User user;
 
-    @OneToMany(mappedBy = "studentid")
-    private Set<com.theeduconnect.exeeduconnectbe.domain.entities.AttendingCourse> attendingCourses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "student")
+    private Set<AttendingCourse> attendingCourses = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "studentid")
-    private Set<com.theeduconnect.exeeduconnectbe.domain.entities.Course> courses = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "studentid")
+    @OneToMany(mappedBy = "student")
     private Set<StudentInquiry> studentInquiries = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy="student")
+    private Set<Like> likes = new LinkedHashSet<>();
 }

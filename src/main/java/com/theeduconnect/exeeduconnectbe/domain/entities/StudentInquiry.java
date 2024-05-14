@@ -23,7 +23,7 @@ public class StudentInquiry {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
-    private Student studentid;
+    private Student student;
 
     @Column(name = "\"Date\"")
     private LocalDate date;
@@ -39,7 +39,7 @@ public class StudentInquiry {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "studentInquiry")
+    @OneToMany(mappedBy = "studentinquiry")
     private Set<StudentInquiryRequest> studentInquiryRequests = new LinkedHashSet<>();
 
 }

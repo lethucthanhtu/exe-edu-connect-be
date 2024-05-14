@@ -31,6 +31,6 @@ public class CourseSchedule {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
-    private com.theeduconnect.exeeduconnectbe.domain.entities.Course courseid;
+    private Course course;
 
 }

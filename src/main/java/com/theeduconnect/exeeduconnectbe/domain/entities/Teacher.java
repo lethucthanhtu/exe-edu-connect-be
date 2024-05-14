@@ -20,7 +20,7 @@ public class Teacher {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacherid", nullable = false)
-    private User users;
+    private User user;
 
     @Size(max = 255)
     @Column(name = "occupation")
@@ -38,8 +38,8 @@ public class Teacher {
     @Column(name = "bio")
     private String bio;
 
-    @OneToMany(mappedBy = "teacherid")
-    private Set<com.theeduconnect.exeeduconnectbe.domain.entities.Course> courses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "teacher")
+    private Set<Course> courses = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "teacher")
     private Set<StudentInquiryRequest> studentInquiryRequests = new LinkedHashSet<>();

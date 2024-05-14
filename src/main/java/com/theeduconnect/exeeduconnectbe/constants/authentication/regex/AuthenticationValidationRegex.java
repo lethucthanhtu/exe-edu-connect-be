@@ -1,0 +1,8 @@
+package com.theeduconnect.exeeduconnectbe.constants.authentication.regex;
+
+public class AuthenticationValidationRegex {
+    public static final String VALID_EMAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    public static final String VALID_NAME = "^[A-Z][a-zA-Z]*(\\s[A-Z][a-zA-Z]*)*$";
+    public static final String VALID_PASSWORD =
+            "^(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{}|;:',.<>?])(?=.*[a-zA-Z]).{8,}$";
+}

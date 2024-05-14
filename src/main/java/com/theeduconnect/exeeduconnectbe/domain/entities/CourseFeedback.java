@@ -31,6 +31,6 @@ public class CourseFeedback {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "attendingcourseid", nullable = false)
-    private com.theeduconnect.exeeduconnectbe.domain.entities.AttendingCourse attendingcourseid;
+    private AttendingCourse attendingcourse;
 
 }

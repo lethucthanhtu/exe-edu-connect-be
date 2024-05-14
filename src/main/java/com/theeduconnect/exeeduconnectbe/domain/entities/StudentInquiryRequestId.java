@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.util.ProxyUtils;
+import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class StudentInquiryRequestId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || ProxyUtils.getUserClass(this) != ProxyUtils.getUserClass(o)) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         StudentInquiryRequestId entity = (StudentInquiryRequestId) o;
         return Objects.equals(this.teacherid, entity.teacherid) &&
                 Objects.equals(this.studentinquiryid, entity.studentinquiryid);

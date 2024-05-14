@@ -60,7 +60,7 @@ public class User {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "roleid", nullable = false)
-    private Role roleid;
+    private Role role;
 
     @OneToOne(mappedBy = "user")
     private Student student;

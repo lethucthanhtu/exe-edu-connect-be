@@ -24,14 +24,14 @@ public class AttendingCourse {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
-    private com.theeduconnect.exeeduconnectbe.domain.entities.Course courseid;
+    private Course course;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
-    private Student studentid;
+    private Student student;
 
-    @OneToMany(mappedBy = "attendingcourseid")
+    @OneToMany(mappedBy = "attendingcourse")
     private Set<CourseFeedback> courseFeedbacks = new LinkedHashSet<>();
 
 }

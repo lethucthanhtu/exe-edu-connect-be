@@ -15,11 +15,11 @@ public class Like {
     @MapsId("studentid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
-    private Student studentid;
+    private Student student;
 
     @MapsId("courseid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
-    private com.theeduconnect.exeeduconnectbe.domain.entities.Course courseid;
+    private Course course;
 
 }

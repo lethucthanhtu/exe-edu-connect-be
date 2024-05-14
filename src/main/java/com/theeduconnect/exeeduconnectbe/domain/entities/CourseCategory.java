@@ -22,7 +22,7 @@ public class CourseCategory {
     @Column(name = "categoryname", length = 50)
     private String categoryname;
 
-    @OneToMany(mappedBy = "coursecategoryid")
-    private Set<com.theeduconnect.exeeduconnectbe.domain.entities.Course> courses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "coursecategory")
+    private Set<Course> courses = new LinkedHashSet<>();
 
 }

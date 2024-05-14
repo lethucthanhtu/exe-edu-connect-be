@@ -16,12 +16,12 @@ public class StudentInquiryRequest {
     @MapsId("studentinquiryid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentinquiryid", nullable = false)
-    private StudentInquiry studentinquiryid;
+    private StudentInquiry studentinquiry;
 
     @MapsId("teacherid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacherid", nullable = false)
-    private Teacher teacherid;
+    private Teacher teacher;
 
     @Size(max = 255)
     @Column(name = "content")
