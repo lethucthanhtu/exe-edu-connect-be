@@ -12,22 +12,28 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterRequest {
-    @Schema(name="role",example="1",requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "role", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = AuthenticationValidationMessages.INVALID_USER_ROLE) private Integer role;
 
-    @Schema(name="email",example="abc@gmail.com",requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "email", example = "abc@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationRegex.VALID_EMAIL,
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String email;
 
-    @Schema(name="fullName",example="Edu Connect Is Awesome",requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(
+            name = "fullName",
+            example = "Edu Connect Is Awesome",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationRegex.VALID_NAME,
             message = AuthenticationValidationMessages.INVALID_NAME)
     private String fullName;
 
-    @Schema(name="password",example="Educonnect123!",requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(
+            name = "password",
+            example = "Educonnect123!",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationRegex.VALID_PASSWORD,
             message = AuthenticationValidationMessages.INVALID_PASSWORD)
