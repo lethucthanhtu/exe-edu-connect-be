@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
                     ErrorModel.builder()
                             .code(fieldError.getCode())
                             .source(fieldError.getObjectName() + "/" + fieldError.getField())
-                            .detail(fieldError.getField() + " " + fieldError.getDefaultMessage())
+                            .detail(fieldError.getDefaultMessage())
                             .build();
             validationErrorModels.add(validationErrorModel);
         }
