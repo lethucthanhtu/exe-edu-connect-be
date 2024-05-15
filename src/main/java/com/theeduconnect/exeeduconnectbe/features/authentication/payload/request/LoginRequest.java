@@ -11,13 +11,14 @@ import lombok.Setter;
 @Setter
 public class LoginRequest {
     @NotNull(message = AuthenticationValidationMessages.INVALID_USER_ROLE) private Integer role;
+
     @Pattern(
             regexp = AuthenticationValidationRegex.VALID_EMAIL,
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String email;
+
     @Pattern(
             regexp = AuthenticationValidationRegex.VALID_PASSWORD,
             message = AuthenticationValidationMessages.INVALID_PASSWORD)
     private String password;
 }
-

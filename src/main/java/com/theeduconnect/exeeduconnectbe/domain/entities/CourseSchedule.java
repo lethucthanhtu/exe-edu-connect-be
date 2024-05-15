@@ -3,10 +3,9 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -28,9 +27,7 @@ public class CourseSchedule {
     @Column(name = "meeturl")
     private String meeturl;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
     private Course course;
-
 }

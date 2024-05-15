@@ -3,10 +3,9 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -28,9 +27,7 @@ public class CourseFeedback {
     @Column(name = "postdate")
     private LocalDate postdate;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "attendingcourseid", nullable = false)
     private AttendingCourse attendingcourse;
-
 }

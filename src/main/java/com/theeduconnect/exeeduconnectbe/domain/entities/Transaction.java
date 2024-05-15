@@ -2,10 +2,9 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,8 +19,7 @@ public class Transaction {
     @Column(name = "courseid")
     private Integer courseid;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userid", nullable = false)
     private User userid;
 
@@ -31,9 +29,7 @@ public class Transaction {
     @Column(name = "datetime")
     private LocalDate datetime;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "transactioncategoryid", nullable = false)
     private TransactionCategory transactioncategory;
-
 }

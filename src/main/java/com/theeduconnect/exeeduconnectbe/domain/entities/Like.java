@@ -9,8 +9,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "likes")
 public class Like {
-    @EmbeddedId
-    private LikeId id;
+    @EmbeddedId private LikeId id;
 
     @MapsId("studentid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -21,5 +20,4 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
     private Course course;
-
 }

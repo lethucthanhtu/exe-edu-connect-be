@@ -2,11 +2,10 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -21,17 +20,14 @@ public class AttendingCourse {
     @Column(name = "status")
     private Boolean status;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
     private Course course;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
     private Student student;
 
     @OneToMany(mappedBy = "attendingcourse")
     private Set<CourseFeedback> courseFeedbacks = new LinkedHashSet<>();
-
 }

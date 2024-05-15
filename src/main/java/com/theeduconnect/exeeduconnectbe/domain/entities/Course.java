@@ -3,12 +3,11 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -37,13 +36,11 @@ public class Course {
     @Column(name = "enddate")
     private LocalDate enddate;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacherid", nullable = false)
     private Teacher teacher;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coursecategoryid", nullable = false)
     private CourseCategory coursecategory;
 
@@ -52,6 +49,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private Set<CourseSchedule> courseSchedules = new LinkedHashSet<>();
-    @OneToMany(mappedBy="course")
+
+    @OneToMany(mappedBy = "course")
     private Set<Like> likes = new LinkedHashSet<>();
 }

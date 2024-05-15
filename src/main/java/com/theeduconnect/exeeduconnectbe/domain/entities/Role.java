@@ -2,11 +2,10 @@ package com.theeduconnect.exeeduconnectbe.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,5 +23,4 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private Set<User> users = new LinkedHashSet<>();
-
 }

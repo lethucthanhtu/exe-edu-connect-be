@@ -9,7 +9,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AuthenticationMapper {
-    @Mapping(target="role",ignore=true)
-    User RegisterRequestToUserEntity (RegisterRequest dto);
-    RoleDto RoleEntityToRoleDto (Role role);
+    @Mapping(target = "role", ignore = true)
+    User RegisterRequestToUserEntity(RegisterRequest dto);
+
+    RoleDto RoleEntityToRoleDto(Role role);
 }

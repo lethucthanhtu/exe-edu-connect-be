@@ -10,8 +10,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "student_inquiry_requests")
 public class StudentInquiryRequest {
-    @EmbeddedId
-    private StudentInquiryRequestId id;
+    @EmbeddedId private StudentInquiryRequestId id;
 
     @MapsId("studentinquiryid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,5 +28,4 @@ public class StudentInquiryRequest {
 
     @Column(name = "status")
     private Integer status;
-
 }

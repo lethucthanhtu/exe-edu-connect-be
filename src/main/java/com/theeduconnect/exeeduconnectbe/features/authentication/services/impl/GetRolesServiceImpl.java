@@ -7,7 +7,6 @@ import com.theeduconnect.exeeduconnectbe.domain.entities.Role;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.RoleDto;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.response.AuthenticationServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,48 +15,50 @@ public class GetRolesServiceImpl {
     private AuthenticationMapper authenticationMapper;
     private List<Role> roles;
     private List<RoleDto> roleDtos;
-    public GetRolesServiceImpl(RoleRepository roleRepository,
-                               AuthenticationMapper authenticationMapper){
+
+    public GetRolesServiceImpl(
+            RoleRepository roleRepository, AuthenticationMapper authenticationMapper) {
         this.roleRepository = roleRepository;
         this.authenticationMapper = authenticationMapper;
     }
-    public AuthenticationServiceResponse Handle(){
-        try{
+
+    public AuthenticationServiceResponse Handle() {
+        try {
             roles = roleRepository.findAll();
-            if(roles.size()==0) return NoRolesFoundResult();
+            if (roles.size() == 0) return NoRolesFoundResult();
             MapRolesToRoleDtos();
             return AllRolesFoundResult();
-        }catch(Exception e){
+        } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
-
     }
-    private void MapRolesToRoleDtos(){
+
+    private void MapRolesToRoleDtos() {
         roleDtos = new ArrayList<RoleDto>();
-        for(Role role : roles){
+        for (Role role : roles) {
             RoleDto roleDto = authenticationMapper.RoleEntityToRoleDto(role);
             roleDtos.add(roleDto);
         }
     }
-    private AuthenticationServiceResponse NoRolesFoundResult(){
+
+    private AuthenticationServiceResponse NoRolesFoundResult() {
         return new AuthenticationServiceResponse(
                 AuthenticationHttpResponseCodes.NO_ROLES_FOUND,
                 AuthenticationServiceMessages.NO_ROLES_FOUND,
-                null
-        );
+                null);
     }
-    private AuthenticationServiceResponse AllRolesFoundResult(){
+
+    private AuthenticationServiceResponse AllRolesFoundResult() {
         return new AuthenticationServiceResponse(
                 AuthenticationHttpResponseCodes.ALL_ROLES_FOUND,
                 AuthenticationServiceMessages.ALL_ROLES_FOUND,
-                roleDtos
-        );
+                roleDtos);
     }
+
     private AuthenticationServiceResponse InternalServerErrorResult(Exception e) {
         return new AuthenticationServiceResponse(
                 AuthenticationHttpResponseCodes.INTERNAL_SERVER_ERROR,
                 AuthenticationServiceMessages.INTERNAL_SERVER_ERROR,
-                e.getMessage()
-        );
+                e.getMessage());
     }
 }
