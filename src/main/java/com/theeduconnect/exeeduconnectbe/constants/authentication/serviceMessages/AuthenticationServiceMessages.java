@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.constants.authentication.messages;
+package com.theeduconnect.exeeduconnectbe.constants.authentication.serviceMessages;
 
 public class AuthenticationServiceMessages {
     public static String NO_ROLES_FOUND = "No roles found in the database.";

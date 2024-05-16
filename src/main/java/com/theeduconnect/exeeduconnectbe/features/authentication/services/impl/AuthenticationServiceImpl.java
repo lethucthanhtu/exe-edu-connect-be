@@ -7,6 +7,8 @@ import com.theeduconnect.exeeduconnectbe.features.authentication.payload.respons
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.AuthenticationService;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.StudentRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +25,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private GetRolesServiceImpl getRolesServiceImpl;
     private LoginServiceImpl loginServiceImpl;
     private final PasswordEncoder passwordEncoder;
-    private String shaKey;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
 
     public AuthenticationServiceImpl(
             UserRepository userRepository,
@@ -31,13 +34,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService,
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager,
+            TeacherRepository teacherRepository,
+            StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.authenticationMapper = authenticationMapper;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
         InitializeChildServices();
     }
 
@@ -59,7 +66,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private void InitializeChildServices() {
         registerServiceImpl =
                 new RegisterServiceImpl(
-                        userRepository, authenticationMapper, roleRepository, passwordEncoder);
+                        userRepository,
+                        authenticationMapper,
+                        roleRepository,
+                        passwordEncoder,
+                        teacherRepository,
+                        studentRepository);
         getRolesServiceImpl = new GetRolesServiceImpl(roleRepository, authenticationMapper);
         loginServiceImpl =
                 new LoginServiceImpl(

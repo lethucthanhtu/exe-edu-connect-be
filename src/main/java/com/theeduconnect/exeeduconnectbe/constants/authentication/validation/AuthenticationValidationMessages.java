@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.constants.authentication.messages;
+package com.theeduconnect.exeeduconnectbe.constants.authentication.validation;
 
 public class AuthenticationValidationMessages {
     public static final String INVALID_USER_ROLE =

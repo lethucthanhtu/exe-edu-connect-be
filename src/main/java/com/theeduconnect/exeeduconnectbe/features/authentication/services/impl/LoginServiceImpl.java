@@ -1,16 +1,14 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.AuthenticationMapper;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.messages.AuthenticationServiceMessages;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.responseCodes.AuthenticationHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.domain.entities.Role;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.serviceMessages.AuthenticationServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.entities.User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.request.LoginRequest;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.response.AuthenticationServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
-import java.util.Optional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,8 +43,6 @@ public class LoginServiceImpl {
     public AuthenticationServiceResponse Handle(LoginRequest request) {
         try {
             this.request = request;
-            if (!IsRoleValid()) return InvalidRoleResult();
-            if (!DoesRoleMatchUser()) return InvalidLoginCredentialsResult();
             AuthenticateUser();
             jwtToken = jwtService.generateToken(user);
             return SuccessfulLoginResult();
@@ -58,24 +54,10 @@ public class LoginServiceImpl {
         }
     }
 
-    private boolean IsRoleValid() {
-        Optional<Role> roleOptional = roleRepository.findById(request.getRole());
-        if (roleOptional.isEmpty()) return false;
-        return true;
-    }
-
     private void AuthenticateUser() {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         user = userRepository.findUserByEmail(request.getEmail()).get();
-    }
-
-    private boolean DoesRoleMatchUser() {
-        Optional<User> userOptional = userRepository.findUserByEmail(request.getEmail());
-        if (userOptional.isEmpty()) return false;
-        user = userOptional.get();
-        if (!(user.getRole().getId().equals(request.getRole()))) return false;
-        return true;
     }
 
     private AuthenticationServiceResponse SuccessfulLoginResult() {

@@ -1,8 +1,8 @@
 /* (C) 2024 */
 package com.theeduconnect.exeeduconnectbe.features.authentication.payload.request;
 
-import com.theeduconnect.exeeduconnectbe.constants.authentication.messages.AuthenticationValidationMessages;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.regex.AuthenticationValidationRegex;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.validation.AuthenticationValidationMessages;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.validation.AuthenticationValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +17,7 @@ public class RegisterRequest {
 
     @Schema(name = "email", example = "abc@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
-            regexp = AuthenticationValidationRegex.VALID_EMAIL,
+            regexp = AuthenticationValidationSpecifications.VALID_EMAIL_REGEX,
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String email;
 
@@ -26,7 +26,7 @@ public class RegisterRequest {
             example = "Edu Connect Is Awesome",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
-            regexp = AuthenticationValidationRegex.VALID_NAME,
+            regexp = AuthenticationValidationSpecifications.VALID_NAME_REGEX,
             message = AuthenticationValidationMessages.INVALID_NAME)
     private String fullName;
 
@@ -35,7 +35,7 @@ public class RegisterRequest {
             example = "Educonnect123!",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
-            regexp = AuthenticationValidationRegex.VALID_PASSWORD,
+            regexp = AuthenticationValidationSpecifications.VALID_PASSWORD_REGEX,
             message = AuthenticationValidationMessages.INVALID_PASSWORD)
     private String password;
 }
