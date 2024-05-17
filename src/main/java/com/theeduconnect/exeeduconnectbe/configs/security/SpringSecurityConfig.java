@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,13 +40,13 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //        http.cors(cors -> cors.configurationSource(request->new
-        // CorsConfiguration().applyPermitDefaultValues()))
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorize ->
                                 authorize
+                                        .requestMatchers(HttpMethod.OPTIONS)
+                                        .permitAll()
                                         .requestMatchers(AuthenticationEndpoints.BASE_URL + "/**")
                                         .permitAll()
                                         .requestMatchers(
@@ -74,11 +75,12 @@ public class SpringSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowedOrigins(Arrays.asList(eduConnectFEUrl));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setAllowedOrigins(Arrays.asList(eduConnectFEUrl));
+        configuration.setAllowedHeaders(
+                List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        //        configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
