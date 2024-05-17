@@ -23,6 +23,12 @@ public class JwtServiceImpl implements JwtService {
     @Value("${educonnect.be.expirationTime}")
     private long jwtExpiration;
 
+    public int extractUserId(String token) {
+        final String jwt = token.substring(7);
+        final Claims claims = extractAllClaims(jwt);
+        return Integer.parseInt(claims.get("userId").toString());
+    }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }

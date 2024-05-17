@@ -9,6 +9,8 @@ import com.theeduconnect.exeeduconnectbe.features.authentication.payload.respons
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,7 @@ public class LoginServiceImpl {
     private LoginRequest request;
     private String jwtToken;
     private User user;
+    private Map<String, Object> userClaims;
 
     public LoginServiceImpl(
             RoleRepository roleRepository,
@@ -44,7 +47,8 @@ public class LoginServiceImpl {
         try {
             this.request = request;
             AuthenticateUser();
-            jwtToken = jwtService.generateToken(user);
+            CreateClaims();
+            jwtToken = jwtService.generateToken(userClaims, user);
             return SuccessfulLoginResult();
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
@@ -60,18 +64,16 @@ public class LoginServiceImpl {
         user = userRepository.findUserByEmail(request.getEmail()).get();
     }
 
+    private void CreateClaims() {
+        userClaims = new HashMap<>();
+        userClaims.put("userId", user.getId());
+    }
+
     private AuthenticationServiceResponse SuccessfulLoginResult() {
         return new AuthenticationServiceResponse(
                 AuthenticationHttpResponseCodes.SUCCESSFUL_LOGIN,
                 AuthenticationServiceMessages.SUCCESSFUL_LOGIN,
                 jwtToken);
-    }
-
-    private AuthenticationServiceResponse InvalidRoleResult() {
-        return new AuthenticationServiceResponse(
-                AuthenticationHttpResponseCodes.INVALID_ROLE_RESULT,
-                AuthenticationServiceMessages.INVALID_ROLE_RESULT,
-                null);
     }
 
     private AuthenticationServiceResponse InvalidLoginCredentialsResult() {

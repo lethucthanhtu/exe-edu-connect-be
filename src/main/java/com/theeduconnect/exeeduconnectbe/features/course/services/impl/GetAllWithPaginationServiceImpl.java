@@ -7,7 +7,9 @@ import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.PaginationRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
+import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -16,22 +18,29 @@ import org.springframework.data.domain.Pageable;
 
 public class GetAllWithPaginationServiceImpl {
     private final CourseRepository courseRepository;
+    private final CourseCategoryRepository courseCategoryRepository;
+    private final UserRepository userRepository;
     private final CourseMapper courseMapper;
     private List<CourseDto> courseDtos;
     private Page<Course> courses;
     private PaginationRequest paginationRequest;
 
     public GetAllWithPaginationServiceImpl(
-            CourseRepository courseRepository, CourseMapper courseMapper) {
+            CourseRepository courseRepository,
+            CourseMapper courseMapper,
+            CourseCategoryRepository courseCategoryRepository,
+            UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+        this.courseCategoryRepository = courseCategoryRepository;
+        this.userRepository = userRepository;
     }
 
     public CourseServiceResponse Handle(PaginationRequest paginationRequest) {
         try {
             this.paginationRequest = paginationRequest;
             FindAllCoursesByPagination();
-            if (courses.stream().findAny().isEmpty()) return NoCoursesFoundResult();
+            if (!AreCoursesAvailable()) return NoCoursesFoundResult();
             MapCoursesToCourseDtos();
             return GetAllCoursesByPaginationSuccessfulResult();
         } catch (Exception e) {
@@ -41,16 +50,26 @@ public class GetAllWithPaginationServiceImpl {
 
     private void FindAllCoursesByPagination() {
         Pageable pageable =
-                PageRequest.of(paginationRequest.getPage(), paginationRequest.getSize());
+                PageRequest.of(paginationRequest.getPage() - 1, paginationRequest.getSize());
         courses = courseRepository.findAll(pageable);
+    }
+
+    private boolean AreCoursesAvailable() {
+        return courses.stream().findAny().isPresent();
     }
 
     private void MapCoursesToCourseDtos() {
         courseDtos = new ArrayList<CourseDto>();
         for (Course course : courses) {
             CourseDto courseDto = courseMapper.CourseEntityToCourseDto(course);
+            courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
+            courseDto.setTeachername(GetTeacherNameByTeacherId(course.getTeacher().getId()));
             courseDtos.add(courseDto);
         }
+    }
+
+    private String GetTeacherNameByTeacherId(int teacherId) {
+        return userRepository.findById(teacherId).get().getFullname();
     }
 
     private CourseServiceResponse NoCoursesFoundResult() {

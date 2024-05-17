@@ -4,7 +4,9 @@ public class CourseValidationMessages {
     public static final String INVALID_COURSE_NAME =
             "The entered course name must not be empty,"
                     + " and should be between 5 to 50 characters long.";
-    public static final String INVALID_DESCRIPTION = "The course description must not be empty.";
+    public static final String INVALID_DESCRIPTION =
+            "The course description must not be empty, and should be between 5 to 500 characters"
+                    + " long.";
     public static final String INVALID_PRICE = "The price must be in VND, and larger than 0.";
     public static final String INVALID_START_DATE =
             "The start date is not valid. Please try again.";

@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.course.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.PaginationRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
 
     private final CourseService courseService;
+    private final JwtService jwtService;
 
     @Autowired
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, JwtService jwtService) {
         this.courseService = courseService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping(CourseEndpoints.GET_ALL)
@@ -34,7 +37,10 @@ public class CourseController {
     @PostMapping(CourseEndpoints.CREATE)
     @Operation(summary = "Creates a new Course.")
     public ResponseEntity<CourseServiceResponse> CreateNewCourse(
+            @RequestHeader("Authorization") String rawJwtToken,
             @Valid @RequestBody NewCourseRequest newCourseRequest) {
+        int userId = jwtService.extractUserId(rawJwtToken);
+        newCourseRequest.setTeacherid(userId);
         CourseServiceResponse response = courseService.create(newCourseRequest);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

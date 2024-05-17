@@ -27,6 +27,10 @@ public class NewCourseRequest {
             name = "description",
             example = "A course that teaches mathematics for everyone",
             requiredMode = Schema.RequiredMode.REQUIRED)
+    @Size(
+            min = CourseValidationSpecifications.MIN_DESCRIPTION_LENGTH,
+            max = CourseValidationSpecifications.MAX_DESCRIPTION_LENGTH,
+            message = CourseValidationMessages.INVALID_DESCRIPTION)
     @NotNull(message = CourseValidationMessages.INVALID_DESCRIPTION) private String description;
 
     @Schema(name = "price", example = "500000.00", requiredMode = Schema.RequiredMode.REQUIRED)
