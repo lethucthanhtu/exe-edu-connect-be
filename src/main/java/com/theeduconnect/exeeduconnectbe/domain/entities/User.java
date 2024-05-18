@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain.entities;
 
+import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -57,6 +58,10 @@ public class User implements UserDetails {
 
     @Column(name = "balance")
     private Double balance;
+
+    @Column(name = "provider")
+    @Enumerated(EnumType.STRING)
+    private ProviderEnum provider;
 
     @NotNull @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "roleid", nullable = false)

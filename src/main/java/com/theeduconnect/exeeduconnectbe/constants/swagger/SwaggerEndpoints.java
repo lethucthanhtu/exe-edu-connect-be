@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.constants.swagger;
 
 public class SwaggerEndpoints {
-    public static final String BASE_URL = "/swagger-ui";
-    public static final String DOCS_URL = "/v3/api-docs";
+    public static final String[] ALLOWED_REQUEST_MATCHER_ENDPOINTS =
+            new String[] {"/swagger-ui/**", "/v3/api-docs/**"};
 }

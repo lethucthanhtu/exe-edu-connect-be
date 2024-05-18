@@ -1,20 +1,20 @@
-package com.theeduconnect.exeeduconnectbe.configs.security;
+package com.theeduconnect.exeeduconnectbe.configs.security.appDefault;
 
+import com.theeduconnect.exeeduconnectbe.configs.security.google.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.CustomOAuth2UserServiceImpl;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.OAuth2UserServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,36 +22,40 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SpringSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl;
+    private final OAuth2UserServiceImpl oAuth2UserServiceImpl;
 
     @Value("${educonnect.fe.url}")
     private String eduConnectFEUrl;
 
     public SpringSecurityConfig(
             AuthenticationProvider authenticationProvider,
-            JwtAuthenticationFilter jwtAuthenticationFilter) {
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl,
+            OAuth2UserServiceImpl oAuth2UserServiceImpl) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.customOAuth2UserServiceImpl = customOAuth2UserServiceImpl;
+        this.oAuth2UserServiceImpl = oAuth2UserServiceImpl;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         authorize ->
                                 authorize
-                                        .requestMatchers(HttpMethod.OPTIONS)
-                                        .permitAll()
-                                        .requestMatchers(AuthenticationEndpoints.BASE_URL + "/**")
+                                        .requestMatchers(
+                                                AuthenticationEndpoints
+                                                        .ALLOWED_REQUEST_MATCHER_ENDPOINTS)
                                         .permitAll()
                                         .requestMatchers(
-                                                SwaggerEndpoints.BASE_URL + "/**",
-                                                SwaggerEndpoints.DOCS_URL + "/**")
+                                                SwaggerEndpoints.ALLOWED_REQUEST_MATCHER_ENDPOINTS)
                                         .permitAll()
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
@@ -61,10 +65,24 @@ public class SpringSecurityConfig {
                                                 AuthenticationRoles.STUDENT)
                                         .anyRequest()
                                         .authenticated())
-                //                .oauth2ResourceServer(oauth2 ->
-                // oauth2.jwt(Customizer.withDefaults()))
+                .oauth2Login(
+                        oauth2Login -> {
+                            oauth2Login.userInfoEndpoint(
+                                    userInfoEndpoint ->
+                                            userInfoEndpoint.userService(
+                                                    customOAuth2UserServiceImpl));
+                            oauth2Login.successHandler(
+                                    (request, response, authentication) -> {
+                                        CustomOAuth2User oauthUser =
+                                                (CustomOAuth2User) authentication.getPrincipal();
+
+                                        oAuth2UserServiceImpl.processOAuthPostLogin(oauthUser);
+
+                                        response.sendRedirect(eduConnectFEUrl);
+                                    });
+                        })
                 .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

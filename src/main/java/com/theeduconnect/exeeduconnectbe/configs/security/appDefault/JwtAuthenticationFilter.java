@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.configs.security;
+package com.theeduconnect.exeeduconnectbe.configs.security.appDefault;
 
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import jakarta.servlet.FilterChain;
