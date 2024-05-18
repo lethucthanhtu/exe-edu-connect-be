@@ -1,11 +1,12 @@
-package com.theeduconnect.exeeduconnectbe.configs.security.appDefault;
+package com.theeduconnect.exeeduconnectbe.configs.security;
 
-import com.theeduconnect.exeeduconnectbe.configs.security.google.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.CustomOAuth2UserServiceImpl;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.OAuth2UserServiceImpl;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SpringSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilterImpl jwtAuthenticationFilterImpl;
     private final CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl;
     private final OAuth2UserServiceImpl oAuth2UserServiceImpl;
 
@@ -35,11 +36,11 @@ public class SpringSecurityConfig {
 
     public SpringSecurityConfig(
             AuthenticationProvider authenticationProvider,
-            JwtAuthenticationFilter jwtAuthenticationFilter,
+            JwtAuthenticationFilterImpl jwtAuthenticationFilterImpl,
             CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl,
             OAuth2UserServiceImpl oAuth2UserServiceImpl) {
         this.authenticationProvider = authenticationProvider;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.jwtAuthenticationFilterImpl = jwtAuthenticationFilterImpl;
         this.customOAuth2UserServiceImpl = customOAuth2UserServiceImpl;
         this.oAuth2UserServiceImpl = oAuth2UserServiceImpl;
     }
@@ -85,7 +86,7 @@ public class SpringSecurityConfig {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        jwtAuthenticationFilterImpl, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

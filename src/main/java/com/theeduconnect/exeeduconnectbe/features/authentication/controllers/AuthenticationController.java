@@ -9,8 +9,10 @@ import com.theeduconnect.exeeduconnectbe.features.authentication.services.Authen
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +49,16 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationServiceResponse> GetRoles() {
         AuthenticationServiceResponse response = authenticationService.GetRoles();
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
+    @GetMapping(AuthenticationEndpoints.LOGOUT_URL)
+    @Operation(
+            summary =
+                    "Logs the current user out of the system. Also clears the security credential"
+                            + " session.")
+    public ResponseEntity<String> Logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        String redirectUrl = "/login";
+        return ResponseEntity.status(HttpStatus.FOUND).body(redirectUrl);
     }
 }

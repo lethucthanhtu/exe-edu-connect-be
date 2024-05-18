@@ -1,5 +1,6 @@
-package com.theeduconnect.exeeduconnectbe.configs.security.appDefault;
+package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
+import com.theeduconnect.exeeduconnectbe.constants.authentication.validation.AuthenticationValidationMessages;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,13 +19,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilterImpl extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(
+    public JwtAuthenticationFilterImpl(
             JwtService jwtService,
             UserDetailsService userDetailsService,
             HandlerExceptionResolver handlerExceptionResolver) {
@@ -49,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
-
+            //            SecurityContextHolder.getContext().setAuthentication(null);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
@@ -68,6 +69,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(AuthenticationValidationMessages.INVALID_JWT_TOKEN);
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
     }

@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.configs.security.google;
+package com.theeduconnect.exeeduconnectbe.features.authentication.dtos;
 
 import java.util.Collection;
 import java.util.Map;

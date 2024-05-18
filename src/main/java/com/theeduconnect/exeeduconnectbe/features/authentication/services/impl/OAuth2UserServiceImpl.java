@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
-import com.theeduconnect.exeeduconnectbe.configs.security.google.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
 import com.theeduconnect.exeeduconnectbe.domain.entities.User;
+import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.Optional;

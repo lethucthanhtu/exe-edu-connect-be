@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.configs.security.appDefault;
+package com.theeduconnect.exeeduconnectbe.configs.security;
 
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;

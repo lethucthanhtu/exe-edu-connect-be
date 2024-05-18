@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
-import com.theeduconnect.exeeduconnectbe.configs.security.google.CustomOAuth2User;
+import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAuth2User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
