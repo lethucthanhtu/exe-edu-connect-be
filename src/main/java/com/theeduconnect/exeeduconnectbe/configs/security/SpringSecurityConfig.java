@@ -61,9 +61,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         .requestMatchers(CourseEndpoints.GET_ALL)
-                                        .hasAnyAuthority(
-                                                AuthenticationRoles.TEACHER,
-                                                AuthenticationRoles.STUDENT)
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
