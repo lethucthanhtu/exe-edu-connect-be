@@ -1,16 +1,15 @@
 package com.theeduconnect.exeeduconnectbe.features.loginGG.dtos;
 
+import java.util.ArrayList;
+import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class Root{
+public class Root {
     public String at_hash;
     public String sub;
     public boolean email_verified;
