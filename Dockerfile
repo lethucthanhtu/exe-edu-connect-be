@@ -2,6 +2,8 @@ FROM gradle:8.6-jdk17 AS build
 
 COPY . .
 
+RUN ./gradlew build --no-daemon
+
 RUN ./gradlew bootjar --no-daemon
 
 FROM openjdk:17-jdk-slim
