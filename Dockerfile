@@ -1,8 +1,8 @@
-FROM ubuntu:latest AS build
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+FROM gradle:8.6-jdk17 AS build
 
-COPY . .
+# WORKDIR /app
+
+COPY exe-edu-connect-be/ .
 
 RUN ./gradlew bootjar --no-daemon
 
