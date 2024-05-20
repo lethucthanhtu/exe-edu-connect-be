@@ -1,8 +1,6 @@
 FROM gradle:8.6-jdk17 AS build
 
-# WORKDIR /app
-
-COPY exe-edu-connect-be/ .
+COPY . .
 
 RUN ./gradlew bootjar --no-daemon
 
