@@ -52,10 +52,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(AuthenticationEndpoints.LOGOUT_URL)
-    @Operation(
-            summary =
-                    "Logs the current user out of the system. Also clears the security credential"
-                            + " session.")
+    @Operation(summary = "Logs the current user out of the system.")
     public ResponseEntity<String> Logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
         String redirectUrl = "/login";
