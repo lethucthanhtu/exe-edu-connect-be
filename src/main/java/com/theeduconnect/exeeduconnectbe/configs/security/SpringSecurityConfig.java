@@ -62,6 +62,12 @@ public class SpringSecurityConfig {
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         .requestMatchers(CourseEndpoints.GET_ALL)
                                         .permitAll()
+//                                        comment users
+                                        .requestMatchers("/api/users")
+                                        .permitAll()
+                                        .requestMatchers("/api/users/{userId}")
+                                        .permitAll()
+//                                        end comment users
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(

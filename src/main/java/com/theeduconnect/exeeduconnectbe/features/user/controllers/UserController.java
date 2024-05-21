@@ -28,12 +28,12 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
-    @PostMapping
-    @Operation(summary = "Create a new user.")
-    public ResponseEntity<UserServiceResponse> createUser(@RequestBody NewUserRequest request) {
-        UserServiceResponse response = userService.createUser(request);
-        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
-    }
+//    @PostMapping
+//    @Operation(summary = "Create a new user.")
+//    public ResponseEntity<UserServiceResponse> createUser(@RequestBody NewUserRequest request) {
+//        UserServiceResponse response = userService.createUser(request);
+//        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+//    }
 
     @GetMapping(UserEndpoints.GET_USER_BY_ID)
     @Operation(summary = "Get a user by Id.")
