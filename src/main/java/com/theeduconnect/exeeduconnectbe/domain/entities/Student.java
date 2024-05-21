@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Student {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "studentid", nullable = false)
+    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "student")
