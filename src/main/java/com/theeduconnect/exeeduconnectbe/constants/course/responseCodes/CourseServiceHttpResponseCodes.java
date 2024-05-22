@@ -6,5 +6,6 @@ public class CourseServiceHttpResponseCodes {
     public static final int NO_COURSES_FOUND = 400;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int START_DATE_BEFORE_END_DATE = 400;
-    public static int INVALID_COURSE_CATEGORY_ID = 404;
+    public static final int INVALID_COURSE_CATEGORY_ID = 404;
+    public static final int INVALID_WEEKDAY = 404;
 }

@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationSpecifications;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
 import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
@@ -11,6 +12,8 @@ import com.theeduconnect.exeeduconnectbe.features.course.payload.response.Course
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 public class CreateCourseServiceImpl {
@@ -38,6 +41,7 @@ public class CreateCourseServiceImpl {
             this.request = request;
             if (!IsStartDateBeforeEndDate()) return StartDateNotBeforeEndDateResult();
             if (!IsCourseCategoryIdValid()) return InvalidCourseCategoryIdResult();
+            if(!AreWeekdaysValid()) return InvalidWeekdayResult();
             MapNewCourseRequestToCourseEntity();
             courseRepository.save(course);
             return CreateCourseSuccessfulResult();
@@ -56,6 +60,15 @@ public class CreateCourseServiceImpl {
                 courseCategoryRepository.findById(request.getCategoryid());
         if (courseCategoryOptional.isEmpty()) return false;
         courseCategory = courseCategoryOptional.get();
+        return true;
+    }
+    private boolean AreWeekdaysValid(){
+        List<String> weekdays = request.getWeekdays();
+        if(weekdays.size()==0) return false;
+        for (String weekday: weekdays){
+            if (!CourseValidationSpecifications.WEEKDAYS.contains(weekday))
+                return false;
+        }
         return true;
     }
 
@@ -84,6 +97,12 @@ public class CreateCourseServiceImpl {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.INVALID_COURSE_CATEGORY_ID,
                 CourseServiceMessages.INVALID_COURSE_CATEGORY_ID,
+                null);
+    }
+    private CourseServiceResponse InvalidWeekdayResult(){
+        return new CourseServiceResponse(
+                CourseServiceHttpResponseCodes.INVALID_WEEKDAY,
+                CourseServiceMessages.INVALID_WEEKDAY,
                 null);
     }
 
