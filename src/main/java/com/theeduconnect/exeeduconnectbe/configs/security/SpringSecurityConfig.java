@@ -9,16 +9,20 @@ import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAut
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.CustomOAuth2UserServiceImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.OAuth2UserServiceImpl;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,7 +43,8 @@ public class SpringSecurityConfig {
             AuthenticationProvider authenticationProvider,
             JwtAuthenticationFilterImpl jwtAuthenticationFilterImpl,
             CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl,
-            OAuth2UserServiceImpl oAuth2UserServiceImpl) {
+            OAuth2UserServiceImpl oAuth2UserServiceImpl
+            ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilterImpl = jwtAuthenticationFilterImpl;
         this.customOAuth2UserServiceImpl = customOAuth2UserServiceImpl;
@@ -91,6 +96,7 @@ public class SpringSecurityConfig {
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authenticationProvider(authenticationProvider)
+                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(
                         jwtAuthenticationFilterImpl, UsernamePasswordAuthenticationFilter.class);
 

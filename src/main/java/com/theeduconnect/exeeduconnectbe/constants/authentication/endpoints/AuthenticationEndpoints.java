@@ -8,5 +8,5 @@ public class AuthenticationEndpoints {
     public static final String GOOGLE_LOGIN_URL = BASE_URL + "/google/login";
     public static final String LOGOUT_URL = BASE_URL + "/logout";
     public static final String[] ALLOWED_REQUEST_MATCHER_ENDPOINTS =
-            new String[] {BASE_URL + "/**", "/", "/oauth/**"};
+            new String[] {LOGIN_URL,REGISTER_URL,ROLES_URL,GOOGLE_LOGIN_URL,LOGOUT_URL, "/", "/oauth/**"};
 }
