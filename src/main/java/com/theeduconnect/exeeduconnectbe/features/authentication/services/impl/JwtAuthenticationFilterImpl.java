@@ -10,7 +10,6 @@ import java.io.IOException;
 import lombok.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,10 +42,9 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
 
-
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                filterChain.doFilter(request,response);
+                filterChain.doFilter(request, response);
                 return;
             }
             final String jwt = authHeader.substring(7);

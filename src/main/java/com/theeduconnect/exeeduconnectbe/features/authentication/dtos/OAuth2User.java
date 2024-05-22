@@ -3,13 +3,12 @@ package com.theeduconnect.exeeduconnectbe.features.authentication.dtos;
 import java.util.Collection;
 import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public class CustomOAuth2User implements OAuth2User {
+public class OAuth2User implements org.springframework.security.oauth2.core.user.OAuth2User {
 
-    private OAuth2User oauth2User;
+    private org.springframework.security.oauth2.core.user.OAuth2User oauth2User;
 
-    public CustomOAuth2User(OAuth2User oauth2User) {
+    public OAuth2User(org.springframework.security.oauth2.core.user.OAuth2User oauth2User) {
         this.oauth2User = oauth2User;
     }
 
