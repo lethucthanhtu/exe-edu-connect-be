@@ -2,7 +2,7 @@ package com.theeduconnect.exeeduconnectbe.features.course.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllByRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
@@ -26,13 +26,14 @@ public class CourseController {
     }
 
     @GetMapping(CourseEndpoints.GET_ALL_BY)
-    @Operation(summary = "Gets a list of Course, with Pagination.")
+    @Operation(summary = "Gets a list of Course, with additional parameters.")
     public ResponseEntity<CourseServiceResponse> GetCoursesWithPagination(
             @RequestParam(value = "category", required = false) String category,
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
-        GetAllByRequest getAllByRequest = new GetAllByRequest(category, page, size);
-        CourseServiceResponse response = courseService.getAllByRequest(getAllByRequest);
+        GetAllCoursesByRequest getAllCoursesByRequest =
+                new GetAllCoursesByRequest(category, page, size);
+        CourseServiceResponse response = courseService.getAllByRequest(getAllCoursesByRequest);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 

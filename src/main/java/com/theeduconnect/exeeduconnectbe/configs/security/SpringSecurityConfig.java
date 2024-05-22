@@ -4,6 +4,7 @@ import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.Auth
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.CustomOAuth2UserServiceImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
@@ -61,6 +62,9 @@ public class SpringSecurityConfig {
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         .requestMatchers(CourseEndpoints.GET_ALL_BY)
+                                        .permitAll()
+                                        .requestMatchers(
+                                                TeacherEndpoints.GET_ALL_BY_COURSE_CATEGORY)
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())

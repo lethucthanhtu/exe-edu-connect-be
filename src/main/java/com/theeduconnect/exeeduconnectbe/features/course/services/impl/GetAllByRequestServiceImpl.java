@@ -6,15 +6,15 @@ import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.Course
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
 import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllByRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
+import com.theeduconnect.exeeduconnectbe.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -26,7 +26,7 @@ public class GetAllByRequestServiceImpl {
     private List<CourseDto> courseDtos;
     private Page<Course> courses;
     private Pageable pageable;
-    private GetAllByRequest getAllByRequest;
+    private GetAllCoursesByRequest getAllCoursesByRequest;
 
     public GetAllByRequestServiceImpl(
             CourseRepository courseRepository,
@@ -39,15 +39,15 @@ public class GetAllByRequestServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public CourseServiceResponse Handle(GetAllByRequest getAllByRequest) {
+    public CourseServiceResponse Handle(GetAllCoursesByRequest getAllCoursesByRequest) {
         try {
-            this.getAllByRequest = getAllByRequest;
+            this.getAllCoursesByRequest = getAllCoursesByRequest;
             ResetPreviousSearchResults();
             ConvertPageRequestToPageable();
             FindAllCoursesByRequest();
             if (!AreCoursesAvailable()) return NoCoursesFoundResult();
             MapCoursesToCourseDtos();
-            return GetAllCoursesByPaginationSuccessfulResult();
+            return GetAllCoursesSuccessfulResult();
         } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
@@ -58,14 +58,15 @@ public class GetAllByRequestServiceImpl {
         courses = null;
         pageable = null;
     }
-    ;
 
     private void ConvertPageRequestToPageable() {
-        pageable = PageRequest.of(getAllByRequest.getPage() - 1, getAllByRequest.getSize());
+        pageable =
+                PageRequest.of(
+                        getAllCoursesByRequest.getPage() - 1, getAllCoursesByRequest.getSize());
     }
 
     private void FindAllCoursesByRequest() {
-        if (getAllByRequest.getCategoryname() != null) {
+        if (getAllCoursesByRequest.getCategoryname() != null) {
             FindByCategoryName();
             return;
         }
@@ -74,14 +75,10 @@ public class GetAllByRequestServiceImpl {
 
     private void FindByCategoryName() {
         CourseCategory courseCategory =
-                courseCategoryRepository.findByCategoryname(getAllByRequest.getCategoryname());
+                courseCategoryRepository.findByCategoryname(
+                        getAllCoursesByRequest.getCategoryname());
         if (courseCategory == null) return;
-        List<Course> coursesByCategoryList = new ArrayList<>(courseCategory.getCourses());
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), coursesByCategoryList.size());
-        if (start > end) return;
-        List<Course> pageContent = coursesByCategoryList.subList(start, end);
-        courses = new PageImpl<>(pageContent, pageable, coursesByCategoryList.size());
+        courses = ListUtils.SetToPaginatedList(courseCategory.getCourses(), pageable);
     }
 
     private boolean AreCoursesAvailable() {
@@ -109,7 +106,7 @@ public class GetAllByRequestServiceImpl {
                 null);
     }
 
-    private CourseServiceResponse GetAllCoursesByPaginationSuccessfulResult() {
+    private CourseServiceResponse GetAllCoursesSuccessfulResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.FOUND_ALL_COURSES,
                 CourseServiceMessages.FOUND_ALL_COURSES,

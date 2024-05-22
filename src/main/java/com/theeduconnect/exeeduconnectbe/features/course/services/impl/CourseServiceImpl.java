@@ -1,7 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllByRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
@@ -37,7 +37,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseServiceResponse getAllByRequest(GetAllByRequest request) {
+    public CourseServiceResponse getAllByRequest(GetAllCoursesByRequest request) {
         return getAllByRequestServiceImpl.Handle(request);
     }
 
