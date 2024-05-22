@@ -4,8 +4,9 @@ import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
+import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.PaginationRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
@@ -13,19 +14,21 @@ import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-public class GetAllWithPaginationServiceImpl {
+public class GetAllByRequestServiceImpl {
     private final CourseRepository courseRepository;
     private final CourseCategoryRepository courseCategoryRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
     private List<CourseDto> courseDtos;
     private Page<Course> courses;
-    private PaginationRequest paginationRequest;
+    private Pageable pageable;
+    private GetAllByRequest getAllByRequest;
 
-    public GetAllWithPaginationServiceImpl(
+    public GetAllByRequestServiceImpl(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
             CourseCategoryRepository courseCategoryRepository,
@@ -36,10 +39,12 @@ public class GetAllWithPaginationServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public CourseServiceResponse Handle(PaginationRequest paginationRequest) {
+    public CourseServiceResponse Handle(GetAllByRequest getAllByRequest) {
         try {
-            this.paginationRequest = paginationRequest;
-            FindAllCoursesByPagination();
+            this.getAllByRequest = getAllByRequest;
+            ResetPreviousSearchResults();
+            ConvertPageRequestToPageable();
+            FindAllCoursesByRequest();
             if (!AreCoursesAvailable()) return NoCoursesFoundResult();
             MapCoursesToCourseDtos();
             return GetAllCoursesByPaginationSuccessfulResult();
@@ -48,18 +53,43 @@ public class GetAllWithPaginationServiceImpl {
         }
     }
 
-    private void FindAllCoursesByPagination() {
-        Pageable pageable =
-                PageRequest.of(paginationRequest.getPage() - 1, paginationRequest.getSize());
+    private void ResetPreviousSearchResults() {
+        courseDtos = new ArrayList<>();
+        courses = null;
+        pageable = null;
+    }
+    ;
+
+    private void ConvertPageRequestToPageable() {
+        pageable = PageRequest.of(getAllByRequest.getPage() - 1, getAllByRequest.getSize());
+    }
+
+    private void FindAllCoursesByRequest() {
+        if (getAllByRequest.getCategoryname() != null) {
+            FindByCategoryName();
+            return;
+        }
         courses = courseRepository.findAll(pageable);
     }
 
+    private void FindByCategoryName() {
+        CourseCategory courseCategory =
+                courseCategoryRepository.findByCategoryname(getAllByRequest.getCategoryname());
+        if (courseCategory == null) return;
+        List<Course> coursesByCategoryList = new ArrayList<>(courseCategory.getCourses());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), coursesByCategoryList.size());
+        if (start > end) return;
+        List<Course> pageContent = coursesByCategoryList.subList(start, end);
+        courses = new PageImpl<>(pageContent, pageable, coursesByCategoryList.size());
+    }
+
     private boolean AreCoursesAvailable() {
+        if (courses == null) return false;
         return courses.stream().findAny().isPresent();
     }
 
     private void MapCoursesToCourseDtos() {
-        courseDtos = new ArrayList<CourseDto>();
         for (Course course : courses) {
             CourseDto courseDto = courseMapper.CourseEntityToCourseDto(course);
             courseDto.setCategoryname(course.getCoursecategory().getCategoryname());

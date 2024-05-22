@@ -60,12 +60,16 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
-                                        .requestMatchers(CourseEndpoints.GET_ALL)
+                                        .requestMatchers(CourseEndpoints.GET_ALL_BY)
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
                         oauth2Login -> {
+                            oauth2Login.failureHandler(
+                                    (request, response, authentication) -> {
+                                        response.sendRedirect(eduConnectFEUrl);
+                                    });
                             oauth2Login.userInfoEndpoint(
                                     userInfoEndpoint ->
                                             userInfoEndpoint.userService(
@@ -97,8 +101,6 @@ public class SpringSecurityConfig {
         configuration.setAllowedHeaders(
                 List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        //        configuration.setExposedHeaders(Arrays.asList("Authorization"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", configuration);

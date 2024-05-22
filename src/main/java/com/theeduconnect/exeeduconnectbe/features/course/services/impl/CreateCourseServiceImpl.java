@@ -12,7 +12,6 @@ import com.theeduconnect.exeeduconnectbe.features.course.payload.response.Course
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class CreateCourseServiceImpl {
             this.request = request;
             if (!IsStartDateBeforeEndDate()) return StartDateNotBeforeEndDateResult();
             if (!IsCourseCategoryIdValid()) return InvalidCourseCategoryIdResult();
-            if(!AreWeekdaysValid()) return InvalidWeekdayResult();
+            if (!AreWeekdaysValid()) return InvalidWeekdayResult();
             MapNewCourseRequestToCourseEntity();
             courseRepository.save(course);
             return CreateCourseSuccessfulResult();
@@ -62,12 +61,12 @@ public class CreateCourseServiceImpl {
         courseCategory = courseCategoryOptional.get();
         return true;
     }
-    private boolean AreWeekdaysValid(){
+
+    private boolean AreWeekdaysValid() {
         List<String> weekdays = request.getWeekdays();
-        if(weekdays.size()==0) return false;
-        for (String weekday: weekdays){
-            if (!CourseValidationSpecifications.WEEKDAYS.contains(weekday))
-                return false;
+        if (weekdays.size() == 0) return false;
+        for (String weekday : weekdays) {
+            if (!CourseValidationSpecifications.WEEKDAYS.contains(weekday)) return false;
         }
         return true;
     }
@@ -99,7 +98,8 @@ public class CreateCourseServiceImpl {
                 CourseServiceMessages.INVALID_COURSE_CATEGORY_ID,
                 null);
     }
-    private CourseServiceResponse InvalidWeekdayResult(){
+
+    private CourseServiceResponse InvalidWeekdayResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.INVALID_WEEKDAY,
                 CourseServiceMessages.INVALID_WEEKDAY,

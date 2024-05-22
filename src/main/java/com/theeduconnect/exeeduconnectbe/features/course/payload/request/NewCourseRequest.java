@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,7 +48,9 @@ public class NewCourseRequest {
     @Schema(name = "categoryid", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = CourseValidationMessages.INVALID_CATEGORY_ID) private Integer categoryid;
 
-    @Schema(name = "weekdays", example = "[\"MON\",\"TUE\",\"FRI\"]", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = CourseValidationMessages.INVALID_WEEKDAYS)
-    private List<String> weekdays;
+    @Schema(
+            name = "weekdays",
+            example = "[\"MON\",\"TUE\",\"FRI\"]",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = CourseValidationMessages.INVALID_WEEKDAYS) private List<String> weekdays;
 }
