@@ -66,10 +66,6 @@ public class SpringSecurityConfig {
                                         .authenticated())
                 .oauth2Login(
                         oauth2Login -> {
-                            oauth2Login.failureHandler(
-                                    (request, response, authentication) -> {
-                                        response.sendRedirect(eduConnectFEUrl);
-                                    });
                             oauth2Login.userInfoEndpoint(
                                     userInfoEndpoint ->
                                             userInfoEndpoint.userService(
@@ -81,6 +77,10 @@ public class SpringSecurityConfig {
 
                                         oAuth2UserServiceImpl.processOAuthPostLogin(oauthUser);
 
+                                        response.sendRedirect(eduConnectFEUrl);
+                                    });
+                            oauth2Login.failureHandler(
+                                    (request, response, authentication) -> {
                                         response.sendRedirect(eduConnectFEUrl);
                                     });
                         })

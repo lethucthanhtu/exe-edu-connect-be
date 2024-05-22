@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.AuthenticationMapper;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.responseCodes.AuthenticationHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.serviceMessages.AuthenticationServiceMessages;
@@ -73,6 +74,7 @@ public class RegisterServiceImpl {
     private void MapDtoToUserEntity() {
         user = authenticationMapper.RegisterRequestToUserEntity(request);
         user.setRole(role);
+        user.setProvider(ProviderEnum.LOCAL);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
     }
 
