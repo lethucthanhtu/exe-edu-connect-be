@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationMessages;
 import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -48,9 +49,6 @@ public class NewCourseRequest {
     @Schema(name = "categoryid", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = CourseValidationMessages.INVALID_CATEGORY_ID) private Integer categoryid;
 
-    @Schema(
-            name = "weekdays",
-            example = "[\"MON\",\"TUE\",\"FRI\"]",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = CourseValidationMessages.INVALID_WEEKDAYS) private List<String> weekdays;
+    @Valid
+    @NotNull(message = CourseValidationMessages.INVALID_SCHEDULE_REQUESTS) private List<NewCourseScheduleRequest> scheduleRequests;
 }

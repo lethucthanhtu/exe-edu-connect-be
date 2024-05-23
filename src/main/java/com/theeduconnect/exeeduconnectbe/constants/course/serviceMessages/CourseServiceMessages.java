@@ -14,7 +14,6 @@ public class CourseServiceMessages {
     public static final String INVALID_COURSE_CATEGORY_NAME =
             "The entered courseCategory Name is non-existent in the system. Please try another"
                     + " one.";
-    public static final String INVALID_WEEKDAY =
-            "One of the weekdays might be invalid. A valid value should belong to one of the"
-                    + " following: MON, TUE, WED, THU, FRI, SAT, SUN.";
+    public static final String INVALID_START_TIME =
+            "All Start Times must be between the Start Date and the End Date.";
 }

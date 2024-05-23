@@ -1,38 +1,51 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
+import com.theeduconnect.exeeduconnectbe.configs.mappers.ScheduleMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
-import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationSpecifications;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
 import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
+import com.theeduconnect.exeeduconnectbe.domain.entities.CourseSchedule;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseScheduleRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
-import java.util.List;
-import java.util.Optional;
+import com.theeduconnect.exeeduconnectbe.utils.TimeUtils;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.*;
 
 public class CreateCourseServiceImpl {
     private final CourseRepository courseRepository;
     private final TeacherRepository teacherRepository;
     private final CourseCategoryRepository courseCategoryRepository;
+    private final CourseScheduleRepository courseScheduleRepository;
     private final CourseMapper courseMapper;
+    private final ScheduleMapper scheduleMapper;
     private NewCourseRequest request;
     private Course course;
     private CourseCategory courseCategory;
+    private List<NewCourseScheduleRequest> newCourseScheduleRequestList;
+    private Set<CourseSchedule> courseScheduleList;
 
     public CreateCourseServiceImpl(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
+            ScheduleMapper scheduleMapper,
             CourseCategoryRepository courseCategoryRepository,
+            CourseScheduleRepository courseScheduleRepository,
             TeacherRepository teacherRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.teacherRepository = teacherRepository;
         this.courseCategoryRepository = courseCategoryRepository;
+        this.courseScheduleRepository = courseScheduleRepository;
+        this.scheduleMapper = scheduleMapper;
     }
 
     public CourseServiceResponse Handle(NewCourseRequest request) {
@@ -40,9 +53,12 @@ public class CreateCourseServiceImpl {
             this.request = request;
             if (!IsStartDateBeforeEndDate()) return StartDateNotBeforeEndDateResult();
             if (!IsCourseCategoryIdValid()) return InvalidCourseCategoryIdResult();
-            if (!AreWeekdaysValid()) return InvalidWeekdayResult();
+            if (!IsStartTimeBetweenStartDateAndEndDate()) return InvalidStartTimeResult();
             MapNewCourseRequestToCourseEntity();
+            MapScheduleRequestListToScheduleEntityList();
+            course.setCourseSchedules(courseScheduleList);
             courseRepository.save(course);
+            courseScheduleRepository.saveAll(courseScheduleList);
             return CreateCourseSuccessfulResult();
         } catch (Exception e) {
             return InternalServerErrorResult(e);
@@ -62,11 +78,13 @@ public class CreateCourseServiceImpl {
         return true;
     }
 
-    private boolean AreWeekdaysValid() {
-        List<String> weekdays = request.getWeekdays();
-        if (weekdays.size() == 0) return false;
-        for (String weekday : weekdays) {
-            if (!CourseValidationSpecifications.WEEKDAYS.contains(weekday)) return false;
+    private boolean IsStartTimeBetweenStartDateAndEndDate() {
+        newCourseScheduleRequestList = request.getScheduleRequests();
+        LocalDate startDate = request.getStartdate();
+        LocalDate endDate = request.getEnddate();
+        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {
+            Instant startTime = newCourseScheduleRequest.getStarttime();
+            if (!TimeUtils.IsInstantBetweenLocalDates(startTime, startDate, endDate)) return false;
         }
         return true;
     }
@@ -76,6 +94,18 @@ public class CreateCourseServiceImpl {
         course.setCoursecategory(courseCategory);
         Teacher teacher = teacherRepository.findById(request.getTeacherid()).get();
         course.setTeacher(teacher);
+    }
+
+    private void MapScheduleRequestListToScheduleEntityList() {
+        courseScheduleList = new HashSet<>();
+        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {
+            CourseSchedule courseSchedule =
+                    scheduleMapper.NewCourseScheduleRequestToCourseScheduleEntity(
+                            newCourseScheduleRequest);
+            courseSchedule.setStarttime(newCourseScheduleRequest.getStarttime());
+            courseSchedule.setCourse(course);
+            courseScheduleList.add(courseSchedule);
+        }
     }
 
     private CourseServiceResponse CreateCourseSuccessfulResult() {
@@ -99,10 +129,10 @@ public class CreateCourseServiceImpl {
                 null);
     }
 
-    private CourseServiceResponse InvalidWeekdayResult() {
+    private CourseServiceResponse InvalidStartTimeResult() {
         return new CourseServiceResponse(
-                CourseServiceHttpResponseCodes.INVALID_WEEKDAY,
-                CourseServiceMessages.INVALID_WEEKDAY,
+                CourseServiceHttpResponseCodes.INVALID_START_TIME,
+                CourseServiceMessages.INVALID_START_TIME,
                 null);
     }
 
