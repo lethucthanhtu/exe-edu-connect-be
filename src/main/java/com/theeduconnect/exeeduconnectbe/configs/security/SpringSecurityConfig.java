@@ -4,20 +4,23 @@ import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.Auth
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
-import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.CustomOAuth2User;
-import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.CustomOAuth2UserServiceImpl;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
-import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.OAuth2UserServiceImpl;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.LoadOAuth2UserServiceImpl;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.RegisterOAuth2UserServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,8 +31,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SpringSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilterImpl jwtAuthenticationFilterImpl;
-    private final CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl;
-    private final OAuth2UserServiceImpl oAuth2UserServiceImpl;
+    private final LoadOAuth2UserServiceImpl loadOAuth2UserServiceImpl;
+    private final RegisterOAuth2UserServiceImpl registerOAuth2UserServiceImpl;
 
     @Value("${educonnect.fe.url}")
     private String eduConnectFEUrl;
@@ -37,12 +40,12 @@ public class SpringSecurityConfig {
     public SpringSecurityConfig(
             AuthenticationProvider authenticationProvider,
             JwtAuthenticationFilterImpl jwtAuthenticationFilterImpl,
-            CustomOAuth2UserServiceImpl customOAuth2UserServiceImpl,
-            OAuth2UserServiceImpl oAuth2UserServiceImpl) {
+            LoadOAuth2UserServiceImpl loadOAuth2UserServiceImpl,
+            RegisterOAuth2UserServiceImpl registerOAuth2UserServiceImpl) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilterImpl = jwtAuthenticationFilterImpl;
-        this.customOAuth2UserServiceImpl = customOAuth2UserServiceImpl;
-        this.oAuth2UserServiceImpl = oAuth2UserServiceImpl;
+        this.loadOAuth2UserServiceImpl = loadOAuth2UserServiceImpl;
+        this.registerOAuth2UserServiceImpl = registerOAuth2UserServiceImpl;
     }
 
     @Bean
@@ -60,7 +63,10 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
-                                        .requestMatchers(CourseEndpoints.GET_ALL)
+                                        .requestMatchers(CourseEndpoints.GET_ALL_BY)
+                                        .permitAll()
+                                        .requestMatchers(
+                                                TeacherEndpoints.GET_ALL_BY_COURSE_CATEGORY)
                                         .permitAll()
                                         //                                        comment users
                                         .requestMatchers("/api/users")
@@ -81,20 +87,29 @@ public class SpringSecurityConfig {
                             oauth2Login.userInfoEndpoint(
                                     userInfoEndpoint ->
                                             userInfoEndpoint.userService(
-                                                    customOAuth2UserServiceImpl));
+                                                    loadOAuth2UserServiceImpl));
                             oauth2Login.successHandler(
                                     (request, response, authentication) -> {
-                                        CustomOAuth2User oauthUser =
-                                                (CustomOAuth2User) authentication.getPrincipal();
+                                        OAuth2User oauthUser =
+                                                (OAuth2User) authentication.getPrincipal();
 
-                                        oAuth2UserServiceImpl.processOAuthPostLogin(oauthUser);
+                                        registerOAuth2UserServiceImpl.processOAuthPostLogin(
+                                                oauthUser);
 
+                                        response.sendRedirect(eduConnectFEUrl);
+                                    });
+                            oauth2Login.failureHandler(
+                                    (request, response, authentication) -> {
                                         response.sendRedirect(eduConnectFEUrl);
                                     });
                         })
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authenticationProvider(authenticationProvider)
+                .exceptionHandling(
+                        exceptionHandling ->
+                                exceptionHandling.authenticationEntryPoint(
+                                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .addFilterBefore(
                         jwtAuthenticationFilterImpl, UsernamePasswordAuthenticationFilter.class);
 
@@ -109,8 +124,6 @@ public class SpringSecurityConfig {
         configuration.setAllowedHeaders(
                 List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        //        configuration.setExposedHeaders(Arrays.asList("Authorization"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", configuration);

@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.PaginationRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
@@ -16,7 +16,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private GetAllWithPaginationServiceImpl getAllWithPaginationServiceImpl;
+    private GetAllByRequestServiceImpl getAllByRequestServiceImpl;
     private CreateCourseServiceImpl createCourseServiceImpl;
     private final CourseCategoryRepository courseCategoryRepository;
     private final TeacherRepository teacherRepository;
@@ -37,8 +37,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseServiceResponse getAllWithPagination(PaginationRequest pageRequest) {
-        return getAllWithPaginationServiceImpl.Handle(pageRequest);
+    public CourseServiceResponse getAllByRequest(GetAllCoursesByRequest request) {
+        return getAllByRequestServiceImpl.Handle(request);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void InitializeChildServices() {
-        getAllWithPaginationServiceImpl =
-                new GetAllWithPaginationServiceImpl(
+        getAllByRequestServiceImpl =
+                new GetAllByRequestServiceImpl(
                         courseRepository, courseMapper, courseCategoryRepository, userRepository);
         createCourseServiceImpl =
                 new CreateCourseServiceImpl(

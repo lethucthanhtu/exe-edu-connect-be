@@ -4,28 +4,32 @@ import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
+import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.PaginationRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesResult;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
+import com.theeduconnect.exeeduconnectbe.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-public class GetAllWithPaginationServiceImpl {
+public class GetAllByRequestServiceImpl {
     private final CourseRepository courseRepository;
     private final CourseCategoryRepository courseCategoryRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
     private List<CourseDto> courseDtos;
     private Page<Course> courses;
-    private PaginationRequest paginationRequest;
+    private Pageable pageable;
+    private GetAllCoursesByRequest getAllCoursesByRequest;
 
-    public GetAllWithPaginationServiceImpl(
+    public GetAllByRequestServiceImpl(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
             CourseCategoryRepository courseCategoryRepository,
@@ -36,30 +40,54 @@ public class GetAllWithPaginationServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public CourseServiceResponse Handle(PaginationRequest paginationRequest) {
+    public CourseServiceResponse Handle(GetAllCoursesByRequest getAllCoursesByRequest) {
         try {
-            this.paginationRequest = paginationRequest;
-            FindAllCoursesByPagination();
+            this.getAllCoursesByRequest = getAllCoursesByRequest;
+            ResetPreviousSearchResults();
+            ConvertPageRequestToPageable();
+            FindAllCoursesByRequest();
             if (!AreCoursesAvailable()) return NoCoursesFoundResult();
             MapCoursesToCourseDtos();
-            return GetAllCoursesByPaginationSuccessfulResult();
+            return GetAllCoursesSuccessfulResult();
         } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
     }
 
-    private void FindAllCoursesByPagination() {
-        Pageable pageable =
-                PageRequest.of(paginationRequest.getPage() - 1, paginationRequest.getSize());
+    private void ResetPreviousSearchResults() {
+        courseDtos = new ArrayList<>();
+        courses = null;
+        pageable = null;
+    }
+
+    private void ConvertPageRequestToPageable() {
+        pageable =
+                PageRequest.of(
+                        getAllCoursesByRequest.getPage() - 1, getAllCoursesByRequest.getSize());
+    }
+
+    private void FindAllCoursesByRequest() {
+        if (getAllCoursesByRequest.getCategoryname() != null) {
+            FindByCategoryName();
+            return;
+        }
         courses = courseRepository.findAll(pageable);
     }
 
+    private void FindByCategoryName() {
+        CourseCategory courseCategory =
+                courseCategoryRepository.findByCategoryname(
+                        getAllCoursesByRequest.getCategoryname());
+        if (courseCategory == null) return;
+        courses = ListUtils.SetToPaginatedList(courseCategory.getCourses(), pageable);
+    }
+
     private boolean AreCoursesAvailable() {
+        if (courses == null) return false;
         return courses.stream().findAny().isPresent();
     }
 
     private void MapCoursesToCourseDtos() {
-        courseDtos = new ArrayList<CourseDto>();
         for (Course course : courses) {
             CourseDto courseDto = courseMapper.CourseEntityToCourseDto(course);
             courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
@@ -79,11 +107,11 @@ public class GetAllWithPaginationServiceImpl {
                 null);
     }
 
-    private CourseServiceResponse GetAllCoursesByPaginationSuccessfulResult() {
+    private CourseServiceResponse GetAllCoursesSuccessfulResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.FOUND_ALL_COURSES,
                 CourseServiceMessages.FOUND_ALL_COURSES,
-                courseDtos);
+                new GetAllCoursesResult(courses.getTotalPages(), courseDtos));
     }
 
     private CourseServiceResponse InternalServerErrorResult(Exception e) {

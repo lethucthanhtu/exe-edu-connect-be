@@ -13,4 +13,6 @@ public class CourseValidationMessages {
     public static final String INVALID_END_DATE = "The end date is not valid. Please try again.";
     public static final String INVALID_CATEGORY_ID =
             "The category id chosen is not valid. Please try another one.";
+    public static final String INVALID_WEEKDAYS =
+            "The input weekdays are invalid. Please try again.";
 }
