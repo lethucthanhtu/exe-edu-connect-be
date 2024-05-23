@@ -67,6 +67,8 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/api/users/{userId}")
                                         .permitAll()
+                                        .requestMatchers("api/users/{userId}/change-password")
+                                        .permitAll()
 //                                        end comment users
                                         .anyRequest()
                                         .authenticated())

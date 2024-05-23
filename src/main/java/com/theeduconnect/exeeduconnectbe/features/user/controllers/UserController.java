@@ -1,10 +1,12 @@
 package com.theeduconnect.exeeduconnectbe.features.user.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.user.endpoints.UserEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.NewUserRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.response.UserServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.user.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +47,7 @@ public class UserController {
     @PutMapping(UserEndpoints.UPDATE_USER)
     @Operation(summary = "Update a user by Id.")
     public ResponseEntity<UserServiceResponse> updateUser(
-            @PathVariable int userId, @RequestBody NewUserRequest request) {
+            @PathVariable int userId, @Valid @RequestBody NewUserRequest request) {
         UserServiceResponse response = userService.updateUser(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
@@ -55,5 +57,11 @@ public class UserController {
     public ResponseEntity<UserServiceResponse> deleteUser(@PathVariable int userId) {
         UserServiceResponse response = userService.deleteUser(userId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
+    @PostMapping("/{userId}/change-password")
+    public ResponseEntity<UserServiceResponse> changePassword(@PathVariable int userId, @Valid @RequestBody ChangePasswordRequest request) {
+        UserServiceResponse response = userService.changePassword(userId, request);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

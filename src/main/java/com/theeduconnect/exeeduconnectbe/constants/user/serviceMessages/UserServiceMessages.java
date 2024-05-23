@@ -11,4 +11,7 @@ public class UserServiceMessages {
 
     public static final String UPDATED_USER_SUCCESSFUL = "Successfully updated user";
     public static final String DELETED_USER_SUCCESSFUL = "Successfully deleted user";
+
+    public static final String CURRENT_PASSWORD_INCORRECT = "Current password is incorrect";
+    public static final String CHANGE_PASSWORD_SUCCESSFUL = "Password successfully changed";
 }

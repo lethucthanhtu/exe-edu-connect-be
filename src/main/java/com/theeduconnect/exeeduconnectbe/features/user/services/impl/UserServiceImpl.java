@@ -5,6 +5,7 @@ import com.theeduconnect.exeeduconnectbe.constants.user.responseCodes.UserServic
 import com.theeduconnect.exeeduconnectbe.constants.user.serviceMessages.UserServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Role;
 import com.theeduconnect.exeeduconnectbe.domain.entities.User;
+import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.NewUserRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.response.UserServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.user.services.UserService;
@@ -13,6 +14,7 @@ import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,13 +23,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(
-            UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper) {
+            UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
             user.setAvatarurl(request.getAvatarUrl());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-            user.setPassword(request.getPassword());
+//            user.setPassword(request.getPassword());
             user.setAddress(request.getAddress());
             user.setStatus(request.getStatus());
             user.setBalance(request.getBalance());
@@ -90,6 +94,26 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(userOptional.get());
             return new UserServiceResponse(UserServiceHttpResponseCodes.DELETED_USER_SUCCESSFUL, UserServiceMessages.DELETED_USER_SUCCESSFUL, null);
         }
+        return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+    }
+
+    @Override
+    public UserServiceResponse changePassword(int userId, ChangePasswordRequest request) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // Check if the current password is correct
+            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+                return new UserServiceResponse(UserServiceHttpResponseCodes.CURRENT_PASSWORD_INCORRECT, UserServiceMessages.CURRENT_PASSWORD_INCORRECT, null);
+            }
+            // Update the password
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+
+            return new UserServiceResponse(UserServiceHttpResponseCodes.CHANGE_PASSWORD_SUCCESSFUL, UserServiceMessages.CHANGE_PASSWORD_SUCCESSFUL, null);
+        }
+
         return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
     }
 }
