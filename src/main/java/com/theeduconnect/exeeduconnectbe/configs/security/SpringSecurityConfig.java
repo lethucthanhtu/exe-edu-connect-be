@@ -66,7 +66,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers(CourseEndpoints.GET_ALL_BY)
                                         .permitAll()
                                         .requestMatchers(
-                                                TeacherEndpoints.GET_ALL_BY_COURSE_CATEGORY)
+                                                TeacherEndpoints.ALLOWED_REQUEST_MATCHER_ENDPOINTS)
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())

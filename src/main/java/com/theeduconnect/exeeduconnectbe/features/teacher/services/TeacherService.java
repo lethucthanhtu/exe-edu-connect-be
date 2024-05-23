@@ -5,4 +5,6 @@ import com.theeduconnect.exeeduconnectbe.features.teacher.payload.response.Teach
 
 public interface TeacherService {
     TeacherServiceResponse getAllByRequest(GetAllTeachersByRequest request);
+
+    TeacherServiceResponse getById(int id);
 }

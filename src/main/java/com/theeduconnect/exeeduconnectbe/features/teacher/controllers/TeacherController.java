@@ -1,7 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.teacher.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
-import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.request.GetAllTeachersByRequest;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.response.TeacherServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.teacher.services.TeacherService;
@@ -15,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class TeacherController {
 
     private final TeacherService teacherService;
-    private final JwtService jwtService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, JwtService jwtService) {
+    public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;
-        this.jwtService = jwtService;
     }
 
     @GetMapping(TeacherEndpoints.GET_ALL_BY_COURSE_CATEGORY)
@@ -31,6 +28,14 @@ public class TeacherController {
             @RequestParam("size") int size) {
         GetAllTeachersByRequest getAllByRequest = new GetAllTeachersByRequest(category, page, size);
         TeacherServiceResponse response = teacherService.getAllByRequest(getAllByRequest);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
+    @GetMapping(TeacherEndpoints.GET_BY_ID)
+    @Operation(summary = "Gets a teacher based on his/her id.")
+    public ResponseEntity<TeacherServiceResponse> GetTeacherById(
+            @RequestParam(value = "id") int id) {
+        TeacherServiceResponse response = teacherService.getById(id);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

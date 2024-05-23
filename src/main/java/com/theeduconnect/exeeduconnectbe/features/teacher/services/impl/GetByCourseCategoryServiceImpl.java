@@ -5,7 +5,7 @@ import com.theeduconnect.exeeduconnectbe.constants.teacher.serviceMessages.Teach
 import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
 import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
-import com.theeduconnect.exeeduconnectbe.features.teacher.dtos.TeacherDto;
+import com.theeduconnect.exeeduconnectbe.features.teacher.dtos.TeacherByCourseCategoryDto;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.request.GetAllTeachersByRequest;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.response.TeacherServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 public class GetByCourseCategoryServiceImpl {
     private GetAllTeachersByRequest request;
-    private Set<TeacherDto> teacherDtos;
+    private Set<TeacherByCourseCategoryDto> teacherByCourseCategoryDtos;
     private Page<Course> courses;
     private Pageable pageable;
     private final CourseCategoryRepository courseCategoryRepository;
@@ -41,7 +41,7 @@ public class GetByCourseCategoryServiceImpl {
     }
 
     private void ResetPreviousSearchResults() {
-        teacherDtos = new HashSet<>();
+        teacherByCourseCategoryDtos = new HashSet<>();
         pageable = null;
     }
 
@@ -59,12 +59,12 @@ public class GetByCourseCategoryServiceImpl {
     private void ExtractTeacherDetailsFromCourses() {
         for (Course course : courses) {
             Teacher teacher = course.getTeacher();
-            TeacherDto teacherDto =
-                    new TeacherDto(
+            TeacherByCourseCategoryDto teacherByCourseCategoryDto =
+                    new TeacherByCourseCategoryDto(
                             teacher.getId(),
                             teacher.getUser().getFullname(),
                             course.getStartdate());
-            teacherDtos.add(teacherDto);
+            teacherByCourseCategoryDtos.add(teacherByCourseCategoryDto);
         }
     }
 
@@ -72,7 +72,7 @@ public class GetByCourseCategoryServiceImpl {
         return new TeacherServiceResponse(
                 TeacherServiceHttpResponseCodes.FOUND_ALL_TEACHERS,
                 TeacherServiceMessages.FOUND_ALL_TEACHERS,
-                teacherDtos);
+                teacherByCourseCategoryDtos);
     }
 
     private TeacherServiceResponse InternalServerErrorResult(Exception e) {
