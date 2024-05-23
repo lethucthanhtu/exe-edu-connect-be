@@ -15,19 +15,14 @@ public class NewUserRequest {
     @NotBlank(message = "Username is required")
     private String username;
 
-    @Schema(
-            name = "fullName",
-            example = "John Doe",
-            requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "fullName", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_NAME_REGEX,
             message = AuthenticationValidationMessages.INVALID_NAME)
-    @NotNull(message = "Full Name is required")
-    private String fullName;
+    @NotNull(message = "Full Name is required") private String fullName;
 
     @Schema(name = "dateOfBirth", example = "1990-01-01")
-    @NotNull(message = "Date of Birth is required")
-    private LocalDate dateOfBirth;
+    @NotNull(message = "Date of Birth is required") private LocalDate dateOfBirth;
 
     @Schema(name = "avatarUrl", example = "http://example.com/avatar.jpg")
     private String avatarUrl;
@@ -41,7 +36,6 @@ public class NewUserRequest {
     @Schema(name = "phone", example = "1234567890")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
     private String phone;
-
 
     @Schema(name = "address", example = "123 Main St, Anytown, USA")
     @NotBlank(message = "Address is required")

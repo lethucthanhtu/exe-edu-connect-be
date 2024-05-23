@@ -16,10 +16,15 @@ public class SendMailRequest {
             regexp = AuthenticationValidationSpecifications.VALID_EMAIL_REGEX,
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String to;
+
     @Schema(name = "subject", example = "Test mail", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "Subject is required")
     private String subject;
-    @Schema(name = "body", example = "This is a test mail", requiredMode = Schema.RequiredMode.REQUIRED)
+
+    @Schema(
+            name = "body",
+            example = "This is a test mail",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "body is required")
     private String body;
 }

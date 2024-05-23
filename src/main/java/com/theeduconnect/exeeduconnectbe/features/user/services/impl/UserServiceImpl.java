@@ -14,29 +14,28 @@ import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Autowired private JavaMailSender mailSender;
 
     @Autowired
     public UserServiceImpl(
-            UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            UserMapper userMapper,
+            BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
@@ -46,7 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceResponse getAllUsers() {
         List<User> users = userRepository.findAll();
-        return new UserServiceResponse(UserServiceHttpResponseCodes.FOUND_ALL_USER, UserServiceMessages.FOUND_ALL_USER, users);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.FOUND_ALL_USER,
+                UserServiceMessages.FOUND_ALL_USER,
+                users);
     }
 
     @Override
@@ -56,18 +58,30 @@ public class UserServiceImpl implements UserService {
         if (roleOptional.isPresent()) {
             user.setRole(roleOptional.get());
             userRepository.save(user);
-            return new UserServiceResponse(UserServiceHttpResponseCodes.CREATE_USER_SUCCESSFUL, UserServiceMessages.CREATE_USER_SUCCESSFUL, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.CREATE_USER_SUCCESSFUL,
+                    UserServiceMessages.CREATE_USER_SUCCESSFUL,
+                    null);
         }
-        return new UserServiceResponse(UserServiceHttpResponseCodes.ROLE_NOT_FOUND, UserServiceMessages.ROLE_NOT_FOUND, null);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.ROLE_NOT_FOUND,
+                UserServiceMessages.ROLE_NOT_FOUND,
+                null);
     }
 
     @Override
     public UserServiceResponse getUserById(int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
-            return new UserServiceResponse(UserServiceHttpResponseCodes.GET_USER_BY_ID_SUCCESSFUL, UserServiceMessages.GET_USER_BY_ID_SUCCESSFUL, userOptional.get());
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.GET_USER_BY_ID_SUCCESSFUL,
+                    UserServiceMessages.GET_USER_BY_ID_SUCCESSFUL,
+                    userOptional.get());
         }
-        return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.USER_NOT_FOUND,
+                UserServiceMessages.USER_NOT_FOUND,
+                null);
     }
 
     @Override
@@ -81,7 +95,7 @@ public class UserServiceImpl implements UserService {
             user.setAvatarurl(request.getAvatarUrl());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-//            user.setPassword(request.getPassword());
+            //            user.setPassword(request.getPassword());
             user.setAddress(request.getAddress());
             user.setStatus(request.getStatus());
             user.setBalance(request.getBalance());
@@ -89,11 +103,20 @@ public class UserServiceImpl implements UserService {
             if (roleOptional.isPresent()) {
                 user.setRole(roleOptional.get());
                 userRepository.save(user);
-                return new UserServiceResponse(UserServiceHttpResponseCodes.UPDATED_USER_SUCCESSFUL, UserServiceMessages.UPDATED_USER_SUCCESSFUL, null);
+                return new UserServiceResponse(
+                        UserServiceHttpResponseCodes.UPDATED_USER_SUCCESSFUL,
+                        UserServiceMessages.UPDATED_USER_SUCCESSFUL,
+                        null);
             }
-            return new UserServiceResponse(UserServiceHttpResponseCodes.ROLE_NOT_FOUND, UserServiceMessages.ROLE_NOT_FOUND, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.ROLE_NOT_FOUND,
+                    UserServiceMessages.ROLE_NOT_FOUND,
+                    null);
         }
-        return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.USER_NOT_FOUND,
+                UserServiceMessages.USER_NOT_FOUND,
+                null);
     }
 
     @Override
@@ -101,9 +124,15 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             userRepository.delete(userOptional.get());
-            return new UserServiceResponse(UserServiceHttpResponseCodes.DELETED_USER_SUCCESSFUL, UserServiceMessages.DELETED_USER_SUCCESSFUL, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.DELETED_USER_SUCCESSFUL,
+                    UserServiceMessages.DELETED_USER_SUCCESSFUL,
+                    null);
         }
-        return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.USER_NOT_FOUND,
+                UserServiceMessages.USER_NOT_FOUND,
+                null);
     }
 
     @Override
@@ -114,19 +143,26 @@ public class UserServiceImpl implements UserService {
 
             // Check if the current password is correct
             if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-                return new UserServiceResponse(UserServiceHttpResponseCodes.CURRENT_PASSWORD_INCORRECT, UserServiceMessages.CURRENT_PASSWORD_INCORRECT, null);
+                return new UserServiceResponse(
+                        UserServiceHttpResponseCodes.CURRENT_PASSWORD_INCORRECT,
+                        UserServiceMessages.CURRENT_PASSWORD_INCORRECT,
+                        null);
             }
             // Update the password
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);
 
-            return new UserServiceResponse(UserServiceHttpResponseCodes.CHANGE_PASSWORD_SUCCESSFUL, UserServiceMessages.CHANGE_PASSWORD_SUCCESSFUL, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.CHANGE_PASSWORD_SUCCESSFUL,
+                    UserServiceMessages.CHANGE_PASSWORD_SUCCESSFUL,
+                    null);
         }
 
-        return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+        return new UserServiceResponse(
+                UserServiceHttpResponseCodes.USER_NOT_FOUND,
+                UserServiceMessages.USER_NOT_FOUND,
+                null);
     }
-
-
 
     @Override
     public UserServiceResponse sendResetPasswordEmail(String email) {
@@ -140,9 +176,15 @@ public class UserServiceImpl implements UserService {
             String resetLink = "http://localhost:8082/api/users/reset-password?token=" + token;
             sendEmail(user.getEmail(), resetLink);
 
-            return new UserServiceResponse(UserServiceHttpResponseCodes.RESET_PASSWORD_EMAIL_SENT, UserServiceMessages.RESET_PASSWORD_EMAIL_SENT, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.RESET_PASSWORD_EMAIL_SENT,
+                    UserServiceMessages.RESET_PASSWORD_EMAIL_SENT,
+                    null);
         } else {
-            return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.USER_NOT_FOUND,
+                    UserServiceMessages.USER_NOT_FOUND,
+                    null);
         }
     }
 
@@ -162,9 +204,15 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(newPassword));
             user.setResetPasswordToken(null);
             userRepository.save(user);
-            return new UserServiceResponse(UserServiceHttpResponseCodes.RESET_PASSWORD_SUCCESSFUL, UserServiceMessages.RESET_PASSWORD_SUCCESSFUL, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.RESET_PASSWORD_SUCCESSFUL,
+                    UserServiceMessages.RESET_PASSWORD_SUCCESSFUL,
+                    null);
         } else {
-            return new UserServiceResponse(UserServiceHttpResponseCodes.INVALID_RESET_PASSWORD_TOKEN, UserServiceMessages.INVALID_RESET_PASSWORD_TOKEN, null);
+            return new UserServiceResponse(
+                    UserServiceHttpResponseCodes.INVALID_RESET_PASSWORD_TOKEN,
+                    UserServiceMessages.INVALID_RESET_PASSWORD_TOKEN,
+                    null);
         }
     }
 }

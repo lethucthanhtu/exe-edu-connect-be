@@ -18,5 +18,4 @@ public class UserServiceMessages {
     public static final String RESET_PASSWORD_EMAIL_SENT = "Reset password email sent successfully";
     public static final String RESET_PASSWORD_SUCCESSFUL = "Reset password successful";
     public static final String INVALID_RESET_PASSWORD_TOKEN = "Invalid reset password token";
-
 }

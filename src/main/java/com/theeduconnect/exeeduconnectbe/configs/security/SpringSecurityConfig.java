@@ -62,17 +62,18 @@ public class SpringSecurityConfig {
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         .requestMatchers(CourseEndpoints.GET_ALL)
                                         .permitAll()
-//                                        comment users
+                                        //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()
                                         .requestMatchers("/api/users/{userId}")
                                         .permitAll()
                                         .requestMatchers("api/users/{userId}/change-password")
                                         .permitAll()
-//                                        Send mail
+                                        //                                        Send mail
                                         .requestMatchers("api/sendmail")
                                         .permitAll()
-
+                                        .requestMatchers("api/users/**")
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(

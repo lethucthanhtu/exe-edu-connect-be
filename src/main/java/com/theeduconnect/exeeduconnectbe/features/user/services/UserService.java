@@ -18,5 +18,6 @@ public interface UserService {
     UserServiceResponse changePassword(int userId, ChangePasswordRequest request);
 
     UserServiceResponse sendResetPasswordEmail(String email);
+
     UserServiceResponse resetPassword(String token, String newPassword);
 }

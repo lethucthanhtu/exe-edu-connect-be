@@ -1,4 +1,3 @@
 package com.theeduconnect.exeeduconnectbe.constants.user.validation;
 
-public class UserValidationMessages {
-}
+public class UserValidationMessages {}
