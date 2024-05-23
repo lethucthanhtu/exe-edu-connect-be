@@ -61,6 +61,7 @@ public class UserController {
 
     @PostMapping("/{userId}/change-password")
     public ResponseEntity<UserServiceResponse> changePassword(@PathVariable int userId, @Valid @RequestBody ChangePasswordRequest request) {
+        // You may want to add additional security checks here
         UserServiceResponse response = userService.changePassword(userId, request);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
