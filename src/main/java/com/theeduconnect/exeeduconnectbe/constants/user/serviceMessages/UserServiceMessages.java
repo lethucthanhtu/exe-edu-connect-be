@@ -14,4 +14,9 @@ public class UserServiceMessages {
 
     public static final String CURRENT_PASSWORD_INCORRECT = "Current password is incorrect";
     public static final String CHANGE_PASSWORD_SUCCESSFUL = "Password successfully changed";
+
+    public static final String RESET_PASSWORD_EMAIL_SENT = "Reset password email sent successfully";
+    public static final String RESET_PASSWORD_SUCCESSFUL = "Reset password successful";
+    public static final String INVALID_RESET_PASSWORD_TOKEN = "Invalid reset password token";
+
 }

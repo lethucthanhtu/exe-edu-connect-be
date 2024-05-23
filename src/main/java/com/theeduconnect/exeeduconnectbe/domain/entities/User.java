@@ -60,6 +60,9 @@ public class User implements UserDetails {
     @Column(name = "balance")
     private Double balance;
 
+    @Column(name = "resetpasswordtoken")
+    private String resetPasswordToken;
+
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
     private ProviderEnum provider;

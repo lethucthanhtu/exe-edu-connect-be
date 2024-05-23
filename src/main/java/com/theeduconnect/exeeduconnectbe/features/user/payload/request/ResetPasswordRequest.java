@@ -15,4 +15,16 @@ public class ResetPasswordRequest {
             regexp = AuthenticationValidationSpecifications.VALID_EMAIL_REGEX,
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String email;
+    @Schema(name = "token", example = "38edc86a-9aea-4b6b-8809-534a9ef69985")
+
+    private String token;
+    @Schema(
+            name = "newPassword",
+            example = "newPassword!",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(
+            regexp = AuthenticationValidationSpecifications.VALID_PASSWORD_REGEX,
+            message = AuthenticationValidationMessages.INVALID_PASSWORD)
+    private String newPassword;
+
 }

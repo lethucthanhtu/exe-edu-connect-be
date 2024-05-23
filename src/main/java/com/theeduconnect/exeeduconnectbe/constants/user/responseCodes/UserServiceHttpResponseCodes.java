@@ -14,4 +14,9 @@ public class UserServiceHttpResponseCodes {
 
     public static final int CURRENT_PASSWORD_INCORRECT = 400;
     public static final int CHANGE_PASSWORD_SUCCESSFUL = 200;
+
+    public static final int RESET_PASSWORD_EMAIL_SENT = 200;
+    public static final int RESET_PASSWORD_SUCCESSFUL = 200;
+
+    public static final int INVALID_RESET_PASSWORD_TOKEN = 401;
 }

@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.user.controllers;
 import com.theeduconnect.exeeduconnectbe.constants.user.endpoints.UserEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.NewUserRequest;
+import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ResetPasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.response.UserServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.user.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,10 +60,25 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
-    @PostMapping("/{userId}/change-password")
+    @PostMapping(UserEndpoints.CHANGE_PASSWORD)
+    @Operation(summary = "Change password")
     public ResponseEntity<UserServiceResponse> changePassword(@PathVariable int userId, @Valid @RequestBody ChangePasswordRequest request) {
         // You may want to add additional security checks here
         UserServiceResponse response = userService.changePassword(userId, request);
-        return ResponseEntity.status(response.getStatusCode()).body(response);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
+    @PostMapping(UserEndpoints.REQUEST_RESET_PASSWORD)
+    @Operation(summary = "Request to reset password")
+    public ResponseEntity<UserServiceResponse> requestResetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+        UserServiceResponse response = userService.sendResetPasswordEmail(resetPasswordRequest.getEmail());
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
+    @PostMapping(UserEndpoints.RESET_PASSWORD)
+    @Operation(summary = "Reset password")
+    public ResponseEntity<UserServiceResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        UserServiceResponse response = userService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getNewPassword());
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

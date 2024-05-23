@@ -13,17 +13,26 @@ import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     public UserServiceImpl(
@@ -115,5 +124,47 @@ public class UserServiceImpl implements UserService {
         }
 
         return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+    }
+
+
+
+    @Override
+    public UserServiceResponse sendResetPasswordEmail(String email) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            String token = UUID.randomUUID().toString();
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+
+            String resetLink = "http://localhost:8082/api/users/reset-password?token=" + token;
+            sendEmail(user.getEmail(), resetLink);
+
+            return new UserServiceResponse(UserServiceHttpResponseCodes.RESET_PASSWORD_EMAIL_SENT, UserServiceMessages.RESET_PASSWORD_EMAIL_SENT, null);
+        } else {
+            return new UserServiceResponse(UserServiceHttpResponseCodes.USER_NOT_FOUND, UserServiceMessages.USER_NOT_FOUND, null);
+        }
+    }
+
+    private void sendEmail(String to, String resetLink) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Reset your password");
+        message.setText("Click the link to reset your password: " + resetLink);
+        mailSender.send(message);
+    }
+
+    @Override
+    public UserServiceResponse resetPassword(String token, String newPassword) {
+        Optional<User> userOptional = userRepository.findByResetPasswordToken(token);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setResetPasswordToken(null);
+            userRepository.save(user);
+            return new UserServiceResponse(UserServiceHttpResponseCodes.RESET_PASSWORD_SUCCESSFUL, UserServiceMessages.RESET_PASSWORD_SUCCESSFUL, null);
+        } else {
+            return new UserServiceResponse(UserServiceHttpResponseCodes.INVALID_RESET_PASSWORD_TOKEN, UserServiceMessages.INVALID_RESET_PASSWORD_TOKEN, null);
+        }
     }
 }
