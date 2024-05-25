@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.util.LinkedHashSet;
@@ -19,6 +20,7 @@ public class Teacher {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacherid", nullable = false)
+    @JsonManagedReference
     private User user;
 
     @Size(max = 255)
