@@ -1,7 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.configs.mappers;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.Role;
-import com.theeduconnect.exeeduconnectbe.domain.entities.User;
+import com.theeduconnect.exeeduconnectbe.domain.Role;
+import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.RoleDto;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.request.RegisterRequest;
 import org.mapstruct.Mapper;

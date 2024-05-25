@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.domain.entities;
+package com.theeduconnect.exeeduconnectbe.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -10,17 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "course_category")
-public class CourseCategory {
+@Table(name = "transaction_categories")
+public class TransactionCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coursecategoryid", nullable = false)
+    @Column(name = "transactioncategoryid", nullable = false)
     private Integer id;
 
     @Size(max = 50)
     @Column(name = "categoryname", length = 50)
     private String categoryname;
 
-    @OneToMany(mappedBy = "coursecategory")
-    private Set<Course> courses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "transactioncategory")
+    private Set<Transaction> transactions = new LinkedHashSet<>();
 }

@@ -2,9 +2,9 @@ package com.theeduconnect.exeeduconnectbe.features.teacher.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.constants.teacher.responseCodes.TeacherServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.teacher.serviceMessages.TeacherServiceMessages;
-import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
-import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
-import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
+import com.theeduconnect.exeeduconnectbe.domain.Course;
+import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
+import com.theeduconnect.exeeduconnectbe.domain.Teacher;
 import com.theeduconnect.exeeduconnectbe.features.teacher.dtos.TeacherByCourseCategoryDto;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.request.GetAllTeachersByRequest;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.response.TeacherServiceResponse;

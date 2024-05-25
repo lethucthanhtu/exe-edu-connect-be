@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.domain.entities;
+package com.theeduconnect.exeeduconnectbe.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

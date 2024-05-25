@@ -3,7 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.AuthenticationMapper;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.responseCodes.AuthenticationHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.serviceMessages.AuthenticationServiceMessages;
-import com.theeduconnect.exeeduconnectbe.domain.entities.Role;
+import com.theeduconnect.exeeduconnectbe.domain.Role;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.RoleDto;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.response.AuthenticationServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;

@@ -1,6 +1,5 @@
 package com.theeduconnect.exeeduconnectbe.features.course.dtos;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.Getter;

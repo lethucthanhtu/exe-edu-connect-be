@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.domain.entities;
+package com.theeduconnect.exeeduconnectbe.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;

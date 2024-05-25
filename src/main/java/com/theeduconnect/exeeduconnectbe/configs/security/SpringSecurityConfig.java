@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.configs.security;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.feedback.endpoints.FeedbackEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
@@ -68,6 +69,10 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 TeacherEndpoints.ALLOWED_REQUEST_MATCHER_ENDPOINTS)
                                         .permitAll()
+                                        .requestMatchers(
+                                                FeedbackEndpoints.CREATE_COURSE_FEEDBACK_URL)
+                                        .hasAnyAuthority(AuthenticationRoles.STUDENT)
+
                                         //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()

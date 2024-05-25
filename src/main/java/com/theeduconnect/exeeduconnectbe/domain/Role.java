@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.domain.entities;
+package com.theeduconnect.exeeduconnectbe.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

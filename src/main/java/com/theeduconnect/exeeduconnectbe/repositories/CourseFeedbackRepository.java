@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.repositories;
 
-import com.theeduconnect.exeeduconnectbe.domain.Student;
+import com.theeduconnect.exeeduconnectbe.domain.CourseFeedback;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Integer> {}
+public interface CourseFeedbackRepository extends JpaRepository<CourseFeedback, Integer> {}
