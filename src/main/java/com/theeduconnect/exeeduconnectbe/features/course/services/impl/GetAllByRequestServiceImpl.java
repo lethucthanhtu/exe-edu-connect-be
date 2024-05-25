@@ -13,8 +13,12 @@ import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import com.theeduconnect.exeeduconnectbe.utils.ListUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -67,11 +71,19 @@ public class GetAllByRequestServiceImpl {
     }
 
     private void FindAllCoursesByRequest() {
-        if (getAllCoursesByRequest.getCategoryname() != null) {
+        if (IsCategoryNameValid()) {
             FindByCategoryName();
             return;
         }
         courses = courseRepository.findAll(pageable);
+    }
+
+    private boolean IsCategoryNameValid() {
+        String categoryName = getAllCoursesByRequest.getCategoryname();
+        if (StringUtils.isEmpty(categoryName) || categoryName.equals("null")) {
+            return false;
+        }
+        return true;
     }
 
     private void FindByCategoryName() {
