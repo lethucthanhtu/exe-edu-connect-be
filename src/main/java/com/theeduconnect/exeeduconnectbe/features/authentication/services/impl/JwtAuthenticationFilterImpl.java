@@ -7,6 +7,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import lombok.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -68,13 +70,28 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
             SecurityContextHolder.clearContext();
+            response.setContentType("text/plain");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter()
-                    .write(
-                            AuthenticationValidationMessages.INVALID_JWT_TOKEN
-                                    + "\n"
-                                    + exception.getStackTrace());
+            setAuthenticationExceptionToResponseBody(response, exception);
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
+    }
+
+    private void setAuthenticationExceptionToResponseBody(
+            HttpServletResponse response, Exception exception) {
+        try {
+            PrintWriter out = response.getWriter();
+            out.println(AuthenticationValidationMessages.AUTHENTICATION_EXCEPTION);
+            out.println(getStackTraceAsString(exception));
+        } catch (Exception e) {
+
+        }
+    }
+
+    private String getStackTraceAsString(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
     }
 }

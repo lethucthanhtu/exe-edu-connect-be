@@ -6,7 +6,7 @@ import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.Course
 import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
-import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesResult;
+import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
@@ -120,7 +120,7 @@ public class GetAllByRequestServiceImpl {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.FOUND_ALL_COURSES,
                 CourseServiceMessages.FOUND_ALL_COURSES,
-                new GetAllCoursesResult(courses.getTotalPages(), courseDtos));
+                new GetAllCoursesDto(courses.getTotalPages(), courseDtos));
     }
 
     private CourseServiceResponse InternalServerErrorResult(Exception e) {

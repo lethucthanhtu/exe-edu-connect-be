@@ -1,8 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.utils;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import com.google.api.client.util.DateTime;
+import java.time.*;
 
 public class TimeUtils {
     public static boolean IsInstantBetweenLocalDates(
@@ -11,5 +10,10 @@ public class TimeUtils {
         Instant endInstant = endDate.atStartOfDay().toInstant(ZoneOffset.UTC);
         if (instant.isAfter(endInstant) || instant.isBefore(startInstant)) return false;
         return true;
+    }
+
+    public static DateTime InstantToGoogleDateTime(Instant instant) {
+        java.util.Date date = java.util.Date.from(instant);
+        return new DateTime(date);
     }
 }

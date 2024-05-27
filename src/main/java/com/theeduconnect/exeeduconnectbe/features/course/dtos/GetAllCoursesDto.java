@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GetAllCoursesResult {
+public class GetAllCoursesDto {
     private int totalPageCount;
     private List<CourseDto> courseDtos;
 }

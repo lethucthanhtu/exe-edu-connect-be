@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl.create;
 
+import com.google.api.client.util.DateTime;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.ScheduleMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
@@ -8,6 +9,7 @@ import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.domain.CourseSchedule;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;
+import com.theeduconnect.exeeduconnectbe.features.course.dtos.NewGoogleMeetUrlDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseScheduleRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
@@ -16,6 +18,8 @@ import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
 import com.theeduconnect.exeeduconnectbe.utils.TimeUtils;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
@@ -26,13 +30,15 @@ public class CreateCourseServiceImpl {
     private final CourseCategoryRepository courseCategoryRepository;
     private final CourseScheduleRepository courseScheduleRepository;
     private final CourseMapper courseMapper;
+    private final GoogleMeetServiceImpl googleMeetServiceImpl;
     private final ScheduleMapper scheduleMapper;
     private NewCourseRequest request;
     private Course course;
     private CourseCategory courseCategory;
+    private Teacher teacher;
     private List<NewCourseScheduleRequest> newCourseScheduleRequestList;
+
     private Set<CourseSchedule> courseScheduleList;
-    private GoogleMeetServiceImpl googleMeetServiceImpl;;
 
     public CreateCourseServiceImpl(
             CourseRepository courseRepository,
@@ -58,7 +64,6 @@ public class CreateCourseServiceImpl {
             if (!IsStartTimeBetweenStartDateAndEndDate()) return InvalidStartTimeResult();
             MapNewCourseRequestToCourseEntity();
             MapScheduleRequestListToScheduleEntityList();
-            googleMeetServiceImpl.Handle();
             course.setCourseSchedules(courseScheduleList);
             courseRepository.save(course);
             courseScheduleRepository.saveAll(courseScheduleList);
@@ -95,20 +100,49 @@ public class CreateCourseServiceImpl {
     private void MapNewCourseRequestToCourseEntity() {
         course = courseMapper.NewCourseRequestToCourseEntity(request);
         course.setCoursecategory(courseCategory);
-        Teacher teacher = teacherRepository.findById(request.getTeacherid()).get();
+        teacher = teacherRepository.findById(request.getTeacherid()).get();
         course.setTeacher(teacher);
     }
 
-    private void MapScheduleRequestListToScheduleEntityList() {
+    private void MapScheduleRequestListToScheduleEntityList()
+            throws IOException, GeneralSecurityException {
         courseScheduleList = new HashSet<>();
         for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {
             CourseSchedule courseSchedule =
                     scheduleMapper.NewCourseScheduleRequestToCourseScheduleEntity(
                             newCourseScheduleRequest);
             courseSchedule.setStarttime(newCourseScheduleRequest.getStarttime());
+            courseSchedule.setMeeturl(
+                    googleMeetServiceImpl.GetCalendarUrl(
+                            BuildGoogleMeetUrlRequest(newCourseScheduleRequest)));
             courseSchedule.setCourse(course);
             courseScheduleList.add(courseSchedule);
         }
+    }
+
+    private NewGoogleMeetUrlDto BuildGoogleMeetUrlRequest(
+            NewCourseScheduleRequest newCourseScheduleRequest) {
+        DateTime startTimeInGoogleDateTime =
+                TimeUtils.InstantToGoogleDateTime(newCourseScheduleRequest.getStarttime());
+        DateTime endTimeInGoogleDateTime =
+                TimeUtils.InstantToGoogleDateTime(GetEndTime(newCourseScheduleRequest));
+        return new NewGoogleMeetUrlDto(
+                request.getName(),
+                request.getDescription(),
+                startTimeInGoogleDateTime,
+                endTimeInGoogleDateTime,
+                GetTeacherEmail());
+    }
+
+    private Instant GetEndTime(NewCourseScheduleRequest newCourseScheduleRequest) {
+        Instant startTime = newCourseScheduleRequest.getStarttime();
+        int duration = newCourseScheduleRequest.getDuration();
+        int secondsPerMinute = 60;
+        return startTime.plusSeconds((long) duration * secondsPerMinute);
+    }
+
+    private String GetTeacherEmail() {
+        return teacher.getUser().getEmail();
     }
 
     private CourseServiceResponse CreateCourseSuccessfulResult() {

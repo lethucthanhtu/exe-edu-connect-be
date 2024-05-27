@@ -11,8 +11,10 @@ public class AuthenticationValidationMessages {
     public static final String INVALID_PASSWORD =
             "The password must be at least 8 characters in length,"
                     + " contain at least 1 capital letter, and a special character.";
-    public static final String INVALID_JWT_TOKEN =
-            "When this happens, here are some possible causes:- The token might be expired, or the"
-                    + " login credentials might be non-existent in the system.System error occured."
-                    + " Check the log below for more details: ";
+    public static final String AUTHENTICATION_EXCEPTION =
+            "When this happens, here are some possible causes: \n"
+                    + " - The token might be expired \n"
+                    + " - The login credentials might be non-existent in the system.\n"
+                    + " - System error occurred.\n\n"
+                    + "Check the log below for more details: ";
 }
