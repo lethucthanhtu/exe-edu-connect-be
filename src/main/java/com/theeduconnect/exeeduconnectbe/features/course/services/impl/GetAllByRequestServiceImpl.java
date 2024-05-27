@@ -3,8 +3,8 @@ package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseServiceHttpResponseCodes;
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
-import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
-import com.theeduconnect.exeeduconnectbe.domain.entities.CourseCategory;
+import com.theeduconnect.exeeduconnectbe.domain.Course;
+import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesResult;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
@@ -13,12 +13,9 @@ import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import com.theeduconnect.exeeduconnectbe.utils.ListUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.configs.mappers;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
-import com.theeduconnect.exeeduconnectbe.domain.entities.User;
+import com.theeduconnect.exeeduconnectbe.domain.Teacher;
+import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.teacher.dtos.TeacherDetailsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

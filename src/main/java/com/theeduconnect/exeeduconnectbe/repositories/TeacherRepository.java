@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.repositories;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.Teacher;
+import com.theeduconnect.exeeduconnectbe.domain.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

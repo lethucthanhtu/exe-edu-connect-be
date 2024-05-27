@@ -1,7 +1,7 @@
 /* (C) 2024 */
 package com.theeduconnect.exeeduconnectbe.repositories;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.User;
+import com.theeduconnect.exeeduconnectbe.domain.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

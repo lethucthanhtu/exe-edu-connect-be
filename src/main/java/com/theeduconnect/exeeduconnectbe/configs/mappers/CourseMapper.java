@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.configs.mappers;
 
-import com.theeduconnect.exeeduconnectbe.domain.entities.Course;
+import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import org.mapstruct.Mapper;

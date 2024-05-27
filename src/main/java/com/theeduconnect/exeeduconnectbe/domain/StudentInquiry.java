@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.domain.entities;
+package com.theeduconnect.exeeduconnectbe.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
