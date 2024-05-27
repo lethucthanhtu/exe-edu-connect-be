@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
+package com.theeduconnect.exeeduconnectbe.features.course.services.impl.create;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.ScheduleMapper;
@@ -32,6 +32,7 @@ public class CreateCourseServiceImpl {
     private CourseCategory courseCategory;
     private List<NewCourseScheduleRequest> newCourseScheduleRequestList;
     private Set<CourseSchedule> courseScheduleList;
+    private GoogleMeetServiceImpl googleMeetServiceImpl;;
 
     public CreateCourseServiceImpl(
             CourseRepository courseRepository,
@@ -46,6 +47,7 @@ public class CreateCourseServiceImpl {
         this.courseCategoryRepository = courseCategoryRepository;
         this.courseScheduleRepository = courseScheduleRepository;
         this.scheduleMapper = scheduleMapper;
+        this.googleMeetServiceImpl = new GoogleMeetServiceImpl();
     }
 
     public CourseServiceResponse Handle(NewCourseRequest request) {
@@ -56,6 +58,7 @@ public class CreateCourseServiceImpl {
             if (!IsStartTimeBetweenStartDateAndEndDate()) return InvalidStartTimeResult();
             MapNewCourseRequestToCourseEntity();
             MapScheduleRequestListToScheduleEntityList();
+            googleMeetServiceImpl.Handle();
             course.setCourseSchedules(courseScheduleList);
             courseRepository.save(course);
             courseScheduleRepository.saveAll(courseScheduleList);
