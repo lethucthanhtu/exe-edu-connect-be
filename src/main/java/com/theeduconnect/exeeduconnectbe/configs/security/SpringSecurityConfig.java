@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.configs.security;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.courseCategory.endpoints.CourseCategoryEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.feedback.endpoints.FeedbackEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
@@ -72,7 +73,8 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 FeedbackEndpoints.CREATE_COURSE_FEEDBACK_URL)
                                         .hasAnyAuthority(AuthenticationRoles.STUDENT)
-
+                                        .requestMatchers(CourseCategoryEndpoints.GET_ALL_URL)
+                                        .permitAll()
                                         //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()

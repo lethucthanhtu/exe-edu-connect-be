@@ -21,6 +21,10 @@ public class CourseCategory {
     @Column(name = "categoryname", length = 50)
     private String categoryname;
 
+    @Size(max = 250)
+    @Column(name = "description", length = 250)
+    private String description;
+
     @OneToMany(mappedBy = "coursecategory")
     private Set<Course> courses = new LinkedHashSet<>();
 }

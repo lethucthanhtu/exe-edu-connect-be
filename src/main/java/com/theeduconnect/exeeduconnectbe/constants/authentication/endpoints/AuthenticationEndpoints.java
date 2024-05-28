@@ -14,9 +14,13 @@ public class AuthenticationEndpoints {
 
     public static final String[] ALLOWED_REQUEST_MATCHER_ENDPOINTS =
             new String[] {
-                LOGIN_URL, REGISTER_URL, ROLES_URL,
-                    EDU_CONNECT_GOOGLE_LOGIN_URL,
-                    LOGOUT_URL, ANY_URL, OAUTH2_ALL_URL,
-                    OAUTH2_GOOGLE_LOGIN_URL
+                LOGIN_URL,
+                REGISTER_URL,
+                ROLES_URL,
+                EDU_CONNECT_GOOGLE_LOGIN_URL,
+                LOGOUT_URL,
+                ANY_URL,
+                OAUTH2_ALL_URL,
+                OAUTH2_GOOGLE_LOGIN_URL
             };
 }
