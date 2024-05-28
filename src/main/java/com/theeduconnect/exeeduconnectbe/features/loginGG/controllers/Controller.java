@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Controller {
-    @GetMapping(AuthenticationEndpoints.GOOGLE_LOGIN_URL)
+    @GetMapping(AuthenticationEndpoints.EDU_CONNECT_GOOGLE_LOGIN_URL)
     public Map<String, Object> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
         System.out.println(
                 toPerson(oAuth2AuthenticationToken.getPrincipal().getAttributes()).getEmail());
