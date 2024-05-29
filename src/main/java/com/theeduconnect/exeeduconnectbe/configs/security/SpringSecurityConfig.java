@@ -88,7 +88,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 FeedbackEndpoints.CREATE_COURSE_FEEDBACK_URL)
                                         .hasAnyAuthority(AuthenticationRoles.STUDENT)
-                                        .requestMatchers(CourseCategoryEndpoints.GET_ALL_URL)
+                                        .requestMatchers(CourseCategoryEndpoints.GET_ALL_URL,CourseCategoryEndpoints.GET_BY_ID_URL)
                                         .permitAll()
                                         //                                        comment users
                                         .requestMatchers("/api/users")

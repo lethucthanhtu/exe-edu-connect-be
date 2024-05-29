@@ -47,6 +47,7 @@ public class GetAllCourseCategoryServiceImpl {
         for (CourseCategory courseCategory : courseCategoryList) {
             CourseCategoryDto courseCategoryDto =
                     courseCategoryMapper.CourseCategoryEntityToCourseCategoryDto(courseCategory);
+            courseCategoryDto.setTotal(courseCategory.getCourses().size());
             courseCategoryDtoList.add(courseCategoryDto);
         }
     }

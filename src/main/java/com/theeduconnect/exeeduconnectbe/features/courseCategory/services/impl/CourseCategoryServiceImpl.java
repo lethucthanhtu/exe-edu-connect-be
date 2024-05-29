@@ -12,6 +12,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     private final CourseCategoryMapper courseCategoryMapper;
     private final CourseCategoryRepository courseCategoryRepository;
     private GetAllCourseCategoryServiceImpl getAllCourseCategoryServiceImpl;
+    private GetCourseCategoryByNameServiceImpl getCourseCategoryByNameServiceImpl;
 
     public CourseCategoryServiceImpl(
             CourseCategoryRepository courseCategoryRepository,
@@ -26,8 +27,16 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         return getAllCourseCategoryServiceImpl.Handle();
     }
 
+    @Override
+    public CourseCategoryServiceResponse getByName(String categoryName) {
+        return getCourseCategoryByNameServiceImpl.Handle(categoryName);
+    }
+
     private void InitializeChildServices() {
         getAllCourseCategoryServiceImpl =
                 new GetAllCourseCategoryServiceImpl(courseCategoryRepository, courseCategoryMapper);
+        getCourseCategoryByNameServiceImpl = new GetCourseCategoryByNameServiceImpl(
+                courseCategoryRepository,courseCategoryMapper
+        );
     }
 }

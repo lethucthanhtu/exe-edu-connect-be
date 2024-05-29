@@ -14,19 +14,24 @@ import org.springframework.web.bind.annotation.*;
 public class CourseCategoryController {
 
     private final CourseCategoryService courseCategoryService;
-    private final JwtService jwtService;
 
     @Autowired
     public CourseCategoryController(
-            CourseCategoryService courseCategoryService, JwtService jwtService) {
+            CourseCategoryService courseCategoryService) {
         this.courseCategoryService = courseCategoryService;
-        this.jwtService = jwtService;
     }
 
     @GetMapping(CourseCategoryEndpoints.GET_ALL_URL)
     @Operation(summary = "Gets a list of Course Categories")
     public ResponseEntity<CourseCategoryServiceResponse> GetAllCourseCategories() {
         CourseCategoryServiceResponse response = courseCategoryService.getAll();
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+    @GetMapping(CourseCategoryEndpoints.GET_BY_ID_URL)
+    @Operation(summary = "Gets a Course Category based on the given name.")
+    public ResponseEntity<CourseCategoryServiceResponse> GetCourseCategoryByName(
+            @PathVariable(name = "name") String categoryName) {
+        CourseCategoryServiceResponse response = courseCategoryService.getByName(categoryName);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }
