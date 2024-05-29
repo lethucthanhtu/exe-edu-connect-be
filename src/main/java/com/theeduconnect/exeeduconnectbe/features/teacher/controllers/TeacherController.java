@@ -34,7 +34,7 @@ public class TeacherController {
     @GetMapping(TeacherEndpoints.GET_BY_ID)
     @Operation(summary = "Gets a teacher based on his/her id.")
     public ResponseEntity<TeacherServiceResponse> GetTeacherById(
-            @RequestParam(value = "id") int id) {
+            @PathVariable(value = "id") int id) {
         TeacherServiceResponse response = teacherService.getById(id);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

@@ -80,7 +80,7 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
-                                        .requestMatchers(CourseEndpoints.GET_ALL_BY)
+                                        .requestMatchers(CourseEndpoints.GET_ALL_BY,CourseEndpoints.GET_BY_ID)
                                         .permitAll()
                                         .requestMatchers(
                                                 TeacherEndpoints.ALLOWED_REQUEST_MATCHER_ENDPOINTS)

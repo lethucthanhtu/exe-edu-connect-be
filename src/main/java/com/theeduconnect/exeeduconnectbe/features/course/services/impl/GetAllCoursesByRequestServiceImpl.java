@@ -20,7 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-public class GetAllByRequestServiceImpl {
+public class GetAllCoursesByRequestServiceImpl {
     private final CourseRepository courseRepository;
     private final CourseCategoryRepository courseCategoryRepository;
     private final UserRepository userRepository;
@@ -30,7 +30,7 @@ public class GetAllByRequestServiceImpl {
     private Pageable pageable;
     private GetAllCoursesByRequest getAllCoursesByRequest;
 
-    public GetAllByRequestServiceImpl(
+    public GetAllCoursesByRequestServiceImpl(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
             CourseCategoryRepository courseCategoryRepository,

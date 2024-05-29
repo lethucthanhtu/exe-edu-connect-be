@@ -15,10 +15,12 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private GetAllByRequestServiceImpl getAllByRequestServiceImpl;
+    private GetAllCoursesByRequestServiceImpl getAllCoursesByRequestServiceImpl;
+    private GetCourseByIdServiceImpl getCourseByIdServiceImpl;
     private CreateCourseServiceImpl createCourseServiceImpl;
     private final CourseCategoryRepository courseCategoryRepository;
     private final CourseScheduleRepository courseScheduleRepository;
+
     private final TeacherRepository teacherRepository;
     private final ScheduleMapper scheduleMapper;
     private final UserRepository userRepository;
@@ -43,7 +45,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseServiceResponse getAllByRequest(GetAllCoursesByRequest request) {
-        return getAllByRequestServiceImpl.Handle(request);
+        return getAllCoursesByRequestServiceImpl.Handle(request);
+    }
+
+    @Override
+    public CourseServiceResponse getById(int id) {
+        return getCourseByIdServiceImpl.Handle(id);
     }
 
     @Override
@@ -53,8 +60,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void InitializeChildServices() {
-        getAllByRequestServiceImpl =
-                new GetAllByRequestServiceImpl(
+        getAllCoursesByRequestServiceImpl =
+                new GetAllCoursesByRequestServiceImpl(
                         courseRepository, courseMapper, courseCategoryRepository, userRepository);
         createCourseServiceImpl =
                 new CreateCourseServiceImpl(
@@ -64,5 +71,6 @@ public class CourseServiceImpl implements CourseService {
                         courseCategoryRepository,
                         courseScheduleRepository,
                         teacherRepository);
+        getCourseByIdServiceImpl = new GetCourseByIdServiceImpl(courseRepository,courseMapper,userRepository);
     }
 }
