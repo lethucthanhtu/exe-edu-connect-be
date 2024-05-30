@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.features.user.vnpay.services;
+package com.theeduconnect.exeeduconnectbe.features.vnpay.services;
 
 import com.theeduconnect.exeeduconnectbe.configs.vnpay.VNPayConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +41,7 @@ public class VNPayService {
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 

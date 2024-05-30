@@ -1,6 +1,6 @@
-package com.theeduconnect.exeeduconnectbe.features.user.vnpay.controllers;
+package com.theeduconnect.exeeduconnectbe.features.vnpay.controllers;
 
-import com.theeduconnect.exeeduconnectbe.features.user.vnpay.services.VNPayService;
+import com.theeduconnect.exeeduconnectbe.features.vnpay.services.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

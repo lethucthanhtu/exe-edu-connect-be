@@ -104,6 +104,8 @@ public class SpringSecurityConfig {
                                         //
                                         .requestMatchers("/**")
                                         .permitAll()
+                                        .requestMatchers("/upload")
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
