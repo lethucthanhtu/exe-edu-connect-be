@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.user.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.user.endpoints.UserEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.NewUserRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ResetPasswordRequest;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping
@@ -47,10 +50,19 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
+    @GetMapping(UserEndpoints.GET_USER_BY_JWT)
+    @Operation(summary = "Get a user by JWT.")
+    public ResponseEntity<UserServiceResponse> getUserById(@RequestHeader("Authorization") String rawJwtToken) {
+        int userId = jwtService.extractUserId(rawJwtToken);
+        UserServiceResponse response = userService.getUserById(userId);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+
     @PutMapping(UserEndpoints.UPDATE_USER)
     @Operation(summary = "Update a user by Id.")
     public ResponseEntity<UserServiceResponse> updateUser(
-            @PathVariable int userId, @Valid @RequestBody NewUserRequest request) {
+            @RequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody NewUserRequest request) {
+        int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.updateUser(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
@@ -58,15 +70,16 @@ public class UserController {
     @DeleteMapping(UserEndpoints.DELETE_USER)
     @Operation(summary = "Delete a user by Id")
     public ResponseEntity<UserServiceResponse> deleteUser(@PathVariable int userId) {
-        UserServiceResponse response = userService.deleteUser(userId);
+        UserSeequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody ChangePasswordRequest request) {
+            // You may want to add additional security checks here
+            int usrviceResponse response = userService.deleteUser(userId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
     @PostMapping(UserEndpoints.CHANGE_PASSWORD)
     @Operation(summary = "Change password")
     public ResponseEntity<UserServiceResponse> changePassword(
-            @PathVariable int userId, @Valid @RequestBody ChangePasswordRequest request) {
-        // You may want to add additional security checks here
+            @RerId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.changePassword(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
