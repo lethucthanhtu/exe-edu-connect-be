@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.2.4'
     implementation group: 'org.springframework.security', name: 'spring-security-web', version: '6.2.4'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.2.5'
