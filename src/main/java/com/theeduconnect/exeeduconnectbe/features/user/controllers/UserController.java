@@ -70,16 +70,16 @@ public class UserController {
     @DeleteMapping(UserEndpoints.DELETE_USER)
     @Operation(summary = "Delete a user by Id")
     public ResponseEntity<UserServiceResponse> deleteUser(@PathVariable int userId) {
-        UserSeequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody ChangePasswordRequest request) {
-            // You may want to add additional security checks here
-            int usrviceResponse response = userService.deleteUser(userId);
+        UserServiceResponse response = userService.deleteUser(userId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
     @PostMapping(UserEndpoints.CHANGE_PASSWORD)
     @Operation(summary = "Change password")
     public ResponseEntity<UserServiceResponse> changePassword(
-            @RerId = jwtService.extractUserId(rawJwtToken);
+            @RequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody ChangePasswordRequest request) {
+        // You may want to add additional security checks here
+        int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.changePassword(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
