@@ -30,4 +30,9 @@ public class CourseSchedule {
     @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courseid", nullable = false)
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "studentid")
+    private Student student;
+
 }

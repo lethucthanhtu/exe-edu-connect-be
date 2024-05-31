@@ -13,6 +13,7 @@ import com.theeduconnect.exeeduconnectbe.features.course.dtos.NewGoogleMeetUrlDt
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseScheduleRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
+import com.theeduconnect.exeeduconnectbe.features.course.services.impl.join.GoogleMeetServiceImpl;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
@@ -112,9 +113,6 @@ public class CreateCourseServiceImpl {
                     scheduleMapper.NewCourseScheduleRequestToCourseScheduleEntity(
                             newCourseScheduleRequest);
             courseSchedule.setStarttime(newCourseScheduleRequest.getStarttime());
-            courseSchedule.setMeeturl(
-                    googleMeetServiceImpl.GetCalendarUrl(
-                            BuildGoogleMeetUrlRequest(newCourseScheduleRequest)));
             courseSchedule.setCourse(course);
             courseScheduleList.add(courseSchedule);
         }

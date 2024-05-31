@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.course.controllers;
 import com.theeduconnect.exeeduconnectbe.constants.course.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.JoinCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
@@ -53,6 +54,16 @@ public class CourseController {
         int userId = jwtService.extractUserId(rawJwtToken);
         newCourseRequest.setTeacherid(userId);
         CourseServiceResponse response = courseService.create(newCourseRequest);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
+    @PostMapping(CourseEndpoints.JOIN_COURSE)
+    @Operation(summary = "Creates a new Course.")
+    public ResponseEntity<CourseServiceResponse> JoinACourse(
+            @RequestHeader("Authorization") String rawJwtToken,
+            @Valid @RequestBody JoinCourseRequest request) {
+        int userId = jwtService.extractUserId(rawJwtToken);
+        request.setStudentId(userId);
+        CourseServiceResponse response = courseService.join(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

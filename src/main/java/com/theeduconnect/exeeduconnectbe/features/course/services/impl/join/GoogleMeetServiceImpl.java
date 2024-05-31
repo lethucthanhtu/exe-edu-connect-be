@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.features.course.services.impl.create;
+package com.theeduconnect.exeeduconnectbe.features.course.services.impl.join;
 
 import static com.theeduconnect.exeeduconnectbe.constants.course.GGMeetServiceImplConstants.*;
 

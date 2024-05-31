@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.course.services.impl;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.ScheduleMapper;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
+import com.theeduconnect.exeeduconnectbe.features.course.payload.request.JoinCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
@@ -57,6 +58,11 @@ public class CourseServiceImpl implements CourseService {
     public CourseServiceResponse create(NewCourseRequest request) {
 
         return createCourseServiceImpl.Handle(request);
+    }
+
+    @Override
+    public CourseServiceResponse join(JoinCourseRequest request) {
+        return null;
     }
 
     private void InitializeChildServices() {
