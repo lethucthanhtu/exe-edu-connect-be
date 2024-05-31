@@ -1,12 +1,13 @@
 package com.theeduconnect.exeeduconnectbe.configs.security;
 
-import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
-import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
-import com.theeduconnect.exeeduconnectbe.constants.courseCategory.endpoints.CourseCategoryEndpoints;
-import com.theeduconnect.exeeduconnectbe.constants.feedback.endpoints.FeedbackEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationRoles;
+import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.course.CourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
-import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.LoadOAuth2UserServiceImpl;
@@ -94,6 +95,9 @@ public class SpringSecurityConfig {
                                                 CourseCategoryEndpoints.GET_ALL_URL,
                                                 CourseCategoryEndpoints.GET_BY_ID_URL)
                                         .permitAll()
+                                        .requestMatchers(
+                                                CertificateEndpoints.UPLOAD_CERTIFICATES_URL)
+                                        .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()

@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.course.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.course.endpoints.CourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.course.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.GetAllCoursesByRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;

@@ -1,7 +1,7 @@
 /* (C) 2024 */
 package com.theeduconnect.exeeduconnectbe.features.authentication.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.request.LoginRequest;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.request.RegisterRequest;
 import com.theeduconnect.exeeduconnectbe.features.authentication.payload.response.AuthenticationServiceResponse;

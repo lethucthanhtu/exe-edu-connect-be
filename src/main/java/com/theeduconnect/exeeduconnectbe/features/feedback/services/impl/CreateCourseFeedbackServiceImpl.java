@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.feedback.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.FeedbackMapper;
-import com.theeduconnect.exeeduconnectbe.constants.feedback.responseCodes.FeedbackServiceHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.feedback.serviceMessages.FeedbackServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackServiceHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.AttendingCourse;
 import com.theeduconnect.exeeduconnectbe.domain.CourseFeedback;
 import com.theeduconnect.exeeduconnectbe.domain.Student;
@@ -60,8 +60,8 @@ public class CreateCourseFeedbackServiceImpl {
         courseFeedback = feedbackMapper.NewFeedbackRequestToCourseFeedback((request));
         courseFeedback.setPostdate(LocalDate.now());
         courseFeedback.setAttendingcourse(attendingCourse);
+        courseFeedback.setStudent(student);
     }
-    ;
 
     private FeedbackServiceResponse CreateCourseFeedbackSuccessful() {
         return new FeedbackServiceResponse(

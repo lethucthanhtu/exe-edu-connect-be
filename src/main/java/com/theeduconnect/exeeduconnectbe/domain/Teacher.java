@@ -44,4 +44,7 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private Set<StudentInquiryRequest> studentInquiryRequests = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "teacher")
+    private Set<Certificate> certificates = new LinkedHashSet<>();
 }

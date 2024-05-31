@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
-import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.ProviderEnum;
 import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;

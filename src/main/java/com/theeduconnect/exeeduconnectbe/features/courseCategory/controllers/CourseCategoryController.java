@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.courseCategory.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.courseCategory.endpoints.CourseCategoryEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.courseCategory.payload.response.CourseCategoryServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.courseCategory.services.CourseCategoryService;
 import io.swagger.v3.oas.annotations.Operation;

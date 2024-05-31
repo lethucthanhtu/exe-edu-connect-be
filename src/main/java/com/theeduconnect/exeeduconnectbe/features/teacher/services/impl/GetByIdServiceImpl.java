@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.teacher.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.TeacherMapper;
-import com.theeduconnect.exeeduconnectbe.constants.teacher.responseCodes.TeacherServiceHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.teacher.serviceMessages.TeacherServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherServiceHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;
 import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.teacher.dtos.TeacherDetailsDto;

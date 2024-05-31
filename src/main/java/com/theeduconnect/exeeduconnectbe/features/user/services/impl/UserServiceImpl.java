@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.user.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.UserMapper;
-import com.theeduconnect.exeeduconnectbe.constants.user.responseCodes.UserServiceHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.user.serviceMessages.UserServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.user.UserServiceHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.user.UserServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.Role;
 import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;

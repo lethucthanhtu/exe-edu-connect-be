@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.feedback.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.feedback.endpoints.FeedbackEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.feedback.payload.request.NewFeedbackRequest;
 import com.theeduconnect.exeeduconnectbe.features.feedback.payload.response.FeedbackServiceResponse;

@@ -1,10 +1,10 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.AuthenticationMapper;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.responseCodes.AuthenticationHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.roles.AuthenticationRoles;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.serviceMessages.AuthenticationServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationRoles;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.ProviderEnum;
 import com.theeduconnect.exeeduconnectbe.domain.Role;
 import com.theeduconnect.exeeduconnectbe.domain.Student;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;

@@ -1,7 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.provider.ProviderEnum;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.ProviderEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

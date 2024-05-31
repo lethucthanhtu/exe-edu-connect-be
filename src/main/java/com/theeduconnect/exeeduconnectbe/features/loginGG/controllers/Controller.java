@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.loginGG.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.authentication.endpoints.AuthenticationEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.loginGG.dtos.Root;
 import java.util.Map;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;

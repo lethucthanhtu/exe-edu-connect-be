@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl.create;
 
-import static com.theeduconnect.exeeduconnectbe.constants.course.ggmeet.GGMeetServiceImplConstants.*;
+import static com.theeduconnect.exeeduconnectbe.constants.course.GGMeetServiceImplConstants.*;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -14,7 +14,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.*;
-import com.theeduconnect.exeeduconnectbe.constants.course.ggmeet.GGMeetServiceImplConstants;
+import com.theeduconnect.exeeduconnectbe.constants.course.GGMeetServiceImplConstants;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.NewGoogleMeetUrlDto;
 import java.io.FileNotFoundException;
 import java.io.IOException;

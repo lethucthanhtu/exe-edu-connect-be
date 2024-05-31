@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.sendMail.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.mail.endpoints.MailEndpoints;
-import com.theeduconnect.exeeduconnectbe.constants.mail.responseCodes.MailServiceHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.mail.serviceMessages.MailServiceMessage;
+import com.theeduconnect.exeeduconnectbe.constants.mail.MailEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.mail.MailServiceHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.mail.MailServiceMessage;
 import com.theeduconnect.exeeduconnectbe.features.sendMail.payload.request.SendMailRequest;
 import com.theeduconnect.exeeduconnectbe.features.sendMail.payload.response.MailServiceResponse;
 import io.swagger.v3.oas.annotations.Operation;

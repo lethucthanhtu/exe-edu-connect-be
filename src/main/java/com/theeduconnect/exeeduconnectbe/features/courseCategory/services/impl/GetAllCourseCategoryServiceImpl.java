@@ -1,8 +1,8 @@
 package com.theeduconnect.exeeduconnectbe.features.courseCategory.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseCategoryMapper;
-import com.theeduconnect.exeeduconnectbe.constants.courseCategory.responseCodes.CourseCategoryServiceHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.courseCategory.serviceMessages.CourseCategoryServiceMessages;
+import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryServiceHttpResponseCodes;
+import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.features.courseCategory.dtos.CourseCategoryDto;
 import com.theeduconnect.exeeduconnectbe.features.courseCategory.payload.response.CourseCategoryServiceResponse;

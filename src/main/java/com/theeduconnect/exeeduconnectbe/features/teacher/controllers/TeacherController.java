@@ -1,6 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.features.teacher.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.teacher.endpoints.TeacherEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.request.GetAllTeachersByRequest;
 import com.theeduconnect.exeeduconnectbe.features.teacher.payload.response.TeacherServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.teacher.services.TeacherService;
