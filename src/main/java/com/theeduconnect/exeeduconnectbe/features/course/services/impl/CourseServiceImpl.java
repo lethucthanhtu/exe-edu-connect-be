@@ -8,6 +8,7 @@ import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCour
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.course.services.CourseService;
 import com.theeduconnect.exeeduconnectbe.features.course.services.impl.create.CreateCourseServiceImpl;
+import com.theeduconnect.exeeduconnectbe.features.course.services.impl.join.JoinCourseServiceImpl;
 import com.theeduconnect.exeeduconnectbe.repositories.*;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,15 @@ public class CourseServiceImpl implements CourseService {
     private GetAllCoursesByRequestServiceImpl getAllCoursesByRequestServiceImpl;
     private GetCourseByIdServiceImpl getCourseByIdServiceImpl;
     private CreateCourseServiceImpl createCourseServiceImpl;
+    private JoinCourseServiceImpl joinCourseServiceImpl;
     private final CourseCategoryRepository courseCategoryRepository;
     private final CourseScheduleRepository courseScheduleRepository;
 
     private final TeacherRepository teacherRepository;
     private final ScheduleMapper scheduleMapper;
     private final UserRepository userRepository;
+    private final AttendingCourseRepository attendingCourseRepository;
+    private final StudentRepository studentRepository;
 
     public CourseServiceImpl(
             CourseRepository courseRepository,
@@ -33,7 +37,9 @@ public class CourseServiceImpl implements CourseService {
             CourseCategoryRepository courseCategoryRepository,
             CourseScheduleRepository courseScheduleRepository,
             TeacherRepository teacherRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            AttendingCourseRepository attendingCourseRepository,
+            StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.scheduleMapper = scheduleMapper;
@@ -41,6 +47,8 @@ public class CourseServiceImpl implements CourseService {
         this.courseScheduleRepository = courseScheduleRepository;
         this.teacherRepository = teacherRepository;
         this.userRepository = userRepository;
+        this.attendingCourseRepository = attendingCourseRepository;
+        this.studentRepository = studentRepository;
         InitializeChildServices();
     }
 
@@ -62,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseServiceResponse join(JoinCourseRequest request) {
-        return null;
+        return joinCourseServiceImpl.Handle(request);
     }
 
     private void InitializeChildServices() {
@@ -79,5 +87,11 @@ public class CourseServiceImpl implements CourseService {
                         teacherRepository);
         getCourseByIdServiceImpl =
                 new GetCourseByIdServiceImpl(courseRepository, courseMapper, userRepository);
+        joinCourseServiceImpl = new JoinCourseServiceImpl(
+                attendingCourseRepository,
+                studentRepository,
+                courseRepository,
+                courseScheduleRepository
+        );
     }
 }

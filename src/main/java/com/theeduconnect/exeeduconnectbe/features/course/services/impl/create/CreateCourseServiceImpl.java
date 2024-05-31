@@ -118,26 +118,8 @@ public class CreateCourseServiceImpl {
         }
     }
 
-    private NewGoogleMeetUrlDto BuildGoogleMeetUrlRequest(
-            NewCourseScheduleRequest newCourseScheduleRequest) {
-        DateTime startTimeInGoogleDateTime =
-                TimeUtils.InstantToGoogleDateTime(newCourseScheduleRequest.getStarttime());
-        DateTime endTimeInGoogleDateTime =
-                TimeUtils.InstantToGoogleDateTime(GetEndTime(newCourseScheduleRequest));
-        return new NewGoogleMeetUrlDto(
-                request.getName(),
-                request.getDescription(),
-                startTimeInGoogleDateTime,
-                endTimeInGoogleDateTime,
-                GetTeacherEmail());
-    }
 
-    private Instant GetEndTime(NewCourseScheduleRequest newCourseScheduleRequest) {
-        Instant startTime = newCourseScheduleRequest.getStarttime();
-        int duration = newCourseScheduleRequest.getDuration();
-        int secondsPerMinute = 60;
-        return startTime.plusSeconds((long) duration * secondsPerMinute);
-    }
+
 
     private String GetTeacherEmail() {
         return teacher.getUser().getEmail();

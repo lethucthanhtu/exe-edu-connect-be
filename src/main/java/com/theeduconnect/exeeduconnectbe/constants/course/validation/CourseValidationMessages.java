@@ -21,6 +21,8 @@ public class CourseValidationMessages {
     public static final String INVALID_COURSE_DURATION_IN_MINUTES =
             "The input course duration must be between 60 minutes (1 hour) "
                     + "and 120 minutes (2 hours). Please try again.";
-    public static final String INVALID_MEET_URL =
-            "The Google Meet url might not be in the correct format. Please try again.";
+    public static final String INVALID_COURSE_ID =
+            "The courseId must be a positive number.";
+    public static final String INVALID_COURSE_SCHEDULE_ID =
+            "The courseScheduleId must be a positive number.";
 }

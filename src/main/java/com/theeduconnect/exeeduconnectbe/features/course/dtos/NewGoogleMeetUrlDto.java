@@ -12,4 +12,5 @@ public class NewGoogleMeetUrlDto {
     private DateTime startDateTime;
     private DateTime endDateTime;
     private String teacherEmail;
+    private String studentEmail;
 }

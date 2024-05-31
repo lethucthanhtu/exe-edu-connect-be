@@ -57,7 +57,7 @@ public class CourseController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
     @PostMapping(CourseEndpoints.JOIN_COURSE)
-    @Operation(summary = "Creates a new Course.")
+    @Operation(summary = "Lets a student join a Course, based on the schedules of that course.")
     public ResponseEntity<CourseServiceResponse> JoinACourse(
             @RequestHeader("Authorization") String rawJwtToken,
             @Valid @RequestBody JoinCourseRequest request) {

@@ -26,12 +26,4 @@ public class NewCourseScheduleRequest {
             message = CourseValidationMessages.INVALID_COURSE_DURATION_IN_MINUTES)
     private Integer duration;
 
-    @Schema(
-            name = "meeturl",
-            example = "https://meet.google.com/abc-def-ghi",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(
-            regexp = CourseValidationSpecifications.VALID_GOOGLE_MEET_URL,
-            message = CourseValidationMessages.INVALID_MEET_URL)
-    private String meeturl;
 }
