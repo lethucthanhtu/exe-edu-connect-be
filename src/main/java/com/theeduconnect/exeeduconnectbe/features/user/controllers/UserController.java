@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.user.controllers;
 
-import com.theeduconnect.exeeduconnectbe.constants.user.endpoints.UserEndpoints;
+
+import com.theeduconnect.exeeduconnectbe.constants.user.UserEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.NewUserRequest;
