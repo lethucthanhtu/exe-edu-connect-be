@@ -5,11 +5,9 @@ import com.theeduconnect.exeeduconnectbe.constants.course.responseCodes.CourseSe
 import com.theeduconnect.exeeduconnectbe.constants.course.serviceMessages.CourseServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.CourseDto;
-import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
-
 import java.util.Optional;
 
 public class GetCourseByIdServiceImpl {
@@ -21,41 +19,50 @@ public class GetCourseByIdServiceImpl {
     private int courseId;
     private CourseDto courseDto;
 
-    public GetCourseByIdServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper,UserRepository userRepository){
+    public GetCourseByIdServiceImpl(
+            CourseRepository courseRepository,
+            CourseMapper courseMapper,
+            UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userRepository = userRepository;
     }
-    public CourseServiceResponse Handle(int courseId){
+
+    public CourseServiceResponse Handle(int courseId) {
         this.courseId = courseId;
-        try{
-            if(!IsCourseAvailableInDatabase()) return CourseNotFoundResult();
+        try {
+            if (!IsCourseAvailableInDatabase()) return CourseNotFoundResult();
             MapCourseEntityToCourseDto();
             return GetCourseByIdSuccessfulResult();
-        }catch(Exception e){
+        } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
     }
-    private boolean IsCourseAvailableInDatabase(){
+
+    private boolean IsCourseAvailableInDatabase() {
         courseOptional = courseRepository.findById(courseId);
-        if(courseOptional.isEmpty()) return false;
+        if (courseOptional.isEmpty()) return false;
         return true;
     }
-    private void MapCourseEntityToCourseDto(){
+
+    private void MapCourseEntityToCourseDto() {
         Course course = courseOptional.get();
         courseDto = courseMapper.CourseEntityToCourseDto(course);
         courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
         courseDto.setTeachername(GetTeacherNameByTeacherId(course.getTeacher().getId()));
     }
+
     private String GetTeacherNameByTeacherId(int teacherId) {
         return userRepository.findById(teacherId).get().getFullname();
     }
+
     private CourseServiceResponse GetCourseByIdSuccessfulResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.FOUND_COURSE_BY_ID_SUCCESSFUL,
                 CourseServiceMessages.FOUND_COURSE_BY_ID_SUCCESSFUL,
                 courseDto);
     }
+
     private CourseServiceResponse CourseNotFoundResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.NO_COURSES_FOUND,

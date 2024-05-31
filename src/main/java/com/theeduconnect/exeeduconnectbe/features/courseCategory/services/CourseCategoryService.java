@@ -4,5 +4,6 @@ import com.theeduconnect.exeeduconnectbe.features.courseCategory.payload.respons
 
 public interface CourseCategoryService {
     CourseCategoryServiceResponse getAll();
+
     CourseCategoryServiceResponse getByName(String categoryName);
 }

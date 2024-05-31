@@ -30,4 +30,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Set<Like> likes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<CourseFeedback> courseFeedbacks = new LinkedHashSet<>();
 }

@@ -36,6 +36,7 @@ public class CourseController {
         CourseServiceResponse response = courseService.getAllByRequest(getAllCoursesByRequest);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
+
     @GetMapping(CourseEndpoints.GET_BY_ID)
     @Operation(summary = "Gets full details of a Course, based on its Id.")
     public ResponseEntity<CourseServiceResponse> GetCourseById(

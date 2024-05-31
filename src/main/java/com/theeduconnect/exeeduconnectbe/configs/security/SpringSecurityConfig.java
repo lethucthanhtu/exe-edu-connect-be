@@ -80,7 +80,9 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers(CourseEndpoints.CREATE)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
-                                        .requestMatchers(CourseEndpoints.GET_ALL_BY,CourseEndpoints.GET_BY_ID)
+                                        .requestMatchers(
+                                                CourseEndpoints.GET_ALL_BY,
+                                                CourseEndpoints.GET_BY_ID)
                                         .permitAll()
                                         .requestMatchers(
                                                 TeacherEndpoints.ALLOWED_REQUEST_MATCHER_ENDPOINTS)
@@ -88,7 +90,9 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 FeedbackEndpoints.CREATE_COURSE_FEEDBACK_URL)
                                         .hasAnyAuthority(AuthenticationRoles.STUDENT)
-                                        .requestMatchers(CourseCategoryEndpoints.GET_ALL_URL,CourseCategoryEndpoints.GET_BY_ID_URL)
+                                        .requestMatchers(
+                                                CourseCategoryEndpoints.GET_ALL_URL,
+                                                CourseCategoryEndpoints.GET_BY_ID_URL)
                                         .permitAll()
                                         //                                        comment users
                                         .requestMatchers("/api/users")

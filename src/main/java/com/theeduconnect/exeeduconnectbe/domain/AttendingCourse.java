@@ -2,8 +2,6 @@ package com.theeduconnect.exeeduconnectbe.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +26,6 @@ public class AttendingCourse {
     @JoinColumn(name = "studentid", nullable = false)
     private Student student;
 
-    @OneToMany(mappedBy = "attendingcourse")
-    private Set<CourseFeedback> courseFeedbacks = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "attendingcourse")
+    private CourseFeedback courseFeedback;
 }

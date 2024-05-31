@@ -1,7 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -27,7 +26,12 @@ public class CourseFeedback {
     @Column(name = "postdate")
     private LocalDate postdate;
 
-    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "attendingcourseid", nullable = false)
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "feedbackid", nullable = false)
     private AttendingCourse attendingcourse;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "studentid")
+    private Student student;
 }

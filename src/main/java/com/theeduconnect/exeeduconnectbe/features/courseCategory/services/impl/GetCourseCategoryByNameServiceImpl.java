@@ -8,8 +8,6 @@ import com.theeduconnect.exeeduconnectbe.features.courseCategory.dtos.CourseCate
 import com.theeduconnect.exeeduconnectbe.features.courseCategory.payload.response.CourseCategoryServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 
-import java.util.Optional;
-
 public class GetCourseCategoryByNameServiceImpl {
 
     private final CourseCategoryRepository courseCategoryRepository;
@@ -18,37 +16,44 @@ public class GetCourseCategoryByNameServiceImpl {
     private CourseCategory courseCategory;
     private CourseCategoryDto courseCategoryDto;
 
-    public GetCourseCategoryByNameServiceImpl(CourseCategoryRepository courseCategoryRepository,
-                                              CourseCategoryMapper courseCategoryMapper){
+    public GetCourseCategoryByNameServiceImpl(
+            CourseCategoryRepository courseCategoryRepository,
+            CourseCategoryMapper courseCategoryMapper) {
         this.courseCategoryRepository = courseCategoryRepository;
         this.courseCategoryMapper = courseCategoryMapper;
     }
-    public CourseCategoryServiceResponse Handle(String courseCategoryName){
+
+    public CourseCategoryServiceResponse Handle(String courseCategoryName) {
         try {
             this.courseCategoryName = courseCategoryName;
             if (!IsCourseCategoryFound()) return CourseCategoryNameNotFoundResult();
             MapCourseCategoryEntityToCourseCategoryDto();
             return GetCourseCategoryByNameSuccessfulResult();
-        }catch (Exception e){
+        } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
     }
-    private boolean IsCourseCategoryFound(){
+
+    private boolean IsCourseCategoryFound() {
         courseCategory = courseCategoryRepository.findByCategoryname(courseCategoryName);
-        if(courseCategory==null) return false;
+        if (courseCategory == null) return false;
         return true;
     }
-    private void MapCourseCategoryEntityToCourseCategoryDto(){
-        courseCategoryDto = courseCategoryMapper.CourseCategoryEntityToCourseCategoryDto(courseCategory);
+
+    private void MapCourseCategoryEntityToCourseCategoryDto() {
+        courseCategoryDto =
+                courseCategoryMapper.CourseCategoryEntityToCourseCategoryDto(courseCategory);
         courseCategoryDto.setTotal(courseCategory.getCourses().size());
     }
+
     private CourseCategoryServiceResponse GetCourseCategoryByNameSuccessfulResult() {
         return new CourseCategoryServiceResponse(
                 CourseCategoryServiceHttpResponseCodes.GET_COURSE_CATEGORY_BY_NAME_SUCCESSFUL,
                 CourseCategoryServiceMessages.GET_COURSE_CATEGORY_BY_NAME_SUCCESSFUL,
                 courseCategoryDto);
     }
-    private CourseCategoryServiceResponse  CourseCategoryNameNotFoundResult(){
+
+    private CourseCategoryServiceResponse CourseCategoryNameNotFoundResult() {
         return new CourseCategoryServiceResponse(
                 CourseCategoryServiceHttpResponseCodes.COURSE_CATEGORY_NOT_FOUND,
                 CourseCategoryServiceMessages.COURSE_CATEGORY_NOT_FOUND,
@@ -62,4 +67,3 @@ public class GetCourseCategoryByNameServiceImpl {
                 e.getMessage());
     }
 }
-

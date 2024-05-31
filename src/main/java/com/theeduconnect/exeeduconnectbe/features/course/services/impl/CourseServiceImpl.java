@@ -71,6 +71,7 @@ public class CourseServiceImpl implements CourseService {
                         courseCategoryRepository,
                         courseScheduleRepository,
                         teacherRepository);
-        getCourseByIdServiceImpl = new GetCourseByIdServiceImpl(courseRepository,courseMapper,userRepository);
+        getCourseByIdServiceImpl =
+                new GetCourseByIdServiceImpl(courseRepository, courseMapper, userRepository);
     }
 }

@@ -35,8 +35,8 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     private void InitializeChildServices() {
         getAllCourseCategoryServiceImpl =
                 new GetAllCourseCategoryServiceImpl(courseCategoryRepository, courseCategoryMapper);
-        getCourseCategoryByNameServiceImpl = new GetCourseCategoryByNameServiceImpl(
-                courseCategoryRepository,courseCategoryMapper
-        );
+        getCourseCategoryByNameServiceImpl =
+                new GetCourseCategoryByNameServiceImpl(
+                        courseCategoryRepository, courseCategoryMapper);
     }
 }
