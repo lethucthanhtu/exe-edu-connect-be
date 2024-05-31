@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 public class ImageController {
 
-    @PostMapping("/upload")
+    @PostMapping("/api/firebase/upload")
     public String uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         Bucket bucket = StorageClient.getInstance().bucket();
         String blobName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();

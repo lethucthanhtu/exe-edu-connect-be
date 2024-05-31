@@ -104,7 +104,7 @@ public class SpringSecurityConfig {
                                         //
                                         .requestMatchers("/**")
                                         .permitAll()
-                                        .requestMatchers("/upload")
+                                        .requestMatchers("/api/firebase/upload")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())
