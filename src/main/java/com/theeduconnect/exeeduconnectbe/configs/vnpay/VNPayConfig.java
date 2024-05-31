@@ -1,20 +1,20 @@
 package com.theeduconnect.exeeduconnectbe.configs.vnpay;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class VNPayConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_Returnurl = "/vnpay-payment";
     public static String vnp_TmnCode = "45ZL6UKM";
     public static String vnp_HashSecret = "YE8MAW33FFZY2B3CKL5NTLHTE0EAEP87";
-    public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+    public static String vnp_apiUrl =
+            "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
     public static String md5(String message) {
         String digest = null;
@@ -32,25 +32,25 @@ public class VNPayConfig {
         return digest;
     }
 
-//    public static String Sha256(String message) {
-//        String digest = null;
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("SHA-256");
-//            byte[] hash = md.digest(message.getBytes("UTF-8"));
-//            StringBuilder sb = new StringBuilder(2 * hash.length);
-//            for (byte b : hash) {
-//                sb.append(String.format("%02x", b & 0xff));
-//            }
-//            digest = sb.toString();
-//        } catch (UnsupportedEncodingException ex) {
-//            digest = "";
-//        } catch (NoSuchAlgorithmException ex) {
-//            digest = "";
-//        }
-//        return digest;
-//    }
+    //    public static String Sha256(String message) {
+    //        String digest = null;
+    //        try {
+    //            MessageDigest md = MessageDigest.getInstance("SHA-256");
+    //            byte[] hash = md.digest(message.getBytes("UTF-8"));
+    //            StringBuilder sb = new StringBuilder(2 * hash.length);
+    //            for (byte b : hash) {
+    //                sb.append(String.format("%02x", b & 0xff));
+    //            }
+    //            digest = sb.toString();
+    //        } catch (UnsupportedEncodingException ex) {
+    //            digest = "";
+    //        } catch (NoSuchAlgorithmException ex) {
+    //            digest = "";
+    //        }
+    //        return digest;
+    //    }
 
-    //Util for VNPAY
+    // Util for VNPAY
     public static String hashAllFields(Map fields) {
         List fieldNames = new ArrayList(fields.keySet());
         Collections.sort(fieldNames);
@@ -68,7 +68,7 @@ public class VNPayConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(vnp_HashSecret,sb.toString());
+        return hmacSHA512(vnp_HashSecret, sb.toString());
     }
 
     public static String hmacSHA512(final String key, final String data) {

@@ -11,5 +11,6 @@ public interface CourseService {
     CourseServiceResponse getById(int id);
 
     CourseServiceResponse create(NewCourseRequest request);
+
     CourseServiceResponse join(JoinCourseRequest request);
 }

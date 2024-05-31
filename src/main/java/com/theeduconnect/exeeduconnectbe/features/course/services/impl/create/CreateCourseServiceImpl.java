@@ -1,6 +1,5 @@
 package com.theeduconnect.exeeduconnectbe.features.course.services.impl.create;
 
-import com.google.api.client.util.DateTime;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CourseMapper;
 import com.theeduconnect.exeeduconnectbe.configs.mappers.ScheduleMapper;
 import com.theeduconnect.exeeduconnectbe.constants.course.CourseServiceHttpResponseCodes;
@@ -9,7 +8,6 @@ import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.domain.CourseCategory;
 import com.theeduconnect.exeeduconnectbe.domain.CourseSchedule;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;
-import com.theeduconnect.exeeduconnectbe.features.course.dtos.NewGoogleMeetUrlDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseScheduleRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
@@ -116,13 +114,6 @@ public class CreateCourseServiceImpl {
             courseSchedule.setCourse(course);
             courseScheduleList.add(courseSchedule);
         }
-    }
-
-
-
-
-    private String GetTeacherEmail() {
-        return teacher.getUser().getEmail();
     }
 
     private CourseServiceResponse CreateCourseSuccessfulResult() {

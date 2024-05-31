@@ -34,5 +34,4 @@ public class CourseSchedule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentid")
     private Student student;
-
 }

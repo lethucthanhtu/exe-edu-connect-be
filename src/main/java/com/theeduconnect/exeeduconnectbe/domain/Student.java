@@ -36,5 +36,4 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Set<CourseSchedule> courseSchedules = new LinkedHashSet<>();
-
 }

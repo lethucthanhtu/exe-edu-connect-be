@@ -7,17 +7,14 @@ import com.theeduconnect.exeeduconnectbe.domain.AttendingCourse;
 import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.domain.CourseSchedule;
 import com.theeduconnect.exeeduconnectbe.domain.Student;
-import com.theeduconnect.exeeduconnectbe.features.course.dtos.GetAllCoursesDto;
 import com.theeduconnect.exeeduconnectbe.features.course.dtos.NewGoogleMeetUrlDto;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.request.JoinCourseRequest;
-import com.theeduconnect.exeeduconnectbe.features.course.payload.request.NewCourseScheduleRequest;
 import com.theeduconnect.exeeduconnectbe.features.course.payload.response.CourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.AttendingCourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.StudentRepository;
 import com.theeduconnect.exeeduconnectbe.utils.TimeUtils;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.Instant;
@@ -36,21 +33,22 @@ public class JoinCourseServiceImpl {
     private Course course;
     private String meetUrl;
 
-    public JoinCourseServiceImpl(AttendingCourseRepository attendingCourseRepository,
-                                 StudentRepository studentRepository,
-                                 CourseRepository courseRepository,
-                                 CourseScheduleRepository courseScheduleRepository) {
+    public JoinCourseServiceImpl(
+            AttendingCourseRepository attendingCourseRepository,
+            StudentRepository studentRepository,
+            CourseRepository courseRepository,
+            CourseScheduleRepository courseScheduleRepository) {
         this.attendingCourseRepository = attendingCourseRepository;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
         this.courseScheduleRepository = courseScheduleRepository;
-        this.googleMeetServiceImpl  = new  GoogleMeetServiceImpl();
+        this.googleMeetServiceImpl = new GoogleMeetServiceImpl();
     }
 
     public CourseServiceResponse Handle(JoinCourseRequest request) {
         try {
             this.request = request;
-            if(!IsCourseScheduleAvailable()) return CourseScheduleNotFoundResult();
+            if (!IsCourseScheduleAvailable()) return CourseScheduleNotFoundResult();
             courseSchedule = courseScheduleOptional.get();
             if (IsCourseScheduleTaken()) return CourseScheduleTakenResult();
             FindStudentById();
@@ -62,14 +60,14 @@ public class JoinCourseServiceImpl {
         } catch (Exception e) {
             return InternalServerErrorResult(e);
         }
-
     }
 
-    private boolean IsCourseScheduleAvailable(){
+    private boolean IsCourseScheduleAvailable() {
         courseScheduleOptional = courseScheduleRepository.findById(request.getCourseScheduleId());
-        if(courseScheduleOptional.isEmpty()) return false;
+        if (courseScheduleOptional.isEmpty()) return false;
         return true;
     }
+
     private boolean IsCourseScheduleTaken() {
 
         String testMeetUrl = courseSchedule.getMeeturl();
@@ -97,7 +95,8 @@ public class JoinCourseServiceImpl {
         NewGoogleMeetUrlDto newGoogleMeetUrlDto = BuildGoogleMeetUrlRequest();
         meetUrl = googleMeetServiceImpl.GetCalendarUrl(newGoogleMeetUrlDto);
     }
-    private void UpdateMeetUrlAndStudentToCourseSchedule(){
+
+    private void UpdateMeetUrlAndStudentToCourseSchedule() {
         courseSchedule.setMeeturl(meetUrl);
         courseSchedule.setStudent(student);
         courseScheduleRepository.save(courseSchedule);
@@ -112,7 +111,11 @@ public class JoinCourseServiceImpl {
         String description = courseSchedule.getCourse().getDescription();
         String teacherEmail = courseSchedule.getCourse().getTeacher().getUser().getEmail();
         String studentEmail = student.getUser().getEmail();
-        return new NewGoogleMeetUrlDto(summary, description, startTimeInGoogleDateTime, endTimeInGoogleDateTime,
+        return new NewGoogleMeetUrlDto(
+                summary,
+                description,
+                startTimeInGoogleDateTime,
+                endTimeInGoogleDateTime,
                 teacherEmail,
                 studentEmail);
     }
@@ -130,7 +133,8 @@ public class JoinCourseServiceImpl {
                 CourseServiceMessages.JOIN_COURSE_SUCCESSFUL,
                 null);
     }
-    private CourseServiceResponse CourseScheduleNotFoundResult(){
+
+    private CourseServiceResponse CourseScheduleNotFoundResult() {
         return new CourseServiceResponse(
                 CourseServiceHttpResponseCodes.COURSE_SCHEDULE_NOT_FOUND,
                 CourseServiceMessages.COURSE_SCHEDULE_NOT_FOUND,

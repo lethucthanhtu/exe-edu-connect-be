@@ -56,7 +56,7 @@ public class GoogleMeetServiceImpl {
         EventAttendee[] attendees =
                 new EventAttendee[] {
                     new EventAttendee().setEmail(request.getTeacherEmail()),
-                        new EventAttendee().setEmail(request.getStudentEmail()),
+                    new EventAttendee().setEmail(request.getStudentEmail()),
                 };
         event.setAttendees(Arrays.asList(attendees));
 

@@ -4,7 +4,6 @@ import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValid
 import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +24,4 @@ public class NewCourseScheduleRequest {
             max = CourseValidationSpecifications.MAX_COURSE_DURATION_IN_MINUTES,
             message = CourseValidationMessages.INVALID_COURSE_DURATION_IN_MINUTES)
     private Integer duration;
-
 }

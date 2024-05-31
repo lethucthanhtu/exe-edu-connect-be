@@ -1,6 +1,5 @@
 package com.theeduconnect.exeeduconnectbe.features.user.controllers;
 
-
 import com.theeduconnect.exeeduconnectbe.constants.user.UserEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import com.theeduconnect.exeeduconnectbe.features.user.payload.request.ChangePasswordRequest;
@@ -53,7 +52,8 @@ public class UserController {
 
     @GetMapping(UserEndpoints.GET_USER_BY_JWT)
     @Operation(summary = "Get a user by JWT.")
-    public ResponseEntity<UserServiceResponse> getUserById(@RequestHeader("Authorization") String rawJwtToken) {
+    public ResponseEntity<UserServiceResponse> getUserById(
+            @RequestHeader("Authorization") String rawJwtToken) {
         int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.getUserById(userId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
@@ -62,7 +62,8 @@ public class UserController {
     @PutMapping(UserEndpoints.UPDATE_USER)
     @Operation(summary = "Update a user by Id.")
     public ResponseEntity<UserServiceResponse> updateUser(
-            @RequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody NewUserRequest request) {
+            @RequestHeader("Authorization") String rawJwtToken,
+            @Valid @RequestBody NewUserRequest request) {
         int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.updateUser(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
@@ -78,7 +79,8 @@ public class UserController {
     @PostMapping(UserEndpoints.CHANGE_PASSWORD)
     @Operation(summary = "Change password")
     public ResponseEntity<UserServiceResponse> changePassword(
-            @RequestHeader("Authorization") String rawJwtToken, @Valid @RequestBody ChangePasswordRequest request) {
+            @RequestHeader("Authorization") String rawJwtToken,
+            @Valid @RequestBody ChangePasswordRequest request) {
         // You may want to add additional security checks here
         int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.changePassword(userId, request);
