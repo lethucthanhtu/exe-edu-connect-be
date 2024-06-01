@@ -62,9 +62,8 @@ public class UserController {
     @PutMapping(UserEndpoints.UPDATE_USER)
     @Operation(summary = "Update a user by Id.")
     public ResponseEntity<UserServiceResponse> updateUser(
-            @RequestHeader("Authorization") String rawJwtToken,
+            @PathVariable int userId,
             @Valid @RequestBody NewUserRequest request) {
-        int userId = jwtService.extractUserId(rawJwtToken);
         UserServiceResponse response = userService.updateUser(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

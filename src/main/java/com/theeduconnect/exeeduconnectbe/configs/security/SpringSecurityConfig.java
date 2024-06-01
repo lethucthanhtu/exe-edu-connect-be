@@ -112,7 +112,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers("api/users/**")
                                         .permitAll()
                                         //
-                                        .requestMatchers("/**")
+                                        .requestMatchers("/api/student-evaluations/**")
                                         .permitAll()
                                         .requestMatchers("/api/firebase/upload")
                                         .permitAll()
