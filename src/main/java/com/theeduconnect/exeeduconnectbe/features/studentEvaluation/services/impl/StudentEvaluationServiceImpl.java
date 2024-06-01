@@ -1,46 +1,76 @@
 package com.theeduconnect.exeeduconnectbe.features.studentEvaluation.services.impl;
 
+import com.theeduconnect.exeeduconnectbe.constants.studentEvaluation.StudentEvaluationMessages;
 import com.theeduconnect.exeeduconnectbe.domain.CourseSchedule;
 import com.theeduconnect.exeeduconnectbe.domain.StudentEvaluation;
+import com.theeduconnect.exeeduconnectbe.domain.User;
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.dtos.StudentEvaluationDto;
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.payload.request.StudentEvaluationRequest;
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.payload.response.StudentEvaluationResponse;
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.services.StudentEvaluationService;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.StudentEvaluationRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 public class StudentEvaluationServiceImpl implements StudentEvaluationService {
 
-    @Autowired
-    private StudentEvaluationRepository studentEvaluationRepository;
+    @Autowired private StudentEvaluationRepository studentEvaluationRepository;
 
-    @Autowired
-    private CourseScheduleRepository courseScheduleRepository;
+    @Autowired private UserRepository userRepository;
+
+    @Autowired private CourseScheduleRepository courseScheduleRepository;
 
     @Override
     public StudentEvaluationResponse getAllEvaluations() {
         List<StudentEvaluation> evaluations = studentEvaluationRepository.findAll();
-        List<StudentEvaluationDto> dtos = evaluations.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-        return new StudentEvaluationResponse(HttpStatus.OK.value(), "All evaluations found", dtos);
+        List<StudentEvaluationDto> dtos =
+                evaluations.stream().map(this::convertToDto).collect(Collectors.toList());
+        return new StudentEvaluationResponse(
+                HttpStatus.OK.value(), StudentEvaluationMessages.ALL_EVALUATION_FOUND, dtos);
+    }
+
+    @Override
+    public StudentEvaluationResponse getAllEvaluationsByStudentId(int studentId) {
+        Optional<User> userOptional = userRepository.findById(studentId);
+        if (userOptional.isPresent()) {
+            List<StudentEvaluation> evaluations =
+                    studentEvaluationRepository.findByCourseschedule_Student_Id(studentId);
+            List<StudentEvaluationDto> dtos =
+                    evaluations.stream().map(this::convertToDto).collect(Collectors.toList());
+            return new StudentEvaluationResponse(
+                    HttpStatus.OK.value(),
+                    StudentEvaluationMessages.ALL_EVALUATION_FOR_A_STUDENT + studentId,
+                    dtos);
+        } else {
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.STUDENT_WITH_ID
+                            + studentId
+                            + StudentEvaluationMessages.NOT_FOUND,
+                    null);
+        }
     }
 
     @Override
     public StudentEvaluationResponse getEvaluationById(int id) {
         Optional<StudentEvaluation> evaluation = studentEvaluationRepository.findById(id);
         if (evaluation.isPresent()) {
-            return new StudentEvaluationResponse(HttpStatus.OK.value(), "Evaluation found", convertToDto(evaluation.get()));
+            return new StudentEvaluationResponse(
+                    HttpStatus.OK.value(),
+                    StudentEvaluationMessages.EVALUATION_FOUND,
+                    convertToDto(evaluation.get()));
         } else {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), "Evaluation not found", null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.EVALUATION_NOT_FOUND,
+                    null);
         }
     }
 
@@ -50,15 +80,32 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
         evaluation.setIspresent(request.getIsPresent());
         evaluation.setComment(request.getComment());
 
-        Optional<CourseSchedule> courseSchedule = courseScheduleRepository.findById(request.getCourseScheduleId());
-        if (courseSchedule.isPresent()) {
-            evaluation.setCourseschedule(courseSchedule.get());
+        boolean exists =
+                studentEvaluationRepository.existsByCourseschedule_Id(
+                        request.getCourseScheduleId());
+        Optional<CourseSchedule> courseSchedule =
+                courseScheduleRepository.findById(request.getCourseScheduleId());
+        if (exists) {
+            return new StudentEvaluationResponse(
+                    HttpStatus.BAD_REQUEST.value(),
+                    StudentEvaluationMessages.STUDENT_IS_EVALUATED,
+                    null);
         } else {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), "Course schedule not found", null);
+            if (courseSchedule.isPresent()) {
+                evaluation.setCourseschedule(courseSchedule.get());
+            } else {
+                return new StudentEvaluationResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        StudentEvaluationMessages.COURSE_SCHEDULE_NOT_FOUND,
+                        null);
+            }
         }
 
         studentEvaluationRepository.save(evaluation);
-        return new StudentEvaluationResponse(HttpStatus.CREATED.value(), "Evaluation created", convertToDto(evaluation));
+        return new StudentEvaluationResponse(
+                HttpStatus.CREATED.value(),
+                StudentEvaluationMessages.EVALUATION_CREATED,
+                convertToDto(evaluation));
     }
 
     @Override
@@ -69,17 +116,27 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
             evaluation.setIspresent(request.getIsPresent());
             evaluation.setComment(request.getComment());
 
-            Optional<CourseSchedule> courseSchedule = courseScheduleRepository.findById(request.getCourseScheduleId());
+            Optional<CourseSchedule> courseSchedule =
+                    courseScheduleRepository.findById(request.getCourseScheduleId());
             if (courseSchedule.isPresent()) {
                 evaluation.setCourseschedule(courseSchedule.get());
             } else {
-                return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), "Course schedule not found", null);
+                return new StudentEvaluationResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        StudentEvaluationMessages.COURSE_SCHEDULE_NOT_FOUND,
+                        null);
             }
 
             studentEvaluationRepository.save(evaluation);
-            return new StudentEvaluationResponse(HttpStatus.OK.value(), "Evaluation updated", convertToDto(evaluation));
+            return new StudentEvaluationResponse(
+                    HttpStatus.OK.value(),
+                    StudentEvaluationMessages.EVALUATION_UPDATED,
+                    convertToDto(evaluation));
         } else {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), "Evaluation not found", null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.EVALUATION_NOT_FOUND,
+                    null);
         }
     }
 
@@ -88,9 +145,13 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
         Optional<StudentEvaluation> evaluation = studentEvaluationRepository.findById(id);
         if (evaluation.isPresent()) {
             studentEvaluationRepository.delete(evaluation.get());
-            return new StudentEvaluationResponse(HttpStatus.OK.value(), "Evaluation deleted", null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.OK.value(), StudentEvaluationMessages.EVALUATION_DELETED, null);
         } else {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), "Evaluation not found", null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.EVALUATION_NOT_FOUND,
+                    null);
         }
     }
 
@@ -103,4 +164,3 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
         return dto;
     }
 }
-

@@ -11,5 +11,4 @@ public class StudentEvaluationResponse {
     private int statusCode;
     private String message;
     private Object returnData;
-
 }

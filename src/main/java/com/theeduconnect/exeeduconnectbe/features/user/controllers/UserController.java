@@ -62,8 +62,7 @@ public class UserController {
     @PutMapping(UserEndpoints.UPDATE_USER)
     @Operation(summary = "Update a user by Id.")
     public ResponseEntity<UserServiceResponse> updateUser(
-            @PathVariable int userId,
-            @Valid @RequestBody NewUserRequest request) {
+            @PathVariable int userId, @Valid @RequestBody NewUserRequest request) {
         UserServiceResponse response = userService.updateUser(userId, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
