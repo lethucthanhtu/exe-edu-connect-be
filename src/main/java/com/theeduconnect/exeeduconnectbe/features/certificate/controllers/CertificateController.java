@@ -28,7 +28,7 @@ public class CertificateController {
     @Operation(summary = "Allows a teacher to upload his/her certificates.")
     public ResponseEntity<CertificateServiceResponse> UploadCertificates(
             @RequestHeader("Authorization") String rawJwtToken,
-            @Valid @RequestBody CertificateListRequest request) {
+            @Valid @ModelAttribute("request") CertificateListRequest request) {
         int teacherId = jwtService.extractUserId(rawJwtToken);
         request.setTeacherId(teacherId);
         CertificateServiceResponse response = certificateService.upload(request);

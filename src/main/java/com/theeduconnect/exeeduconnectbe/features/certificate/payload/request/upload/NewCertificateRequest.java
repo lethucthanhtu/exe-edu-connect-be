@@ -4,10 +4,11 @@ import com.theeduconnect.exeeduconnectbe.constants.certificate.validation.Certif
 import com.theeduconnect.exeeduconnectbe.constants.certificate.validation.CertificateValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -22,13 +23,5 @@ public class NewCertificateRequest {
             message = CertificateValidationMessages.INVALID_CERTIFICATE_NAME)
     private String name;
 
-    @Schema(
-            name = "url",
-            example = "https://firebase.com/abcxyz",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(
-            regexp = CertificateValidationSpecifications.FIREBASE_URL_REGEX,
-            message = CertificateValidationMessages.INVALID_CERTIFICATE_URL)
-    @Column(name = "url", length = Integer.MAX_VALUE)
-    private String url;
+    @NotNull(message = CertificateValidationMessages.INVALID_CERTIFICATE_FILE) private MultipartFile file;
 }
