@@ -1,15 +1,22 @@
 package com.theeduconnect.exeeduconnectbe.constants.authentication;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class AuthenticationEndpoints {
-    private static final String OAUTH2_GOOGLE_LOGIN_URL = "/login";
+    @Value("${educonnect.fe.url}")
+    private static String eduConnectFEUrl;
+
+    private static final String BASE_URL = "/api/auth";
+    private static final String OAUTH2_GOOGLE_AUTH_SERVER_URL = "/login";
     private static final String OAUTH2_ALL_URL = "/oauth/**";
     private static final String ANY_URL = "/";
-    public static final String BASE_URL = "/api/auth";
     public static final String LOGIN_URL = BASE_URL + "/login";
     public static final String REGISTER_URL = BASE_URL + "/register";
     public static final String ROLES_URL = BASE_URL + "/roles";
-    public static final String EDU_CONNECT_GOOGLE_LOGIN_URL = BASE_URL + "/google/login";
-
+    public static final String GOOGLE_LOGIN_URL = BASE_URL + "/login/google/{roleId}";
+    public static final String GOOGLE_LOGIN_REDIRECT_URL = "/oauth2/authorization/google";
     public static final String LOGOUT_URL = BASE_URL + "/logout";
 
     public static final String[] ALLOWED_REQUEST_MATCHER_ENDPOINTS =
@@ -17,10 +24,10 @@ public class AuthenticationEndpoints {
                 LOGIN_URL,
                 REGISTER_URL,
                 ROLES_URL,
-                EDU_CONNECT_GOOGLE_LOGIN_URL,
+                GOOGLE_LOGIN_URL,
                 LOGOUT_URL,
                 ANY_URL,
                 OAUTH2_ALL_URL,
-                OAUTH2_GOOGLE_LOGIN_URL
+                OAUTH2_GOOGLE_AUTH_SERVER_URL
             };
 }
