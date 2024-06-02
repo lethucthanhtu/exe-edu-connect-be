@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.loginGG.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import java.net.URI;
 import org.apache.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GoogleLoginController {
     @GetMapping(AuthenticationEndpoints.GOOGLE_LOGIN_URL)
+    @Operation(summary = "Registers a new account (student/teacher) using an existing Google Account. The role Id must be provided.")
     public ResponseEntity<Void> getRoleId(HttpSession session, @PathVariable int roleId) {
         session.setAttribute("roleId", roleId);
         HttpHeaders headers = new HttpHeaders();
