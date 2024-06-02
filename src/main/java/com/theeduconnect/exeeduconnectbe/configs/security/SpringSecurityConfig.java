@@ -12,6 +12,8 @@ import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.LoadOAuth2UserServiceImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.RegisterOAuth2UserServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -126,12 +128,11 @@ public class SpringSecurityConfig {
                                                     loadOAuth2UserServiceImpl));
                             oauth2Login.successHandler(
                                     (request, response, authentication) -> {
+                                        int roleId = getRoleIdFromLoginUrl(request);
                                         OAuth2User oauthUser =
                                                 (OAuth2User) authentication.getPrincipal();
-
                                         registerOAuth2UserServiceImpl.processOAuthPostLogin(
-                                                oauthUser);
-
+                                                oauthUser, roleId);
                                         response.sendRedirect(eduConnectFEUrl);
                                     });
                             oauth2Login.failureHandler(
@@ -150,5 +151,10 @@ public class SpringSecurityConfig {
                         jwtAuthenticationFilterImpl, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    private Integer getRoleIdFromLoginUrl(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return (Integer) session.getAttribute("roleId");
     }
 }

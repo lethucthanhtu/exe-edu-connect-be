@@ -18,7 +18,7 @@ public class RegisterOAuth2UserServiceImpl {
         this.roleRepository = roleRepository;
     }
 
-    public void processOAuthPostLogin(OAuth2User user) {
+    public void processOAuthPostLogin(OAuth2User user, int roleId) {
         String email = user.getEmail();
         String fullName = user.getName();
         String avatarUrl = user.getAvatarUrl();
@@ -30,9 +30,7 @@ public class RegisterOAuth2UserServiceImpl {
             newUser.setFullname(fullName);
             newUser.setProvider(ProviderEnum.GOOGLE);
             newUser.setAvatarurl(avatarUrl);
-            /*TODO: Role Parameter is NOT YET AVAILABLE for Google Login!!!
-             *  This is just a failsafe method.*/
-            newUser.setRole(roleRepository.findById(1).get());
+            newUser.setRole(roleRepository.findById(roleId).get());
             repo.save(newUser);
         }
     }
