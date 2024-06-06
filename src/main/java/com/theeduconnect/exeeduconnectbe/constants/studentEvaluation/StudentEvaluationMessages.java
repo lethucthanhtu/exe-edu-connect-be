@@ -3,9 +3,13 @@ package com.theeduconnect.exeeduconnectbe.constants.studentEvaluation;
 public class StudentEvaluationMessages {
     public static final String ALL_EVALUATION_FOUND = "All evaluations found";
 
-    public static final String ALL_EVALUATION_FOR_A_STUDENT =
-            "All evaluations found for student with id ";
+    public static final String ALL_EVALUATION_FOR_A_STUDENT = "All evaluations found for student with id ";
+    public static final String AND_COURSE_WITH_ID = " and course with id ";
+    public static final String IN_COURSE_WITH_ID = " in course with id ";
+
+
     public static final String STUDENT_WITH_ID = "Student with id ";
+    public static final String COURSE_WITH_ID = "Course with id ";
     public static final String NOT_FOUND = " not found";
 
     public static final String EVALUATION_FOUND = "Evaluation found";
