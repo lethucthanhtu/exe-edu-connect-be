@@ -8,6 +8,8 @@ public interface StudentEvaluationService {
 
     StudentEvaluationResponse getAllEvaluationsByStudentId(int studentId);
 
+    StudentEvaluationResponse getEvaluationsByStudentIdAndCourseId(int studentId, int courseId);
+
     StudentEvaluationResponse getEvaluationById(int id);
 
     StudentEvaluationResponse createEvaluation(StudentEvaluationRequest request);
