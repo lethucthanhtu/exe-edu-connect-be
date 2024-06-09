@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GoogleLoginController {
-    @GetMapping(AuthenticationEndpoints.GOOGLE_LOGIN_URL)
-    @Operation(summary = "Registers a new account (student/teacher) using an existing Google Account. The role Id must be provided.")
-    public ResponseEntity<Void> getRoleId(HttpSession session, @PathVariable int roleId) {
+    @GetMapping(AuthenticationEndpoints.GOOGLE_REGISTER_URL)
+    @Operation(summary = "Registers a new user (student/teacher) using a Google Account. The role Id must be provided.")
+    public ResponseEntity<Void> Register(HttpSession session, @PathVariable int roleId) {
         session.setAttribute("roleId", roleId);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(AuthenticationEndpoints.GOOGLE_LOGIN_REDIRECT_URL));
+        headers.setLocation(URI.create(AuthenticationEndpoints.GOOGLE_REDIRECT_URL));
+        return new ResponseEntity<>(
+                headers, HttpStatusCode.valueOf(HttpStatus.SC_MOVED_PERMANENTLY));
+    }
+    @GetMapping(AuthenticationEndpoints.GOOGLE_LOGIN_URL)
+    @Operation(summary = "Logs an existing user in (student/teacher) using a Google Account.")
+    public ResponseEntity<Void> Login() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(AuthenticationEndpoints.GOOGLE_REDIRECT_URL));
         return new ResponseEntity<>(
                 headers, HttpStatusCode.valueOf(HttpStatus.SC_MOVED_PERMANENTLY));
     }
