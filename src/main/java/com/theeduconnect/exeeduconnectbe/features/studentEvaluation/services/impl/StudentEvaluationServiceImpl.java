@@ -9,7 +9,6 @@ import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.payload.requ
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.payload.response.StudentEvaluationResponse;
 import com.theeduconnect.exeeduconnectbe.features.studentEvaluation.services.StudentEvaluationService;
 import com.theeduconnect.exeeduconnectbe.repositories.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -158,22 +157,42 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
         }
     }
 
-    public StudentEvaluationResponse getEvaluationsByStudentIdAndCourseId(int studentId, int courseId) {
+    public StudentEvaluationResponse getEvaluationsByStudentIdAndCourseId(
+            int studentId, int courseId) {
         boolean studentExists = studentRepository.existsById(studentId);
         if (!studentExists) {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), StudentEvaluationMessages.STUDENT_WITH_ID + studentId + StudentEvaluationMessages.NOT_FOUND + StudentEvaluationMessages.IN_COURSE_WITH_ID + courseId, null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.STUDENT_WITH_ID
+                            + studentId
+                            + StudentEvaluationMessages.NOT_FOUND
+                            + StudentEvaluationMessages.IN_COURSE_WITH_ID
+                            + courseId,
+                    null);
         }
         boolean courseExists = courseRepository.existsById(courseId);
         if (!courseExists) {
-            return new StudentEvaluationResponse(HttpStatus.NOT_FOUND.value(), StudentEvaluationMessages.COURSE_WITH_ID + courseId + StudentEvaluationMessages.NOT_FOUND, null);
+            return new StudentEvaluationResponse(
+                    HttpStatus.NOT_FOUND.value(),
+                    StudentEvaluationMessages.COURSE_WITH_ID
+                            + courseId
+                            + StudentEvaluationMessages.NOT_FOUND,
+                    null);
         }
-        List<StudentEvaluation> evaluations = studentEvaluationRepository.findByCourseschedule_Student_IdAndCourseschedule_Course_Id(studentId, courseId);
-        List<StudentEvaluationDto> dtos = evaluations.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-        return new StudentEvaluationResponse(HttpStatus.OK.value(), StudentEvaluationMessages.ALL_EVALUATION_FOR_A_STUDENT + studentId + StudentEvaluationMessages.AND_COURSE_WITH_ID + courseId, dtos);
+        List<StudentEvaluation> evaluations =
+                studentEvaluationRepository
+                        .findByCourseschedule_Student_IdAndCourseschedule_Course_Id(
+                                studentId, courseId);
+        List<StudentEvaluationDto> dtos =
+                evaluations.stream().map(this::convertToDto).collect(Collectors.toList());
+        return new StudentEvaluationResponse(
+                HttpStatus.OK.value(),
+                StudentEvaluationMessages.ALL_EVALUATION_FOR_A_STUDENT
+                        + studentId
+                        + StudentEvaluationMessages.AND_COURSE_WITH_ID
+                        + courseId,
+                dtos);
     }
-
 
     private StudentEvaluationDto convertToDto(StudentEvaluation evaluation) {
         StudentEvaluationDto dto = new StudentEvaluationDto();

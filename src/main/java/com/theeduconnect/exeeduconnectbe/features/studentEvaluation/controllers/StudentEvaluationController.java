@@ -40,8 +40,10 @@ public class StudentEvaluationController {
 
     @GetMapping(StudentEvaluationEndpoints.GET_ALL_EVALUATION_BY_STUDENTID_AND_COURSEID)
     @Operation(summary = "Get all evaluations of a course by studentId & courseId")
-    public ResponseEntity<StudentEvaluationResponse> getEvaluationsByStudentIdAndCourseId(@PathVariable int studentId, @PathVariable int courseId) {
-        StudentEvaluationResponse response = studentEvaluationService.getEvaluationsByStudentIdAndCourseId(studentId, courseId);
+    public ResponseEntity<StudentEvaluationResponse> getEvaluationsByStudentIdAndCourseId(
+            @PathVariable int studentId, @PathVariable int courseId) {
+        StudentEvaluationResponse response =
+                studentEvaluationService.getEvaluationsByStudentIdAndCourseId(studentId, courseId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 

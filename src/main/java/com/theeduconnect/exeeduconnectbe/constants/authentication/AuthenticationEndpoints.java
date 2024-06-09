@@ -25,6 +25,7 @@ public class AuthenticationEndpoints {
                 LOGIN_URL,
                 REGISTER_URL,
                 GOOGLE_REGISTER_URL,
+                GOOGLE_REDIRECT_URL,
                 ROLES_URL,
                 GOOGLE_LOGIN_URL,
                 LOGOUT_URL,
