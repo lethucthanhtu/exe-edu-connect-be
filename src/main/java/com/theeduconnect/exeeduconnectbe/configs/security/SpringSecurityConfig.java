@@ -118,6 +118,11 @@ public class SpringSecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/api/firebase/upload")
                                         .permitAll()
+                                        //
+                                        .requestMatchers("/api/course-schedules/**")
+                                        .permitAll()
+                                        .requestMatchers("/api/course-schedules")
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
