@@ -121,7 +121,8 @@ public class SpringSecurityConfig {
                                         //
                                         .requestMatchers("/api/course-schedules/**")
                                         .permitAll()
-                                        .requestMatchers("/api/course-schedules")
+                                        //
+                                        .requestMatchers("/api/transactions/**")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())
