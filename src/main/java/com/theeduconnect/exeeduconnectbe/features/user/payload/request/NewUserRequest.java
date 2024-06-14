@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewUserRequest {
-    @Schema(name = "username", example = "john_doe")
+    @Schema(name = "username", example = "johndoe")
     @NotBlank(message = "Username is required")
     private String username;
 
