@@ -29,11 +29,12 @@ public class CourseController {
     @GetMapping(CourseEndpoints.GET_ALL_BY)
     @Operation(summary = "Gets a list of Course, with additional parameters.")
     public ResponseEntity<CourseServiceResponse> GetCoursesWithPagination(
+            @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
         GetAllCoursesByRequest getAllCoursesByRequest =
-                new GetAllCoursesByRequest(category, page, size);
+                new GetAllCoursesByRequest(name, category, page, size);
         CourseServiceResponse response = courseService.getAllByRequest(getAllCoursesByRequest);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

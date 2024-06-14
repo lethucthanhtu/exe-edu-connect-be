@@ -15,6 +15,8 @@ import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
 import com.theeduconnect.exeeduconnectbe.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,14 +70,18 @@ public class GetAllCoursesByRequestServiceImpl {
     }
 
     private void FindAllCoursesByRequest() {
-        if (IsCategoryNameValid()) {
-            FindByCategoryName();
-            return;
+        if (IsCourseCategoryNameValid() && IsCourseNameValid()) {
+            FindByCourseCategoryNameAndCourseName();
+        } else if (IsCourseCategoryNameValid()) {
+            FindByCourseCategoryName();
+        } else if (IsCourseNameValid()) {
+            FindByCourseName();
+        } else {
+            courses = courseRepository.findAll(pageable);
         }
-        courses = courseRepository.findAll(pageable);
     }
 
-    private boolean IsCategoryNameValid() {
+    private boolean IsCourseCategoryNameValid() {
         String categoryName = getAllCoursesByRequest.getCategoryname();
         if (StringUtils.isEmpty(categoryName) || categoryName.equals("null")) {
             return false;
@@ -83,12 +89,43 @@ public class GetAllCoursesByRequestServiceImpl {
         return true;
     }
 
-    private void FindByCategoryName() {
+    private boolean IsCourseNameValid() {
+        String courseName = getAllCoursesByRequest.getCoursename();
+        if (StringUtils.isEmpty(courseName) || courseName.equals("null")) {
+            return false;
+        }
+        return true;
+    }
+
+    private void FindByCourseCategoryNameAndCourseName() {
+        CourseCategory courseCategory =
+                courseCategoryRepository.findByCategoryname(
+                        getAllCoursesByRequest.getCategoryname());
+        if (courseCategory == null) return;
+        String normalizedCourseName = getAllCoursesByRequest.getCoursename().toLowerCase();
+        Set<Course> coursesByCourseNameAndCourseCategoryName =
+                courseCategory.getCourses().stream()
+                        .filter(
+                                course ->
+                                        course.getName()
+                                                .toLowerCase()
+                                                .contains(normalizedCourseName))
+                        .collect(Collectors.toSet());
+        courses = ListUtils.SetToPaginatedList(coursesByCourseNameAndCourseCategoryName, pageable);
+    }
+
+    private void FindByCourseCategoryName() {
         CourseCategory courseCategory =
                 courseCategoryRepository.findByCategoryname(
                         getAllCoursesByRequest.getCategoryname());
         if (courseCategory == null) return;
         courses = ListUtils.SetToPaginatedList(courseCategory.getCourses(), pageable);
+    }
+
+    private void FindByCourseName() {
+        courses =
+                courseRepository.findByNameContains(
+                        getAllCoursesByRequest.getCoursename(), pageable);
     }
 
     private boolean AreCoursesAvailable() {

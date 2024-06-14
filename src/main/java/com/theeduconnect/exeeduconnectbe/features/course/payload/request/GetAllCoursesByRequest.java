@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GetAllCoursesByRequest {
+    private String coursename;
     private String categoryname;
     private int page;
     private int size;
