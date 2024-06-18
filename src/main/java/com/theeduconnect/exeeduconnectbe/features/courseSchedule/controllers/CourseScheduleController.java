@@ -38,14 +38,16 @@ public class CourseScheduleController {
 
     @PostMapping
     @Operation(summary = "Create a new course schedule")
-    public ResponseEntity<CourseScheduleResponse> createSchedule(@Valid @RequestBody CourseScheduleRequest request) {
+    public ResponseEntity<CourseScheduleResponse> createSchedule(
+            @Valid @RequestBody CourseScheduleRequest request) {
         CourseScheduleResponse response = courseScheduleService.createCourseSchedule(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
     @PutMapping(CourseScheduleEndpoints.UPDATE_SCHEDULE_BY_ID)
     @Operation(summary = "Update course schedule by id")
-    public ResponseEntity<CourseScheduleResponse> updateSchedule(@PathVariable int id, @Valid @RequestBody CourseScheduleRequest request) {
+    public ResponseEntity<CourseScheduleResponse> updateSchedule(
+            @PathVariable int id, @Valid @RequestBody CourseScheduleRequest request) {
         CourseScheduleResponse response = courseScheduleService.updateCourseSchedule(id, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
@@ -59,15 +61,19 @@ public class CourseScheduleController {
 
     @GetMapping(CourseScheduleEndpoints.GET_ALL_SCHEDULES_BY_STUDENT_ID)
     @Operation(summary = "Get all course schedules by student ID")
-    public ResponseEntity<CourseScheduleResponse> getAllSchedulesByStudentId(@PathVariable int studentId) {
-        CourseScheduleResponse response = courseScheduleService.getAllSchedulesByStudentId(studentId);
+    public ResponseEntity<CourseScheduleResponse> getAllSchedulesByStudentId(
+            @PathVariable int studentId) {
+        CourseScheduleResponse response =
+                courseScheduleService.getAllSchedulesByStudentId(studentId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
     @GetMapping(CourseScheduleEndpoints.GET_ALL_SCHEDULES_BY_STUDENT_ID_AND_COURSE_ID)
     @Operation(summary = "Get all course schedules by student ID and course ID")
-    public ResponseEntity<CourseScheduleResponse> getAllSchedulesByStudentIdAndCourseId(@PathVariable int studentId, @PathVariable int courseId) {
-        CourseScheduleResponse response = courseScheduleService.getAllSchedulesByStudentIdAndCourseId(studentId, courseId);
+    public ResponseEntity<CourseScheduleResponse> getAllSchedulesByStudentIdAndCourseId(
+            @PathVariable int studentId, @PathVariable int courseId) {
+        CourseScheduleResponse response =
+                courseScheduleService.getAllSchedulesByStudentIdAndCourseId(studentId, courseId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

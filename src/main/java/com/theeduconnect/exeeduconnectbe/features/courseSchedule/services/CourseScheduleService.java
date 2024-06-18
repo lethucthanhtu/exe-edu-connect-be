@@ -13,6 +13,8 @@ public interface CourseScheduleService {
     CourseScheduleResponse updateCourseSchedule(int id, CourseScheduleRequest request);
 
     CourseScheduleResponse deleteCourseSchedule(int id);
+
     CourseScheduleResponse getAllSchedulesByStudentId(int studentId);
+
     CourseScheduleResponse getAllSchedulesByStudentIdAndCourseId(int studentId, int courseId);
 }

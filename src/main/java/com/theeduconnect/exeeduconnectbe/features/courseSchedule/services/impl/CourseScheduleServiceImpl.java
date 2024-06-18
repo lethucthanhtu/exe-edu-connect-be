@@ -11,40 +11,42 @@ import com.theeduconnect.exeeduconnectbe.features.courseSchedule.services.Course
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.StudentRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 public class CourseScheduleServiceImpl implements CourseScheduleService {
 
-    @Autowired
-    private CourseScheduleRepository courseScheduleRepository;
+    @Autowired private CourseScheduleRepository courseScheduleRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
+    @Autowired private CourseRepository courseRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    @Autowired private StudentRepository studentRepository;
 
     @Override
     public CourseScheduleResponse getAllCourseSchedules() {
         List<CourseSchedule> schedules = courseScheduleRepository.findAll();
-        List<CourseScheduleDto> dtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
-        return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
+        List<CourseScheduleDto> dtos =
+                schedules.stream().map(this::convertToDto).collect(Collectors.toList());
+        return new CourseScheduleResponse(
+                HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
     }
 
     @Override
     public CourseScheduleResponse getCourseScheduleById(int id) {
         Optional<CourseSchedule> schedule = courseScheduleRepository.findById(id);
         if (schedule.isPresent()) {
-            return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.SCHEDULE_FOUND, convertToDto(schedule.get()));
+            return new CourseScheduleResponse(
+                    HttpStatus.OK.value(),
+                    CourseScheduleMessages.SCHEDULE_FOUND,
+                    convertToDto(schedule.get()));
         } else {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
         }
     }
 
@@ -59,18 +61,23 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
         if (course.isPresent()) {
             schedule.setCourse(course.get());
         } else {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
         }
 
         Optional<Student> student = studentRepository.findById(request.getStudentId());
         if (student.isPresent()) {
             schedule.setStudent(student.get());
         } else {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
         }
 
         courseScheduleRepository.save(schedule);
-        return new CourseScheduleResponse(HttpStatus.CREATED.value(), CourseScheduleMessages.SCHEDULE_CREATED, convertToDto(schedule));
+        return new CourseScheduleResponse(
+                HttpStatus.CREATED.value(),
+                CourseScheduleMessages.SCHEDULE_CREATED,
+                convertToDto(schedule));
     }
 
     @Override
@@ -86,20 +93,30 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
             if (course.isPresent()) {
                 schedule.setCourse(course.get());
             } else {
-                return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
+                return new CourseScheduleResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        CourseScheduleMessages.COURSE_NOT_FOUND,
+                        null);
             }
 
             Optional<Student> student = studentRepository.findById(request.getStudentId());
             if (student.isPresent()) {
                 schedule.setStudent(student.get());
             } else {
-                return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
+                return new CourseScheduleResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        CourseScheduleMessages.STUDENT_NOT_FOUND,
+                        null);
             }
 
             courseScheduleRepository.save(schedule);
-            return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.SCHEDULE_UPDATED, convertToDto(schedule));
+            return new CourseScheduleResponse(
+                    HttpStatus.OK.value(),
+                    CourseScheduleMessages.SCHEDULE_UPDATED,
+                    convertToDto(schedule));
         } else {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
         }
     }
 
@@ -108,9 +125,11 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
         Optional<CourseSchedule> schedule = courseScheduleRepository.findById(id);
         if (schedule.isPresent()) {
             courseScheduleRepository.delete(schedule.get());
-            return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.SCHEDULE_DELETED, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.OK.value(), CourseScheduleMessages.SCHEDULE_DELETED, null);
         } else {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.SCHEDULE_NOT_FOUND, null);
         }
     }
 
@@ -118,26 +137,35 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
     public CourseScheduleResponse getAllSchedulesByStudentId(int studentId) {
         boolean studentExists = studentRepository.existsById(studentId);
         if (!studentExists) {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
         }
         List<CourseSchedule> schedules = courseScheduleRepository.findByStudent_Id(studentId);
-        List<CourseScheduleDto> dtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
-        return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
+        List<CourseScheduleDto> dtos =
+                schedules.stream().map(this::convertToDto).collect(Collectors.toList());
+        return new CourseScheduleResponse(
+                HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
     }
 
     @Override
-    public CourseScheduleResponse getAllSchedulesByStudentIdAndCourseId(int studentId, int courseId) {
+    public CourseScheduleResponse getAllSchedulesByStudentIdAndCourseId(
+            int studentId, int courseId) {
         boolean studentExists = studentRepository.existsById(studentId);
         boolean courseExists = courseRepository.existsById(courseId);
         if (!studentExists) {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.STUDENT_NOT_FOUND, null);
         }
         if (!courseExists) {
-            return new CourseScheduleResponse(HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
+            return new CourseScheduleResponse(
+                    HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
         }
-        List<CourseSchedule> schedules = courseScheduleRepository.findByStudent_IdAndCourse_Id(studentId, courseId);
-        List<CourseScheduleDto> dtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
-        return new CourseScheduleResponse(HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
+        List<CourseSchedule> schedules =
+                courseScheduleRepository.findByStudent_IdAndCourse_Id(studentId, courseId);
+        List<CourseScheduleDto> dtos =
+                schedules.stream().map(this::convertToDto).collect(Collectors.toList());
+        return new CourseScheduleResponse(
+                HttpStatus.OK.value(), CourseScheduleMessages.ALL_SCHEDULES_FOUND, dtos);
     }
 
     private CourseScheduleDto convertToDto(CourseSchedule schedule) {

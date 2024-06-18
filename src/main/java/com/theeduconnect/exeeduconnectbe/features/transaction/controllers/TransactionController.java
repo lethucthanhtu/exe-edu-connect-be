@@ -38,14 +38,16 @@ public class TransactionController {
 
     @PostMapping
     @Operation(summary = "Create a new transaction")
-    public ResponseEntity<TransactionResponse> createTransaction(@Valid @RequestBody TransactionRequest request) {
+    public ResponseEntity<TransactionResponse> createTransaction(
+            @Valid @RequestBody TransactionRequest request) {
         TransactionResponse response = transactionService.createTransaction(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
     @PutMapping(TransactionEndpoints.UPDATE)
     @Operation(summary = "Update a transaction by Id")
-    public ResponseEntity<TransactionResponse> updateTransaction(@PathVariable int id, @Valid @RequestBody TransactionRequest request) {
+    public ResponseEntity<TransactionResponse> updateTransaction(
+            @PathVariable int id, @Valid @RequestBody TransactionRequest request) {
         TransactionResponse response = transactionService.updateTransaction(id, request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

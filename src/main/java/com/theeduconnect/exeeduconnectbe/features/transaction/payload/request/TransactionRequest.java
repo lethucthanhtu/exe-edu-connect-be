@@ -2,9 +2,9 @@ package com.theeduconnect.exeeduconnectbe.features.transaction.payload.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,8 +13,7 @@ public class TransactionRequest {
     private Integer courseid;
 
     @Schema(name = "userid", example = "1")
-    @NotNull(message = "userid is required")
-    private Integer userid;
+    @NotNull(message = "userid is required") private Integer userid;
 
     @Schema(name = "price", example = "100.0")
     private Double price;
@@ -23,6 +22,5 @@ public class TransactionRequest {
     private LocalDate datetime;
 
     @Schema(name = "transactioncategoryid", example = "1")
-    @NotNull(message = "transactioncategoryid is required")
-    private Integer transactioncategoryid;
+    @NotNull(message = "transactioncategoryid is required") private Integer transactioncategoryid;
 }

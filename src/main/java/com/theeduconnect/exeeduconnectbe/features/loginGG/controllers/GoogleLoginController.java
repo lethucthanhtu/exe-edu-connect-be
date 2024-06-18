@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.loginGG.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.GoogleAuthenticationMode;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import java.net.URI;
@@ -21,6 +22,7 @@ public class GoogleLoginController {
                             + " must be provided.")
     public ResponseEntity<Void> Register(HttpSession session, @PathVariable int roleId) {
         session.setAttribute("roleId", roleId);
+        session.setAttribute("authMode", GoogleAuthenticationMode.REGISTRATION);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(AuthenticationEndpoints.GOOGLE_REDIRECT_URL));
         return new ResponseEntity<>(
@@ -29,7 +31,8 @@ public class GoogleLoginController {
 
     @GetMapping(AuthenticationEndpoints.GOOGLE_LOGIN_URL)
     @Operation(summary = "Logs an existing user in (student/teacher) using a Google Account.")
-    public ResponseEntity<Void> Login() {
+    public ResponseEntity<Void> Login(HttpSession session) {
+        session.setAttribute("authMode", GoogleAuthenticationMode.LOGIN);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(AuthenticationEndpoints.GOOGLE_REDIRECT_URL));
         return new ResponseEntity<>(

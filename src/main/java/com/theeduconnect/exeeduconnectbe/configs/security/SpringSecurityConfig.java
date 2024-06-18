@@ -2,6 +2,7 @@ package com.theeduconnect.exeeduconnectbe.configs.security;
 
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationRoles;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.GoogleAuthenticationMode;
 import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.course.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryEndpoints;
@@ -134,11 +135,13 @@ public class SpringSecurityConfig {
                                                     loadOAuth2UserServiceImpl));
                             oauth2Login.successHandler(
                                     (request, response, authentication) -> {
-                                        int roleId = getRoleIdFromLoginUrl(request);
-                                        OAuth2User oauthUser =
-                                                (OAuth2User) authentication.getPrincipal();
-                                        registerOAuth2UserServiceImpl.processOAuthPostLogin(
-                                                oauthUser, roleId);
+                                        if (isAuthModeEqualToRegistration(request)) {
+                                            int roleId = getRoleIdFromSession(request);
+                                            OAuth2User oauthUser =
+                                                    (OAuth2User) authentication.getPrincipal();
+                                            registerOAuth2UserServiceImpl.processOAuthPostLogin(
+                                                    oauthUser, roleId);
+                                        }
                                         response.sendRedirect(eduConnectFEUrl);
                                     });
                             oauth2Login.failureHandler(
@@ -159,7 +162,14 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-    private Integer getRoleIdFromLoginUrl(HttpServletRequest request) {
+    private boolean isAuthModeEqualToRegistration(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        int authMode = (Integer) session.getAttribute("authMode");
+        if (authMode == GoogleAuthenticationMode.REGISTRATION) return true;
+        return false;
+    }
+
+    private Integer getRoleIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return (Integer) session.getAttribute("roleId");
     }
