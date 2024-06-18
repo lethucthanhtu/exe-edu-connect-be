@@ -15,6 +15,7 @@ public class CourseDto {
     private String description;
 
     private Double price;
+    private Double rating;
 
     private LocalDate startdate;
 

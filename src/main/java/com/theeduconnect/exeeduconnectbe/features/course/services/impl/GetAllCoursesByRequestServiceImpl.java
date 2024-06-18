@@ -31,16 +31,19 @@ public class GetAllCoursesByRequestServiceImpl {
     private Page<Course> courses;
     private Pageable pageable;
     private GetAllCoursesByRequest getAllCoursesByRequest;
+    private AverageStarsCalculatorServiceImpl averageStarsCalculatorServiceImpl;
 
     public GetAllCoursesByRequestServiceImpl(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
             CourseCategoryRepository courseCategoryRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            AverageStarsCalculatorServiceImpl averageStarsCalculatorServiceImpl) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.courseCategoryRepository = courseCategoryRepository;
         this.userRepository = userRepository;
+        this.averageStarsCalculatorServiceImpl = averageStarsCalculatorServiceImpl;
     }
 
     public CourseServiceResponse Handle(GetAllCoursesByRequest getAllCoursesByRequest) {
@@ -138,6 +141,8 @@ public class GetAllCoursesByRequestServiceImpl {
             CourseDto courseDto = courseMapper.CourseEntityToCourseDto(course);
             courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
             courseDto.setTeachername(GetTeacherNameByTeacherId(course.getTeacher().getId()));
+            courseDto.setRating(
+                    averageStarsCalculatorServiceImpl.GetAverageStarsByCourseId(course));
             courseDtos.add(courseDto);
         }
     }

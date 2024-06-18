@@ -20,6 +20,7 @@ public class CourseServiceImpl implements CourseService {
     private GetAllCoursesByRequestServiceImpl getAllCoursesByRequestServiceImpl;
     private GetCourseByIdServiceImpl getCourseByIdServiceImpl;
     private CreateCourseServiceImpl createCourseServiceImpl;
+    private AverageStarsCalculatorServiceImpl averageStarsCalculatorService;
     private JoinCourseServiceImpl joinCourseServiceImpl;
     private final CourseCategoryRepository courseCategoryRepository;
     private final CourseScheduleRepository courseScheduleRepository;
@@ -74,9 +75,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void InitializeChildServices() {
+        averageStarsCalculatorService =
+                new AverageStarsCalculatorServiceImpl(attendingCourseRepository);
         getAllCoursesByRequestServiceImpl =
                 new GetAllCoursesByRequestServiceImpl(
-                        courseRepository, courseMapper, courseCategoryRepository, userRepository);
+                        courseRepository,
+                        courseMapper,
+                        courseCategoryRepository,
+                        userRepository,
+                        averageStarsCalculatorService);
         createCourseServiceImpl =
                 new CreateCourseServiceImpl(
                         courseRepository,
