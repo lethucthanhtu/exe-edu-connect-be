@@ -127,7 +127,7 @@ public class GetAllCoursesByRequestServiceImpl {
 
     private void FindByCourseName() {
         courses =
-                courseRepository.findByNameContains(
+                courseRepository.findByNameContainsIgnoreCase(
                         getAllCoursesByRequest.getCoursename(), pageable);
     }
 
