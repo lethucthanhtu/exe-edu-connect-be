@@ -9,4 +9,5 @@ public class UserEndpoints {
     public static final String CHANGE_PASSWORD = "/{userId}/change-password";
     public static final String REQUEST_RESET_PASSWORD = "/request-reset-password";
     public static final String RESET_PASSWORD = "/reset-password";
+    public static final String ALL_FEATURE_USER = "api/users/**";
 }

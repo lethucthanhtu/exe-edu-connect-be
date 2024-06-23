@@ -8,4 +8,5 @@ public class StudentEvaluationEndpoints {
     public static final String GET_EVALUATION_BY_ID = "/{id}";
     public static final String UPDATE_EVALUATION_BY_ID = "/{id}";
     public static final String DELETE_EVALUATION_BY_ID = "/{id}";
+    public static final String ALL_STUDENT_EVALUATION_FEATURE = "/api/student-evaluations/**";
 }

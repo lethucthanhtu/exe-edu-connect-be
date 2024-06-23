@@ -8,4 +8,6 @@ public class CourseScheduleEndpoints {
     public static final String GET_ALL_SCHEDULES_BY_STUDENT_ID = "/student/{studentId}";
     public static final String GET_ALL_SCHEDULES_BY_STUDENT_ID_AND_COURSE_ID =
             "/student/{studentId}/course/{courseId}";
+
+    public static final String ALL_COURSE_SCHEDULE_FEATURE = "/api/course-schedules/**";
 }
