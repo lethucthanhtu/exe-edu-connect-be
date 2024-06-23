@@ -81,6 +81,7 @@ public class User implements UserDetails {
     private Teacher teacher;
 
     @OneToMany(mappedBy = "userid")
+    @JsonBackReference
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
     @Override

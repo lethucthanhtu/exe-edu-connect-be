@@ -167,6 +167,27 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    @Override
+    public TransactionResponse getTransactionsByUserId(int userid) {
+        // Check if user exists
+        Optional<User> userOptional = userRepository.findById(userid);
+        if (!userOptional.isPresent()) {
+            return new TransactionResponse(
+                    HttpStatus.NOT_FOUND.value(), TransactionMessages.USER_NOT_FOUND, null);
+        }
+
+        List<Transaction> transactions = transactionRepository.findByUserid_Id(userid);
+        if (!transactions.isEmpty()) {
+            List<TransactionDto> dtos =
+                    transactions.stream().map(this::convertToDto).collect(Collectors.toList());
+            return new TransactionResponse(
+                    HttpStatus.OK.value(), TransactionMessages.TRANSACTION_FOUND, dtos);
+        } else {
+            return new TransactionResponse(
+                    HttpStatus.NOT_FOUND.value(), TransactionMessages.TRANSACTION_NOT_FOUND, null);
+        }
+    }
+
     private TransactionDto convertToDto(Transaction transaction) {
         TransactionDto dto = new TransactionDto();
         dto.setId(transaction.getId());
