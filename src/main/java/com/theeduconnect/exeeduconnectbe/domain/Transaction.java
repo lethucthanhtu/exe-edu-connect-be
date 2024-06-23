@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class Transaction {
 
     @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userid", nullable = false)
+    @JsonManagedReference
     private User userid;
 
     @Column(name = "price")

@@ -58,4 +58,11 @@ public class TransactionController {
         TransactionResponse response = transactionService.deleteTransaction(id);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
+
+    @GetMapping(TransactionEndpoints.GET_BY_USERID)
+    @Operation(summary = "Get all user's transactions by userId")
+    public ResponseEntity<TransactionResponse> getTransactionsByUserId(@PathVariable int userid) {
+        TransactionResponse response = transactionService.getTransactionsByUserId(userid);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
 }
