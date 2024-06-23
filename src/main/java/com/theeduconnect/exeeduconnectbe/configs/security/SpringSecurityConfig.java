@@ -6,9 +6,14 @@ import com.theeduconnect.exeeduconnectbe.constants.authentication.GoogleAuthenti
 import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.course.CourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategoryEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.courseSchedule.CourseScheduleEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.mail.MailEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.studentEvaluation.StudentEvaluationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.transaction.TransactionEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.user.UserEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.LoadOAuth2UserServiceImpl;
@@ -103,28 +108,24 @@ public class SpringSecurityConfig {
                                                 CertificateEndpoints.UPLOAD_CERTIFICATES_URL)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
                                         //                                        comment users
-                                        .requestMatchers("/api/users")
+
+                                        .requestMatchers(UserEndpoints.GET_ALL_USER)
+                                        .hasAnyAuthority(AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN)
+                                        .requestMatchers(MailEndpoints.SEND_MAIL)
                                         .permitAll()
-                                        .requestMatchers("/api/users/{userId}")
-                                        .permitAll()
-                                        .requestMatchers("api/users/{userId}/change-password")
-                                        .permitAll()
-                                        //                                        Send mail
-                                        .requestMatchers("api/sendmail")
-                                        .permitAll()
-                                        .requestMatchers("api/users/**")
-                                        .permitAll()
+                                        .requestMatchers(UserEndpoints.ALL_FEATURE_USER)
+                                        .hasAnyAuthority(AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN, AuthenticationRoles.TEACHER , AuthenticationRoles.STUDENT)
                                         //
-                                        .requestMatchers("/api/student-evaluations/**")
-                                        .permitAll()
+                                        .requestMatchers(StudentEvaluationEndpoints.ALL_STUDENT_EVALUATION_FEATURE)
+                                        .hasAnyAuthority(AuthenticationRoles.TEACHER, AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN)
                                         .requestMatchers("/api/firebase/upload")
-                                        .permitAll()
+                                        .hasAnyAuthority(AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN, AuthenticationRoles.TEACHER , AuthenticationRoles.STUDENT)
                                         //
-                                        .requestMatchers("/api/course-schedules/**")
-                                        .permitAll()
+                                        .requestMatchers(CourseScheduleEndpoints.ALL_COURSE_SCHEDULE_FEATURE)
+                                        .hasAnyAuthority(AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN, AuthenticationRoles.TEACHER , AuthenticationRoles.STUDENT)
                                         //
-                                        .requestMatchers("/api/transactions/**")
-                                        .permitAll()
+                                        .requestMatchers(TransactionEndpoints.ALL_TRANSACTION_FEATURE)
+                                        .hasAnyAuthority(AuthenticationRoles.STAFF, AuthenticationRoles.ADMIN, AuthenticationRoles.TEACHER , AuthenticationRoles.STUDENT)
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
