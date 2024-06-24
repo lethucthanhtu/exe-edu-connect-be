@@ -79,14 +79,14 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
     @Override
     public StudentEvaluationResponse createEvaluation(StudentEvaluationRequest request) {
         StudentEvaluation evaluation = new StudentEvaluation();
-        evaluation.setIspresent(request.getIsPresent());
+        evaluation.setIspresent(request.getIspresent());
         evaluation.setComment(request.getComment());
 
         boolean exists =
                 studentEvaluationRepository.existsByCourseschedule_Id(
-                        request.getCourseScheduleId());
+                        request.getCoursescheduleid());
         Optional<CourseSchedule> courseSchedule =
-                courseScheduleRepository.findById(request.getCourseScheduleId());
+                courseScheduleRepository.findById(request.getCoursescheduleid());
         if (exists) {
             return new StudentEvaluationResponse(
                     HttpStatus.BAD_REQUEST.value(),
@@ -115,11 +115,11 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
         Optional<StudentEvaluation> optionalEvaluation = studentEvaluationRepository.findById(id);
         if (optionalEvaluation.isPresent()) {
             StudentEvaluation evaluation = optionalEvaluation.get();
-            evaluation.setIspresent(request.getIsPresent());
+            evaluation.setIspresent(request.getIspresent());
             evaluation.setComment(request.getComment());
 
             Optional<CourseSchedule> courseSchedule =
-                    courseScheduleRepository.findById(request.getCourseScheduleId());
+                    courseScheduleRepository.findById(request.getCoursescheduleid());
             if (courseSchedule.isPresent()) {
                 evaluation.setCourseschedule(courseSchedule.get());
             } else {
@@ -197,9 +197,9 @@ public class StudentEvaluationServiceImpl implements StudentEvaluationService {
     private StudentEvaluationDto convertToDto(StudentEvaluation evaluation) {
         StudentEvaluationDto dto = new StudentEvaluationDto();
         dto.setId(evaluation.getId());
-        dto.setIsPresent(evaluation.getIspresent());
+        dto.setIspresent(evaluation.getIspresent());
         dto.setComment(evaluation.getComment());
-        dto.setCourseScheduleId(evaluation.getCourseschedule().getId());
+        dto.setCoursescheduleid(evaluation.getCourseschedule().getId());
         return dto;
     }
 }

@@ -100,7 +100,7 @@ public class UserController {
             @Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
         UserServiceResponse response =
                 userService.resetPassword(
-                        resetPasswordRequest.getToken(), resetPasswordRequest.getNewPassword());
+                        resetPasswordRequest.getToken(), resetPasswordRequest.getNewpassword());
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

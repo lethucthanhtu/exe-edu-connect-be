@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class StudentEvaluationDto {
     private Integer id;
-    private Boolean isPresent;
+    private Boolean ispresent;
     private String comment;
-    private Integer courseScheduleId;
+    private Integer coursescheduleid;
 }

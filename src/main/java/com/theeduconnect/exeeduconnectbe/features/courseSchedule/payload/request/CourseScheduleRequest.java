@@ -20,9 +20,9 @@ public class CourseScheduleRequest {
     @NotBlank(message = "meeturl is required")
     private String meeturl;
 
-    @Schema(name = "courseId", example = "1")
-    @NotNull(message = "courseId is required") private Integer courseId;
+    @Schema(name = "courseid", example = "1")
+    @NotNull(message = "courseid is required") private Integer courseid;
 
-    @Schema(name = "studentId", example = "1")
-    @NotNull(message = "studentId is required") private Integer studentId;
+    @Schema(name = "studentid", example = "1")
+    @NotNull(message = "studentid is required") private Integer studentid;
 }

@@ -57,7 +57,7 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
         schedule.setDuration(request.getDuration());
         schedule.setMeeturl(request.getMeeturl());
 
-        Optional<Course> course = courseRepository.findById(request.getCourseId());
+        Optional<Course> course = courseRepository.findById(request.getCourseid());
         if (course.isPresent()) {
             schedule.setCourse(course.get());
         } else {
@@ -65,7 +65,7 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
                     HttpStatus.NOT_FOUND.value(), CourseScheduleMessages.COURSE_NOT_FOUND, null);
         }
 
-        Optional<Student> student = studentRepository.findById(request.getStudentId());
+        Optional<Student> student = studentRepository.findById(request.getStudentid());
         if (student.isPresent()) {
             schedule.setStudent(student.get());
         } else {
@@ -89,7 +89,7 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
             schedule.setDuration(request.getDuration());
             schedule.setMeeturl(request.getMeeturl());
 
-            Optional<Course> course = courseRepository.findById(request.getCourseId());
+            Optional<Course> course = courseRepository.findById(request.getCourseid());
             if (course.isPresent()) {
                 schedule.setCourse(course.get());
             } else {
@@ -99,7 +99,7 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
                         null);
             }
 
-            Optional<Student> student = studentRepository.findById(request.getStudentId());
+            Optional<Student> student = studentRepository.findById(request.getStudentid());
             if (student.isPresent()) {
                 schedule.setStudent(student.get());
             } else {
@@ -174,8 +174,8 @@ public class CourseScheduleServiceImpl implements CourseScheduleService {
         dto.setStarttime(schedule.getStarttime());
         dto.setDuration(schedule.getDuration());
         dto.setMeeturl(schedule.getMeeturl());
-        dto.setCourseId(schedule.getCourse().getId());
-        dto.setStudentId(schedule.getStudent().getId());
+        dto.setCourseid(schedule.getCourse().getId());
+        dto.setStudentid(schedule.getStudent().getId());
         return dto;
     }
 }

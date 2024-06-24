@@ -15,17 +15,17 @@ public class NewUserRequest {
     @NotBlank(message = "Username is required")
     private String username;
 
-    @Schema(name = "fullName", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "fullname", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_NAME_REGEX,
             message = AuthenticationValidationMessages.INVALID_NAME)
-    @NotNull(message = "Full Name is required") private String fullName;
+    @NotNull(message = "Full Name is required") private String fullname;
 
-    @Schema(name = "dateOfBirth", example = "1990-01-01")
-    @NotNull(message = "Date of Birth is required") private LocalDate dateOfBirth;
+    @Schema(name = "dateofbirth", example = "1990-01-01")
+    @NotNull(message = "Date of Birth is required") private LocalDate dateofbirth;
 
-    @Schema(name = "avatarUrl", example = "http://example.com/avatar.jpg")
-    private String avatarUrl;
+    @Schema(name = "avatarurl", example = "http://example.com/avatar.jpg")
+    private String avatarurl;
 
     @Schema(name = "email", example = "abc@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
@@ -47,6 +47,6 @@ public class NewUserRequest {
     @Schema(name = "balance", example = "100.0")
     private Double balance;
 
-    @Schema(name = "roleId", example = "1")
-    private int roleId;
+    @Schema(name = "roleid", example = "1")
+    private int roleid;
 }

@@ -9,13 +9,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentEvaluationRequest {
-    @Schema(name = "isPresent", example = "true")
-    @NotNull(message = "isPresent is required") private Boolean isPresent;
+    @Schema(name = "ispresent", example = "true")
+    @NotNull(message = "ispresent is required") private Boolean ispresent;
 
     @Schema(name = "comment", example = "Good performance")
     @NotBlank(message = "comment is required")
     private String comment;
 
-    @Schema(name = "courseScheduleId", example = "1")
-    @NotNull(message = "courseScheduleId is required") private Integer courseScheduleId;
+    @Schema(name = "coursescheduleid", example = "1")
+    @NotNull(message = "coursescheduleid is required") private Integer coursescheduleid;
 }

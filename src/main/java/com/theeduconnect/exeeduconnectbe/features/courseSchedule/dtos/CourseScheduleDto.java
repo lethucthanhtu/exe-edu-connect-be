@@ -11,6 +11,6 @@ public class CourseScheduleDto {
     private Instant starttime;
     private Integer duration;
     private String meeturl;
-    private Integer courseId;
-    private Integer studentId;
+    private Integer courseid;
+    private Integer studentid;
 }

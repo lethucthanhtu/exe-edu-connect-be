@@ -7,15 +7,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-    private int userId;
+    private int userid;
     private String username;
-    private String fullName;
-    private Date dateOfBirth;
-    private String avatarUrl;
+    private String fullname;
+    private Date dateofbirth;
+    private String avatarurl;
     private String email;
     private String phone;
     private String address;
     private Boolean status;
     private Double balance;
-    private int roleId;
+    private int roleid;
 }

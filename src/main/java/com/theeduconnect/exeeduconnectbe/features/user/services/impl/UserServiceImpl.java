@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceResponse createUser(NewUserRequest request) {
         User user = userMapper.newUserRequestToUserEntity(request);
-        Optional<Role> roleOptional = roleRepository.findById(request.getRoleId());
+        Optional<Role> roleOptional = roleRepository.findById(request.getRoleid());
         if (roleOptional.isPresent()) {
             user.setRole(roleOptional.get());
             userRepository.save(user);
@@ -90,16 +90,16 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setUsername(request.getUsername());
-            user.setFullname(request.getFullName());
-            user.setDateofbirth(request.getDateOfBirth());
-            user.setAvatarurl(request.getAvatarUrl());
+            user.setFullname(request.getFullname());
+            user.setDateofbirth(request.getDateofbirth());
+            user.setAvatarurl(request.getAvatarurl());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
             //            user.setPassword(request.getPassword());
             user.setAddress(request.getAddress());
             user.setStatus(request.getStatus());
             user.setBalance(request.getBalance());
-            Optional<Role> roleOptional = roleRepository.findById(request.getRoleId());
+            Optional<Role> roleOptional = roleRepository.findById(request.getRoleid());
             if (roleOptional.isPresent()) {
                 user.setRole(roleOptional.get());
                 userRepository.save(user);
@@ -142,14 +142,14 @@ public class UserServiceImpl implements UserService {
             User user = userOptional.get();
 
             // Check if the current password is correct
-            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            if (!passwordEncoder.matches(request.getCurrentpassword(), user.getPassword())) {
                 return new UserServiceResponse(
                         UserServiceHttpResponseCodes.CURRENT_PASSWORD_INCORRECT,
                         UserServiceMessages.CURRENT_PASSWORD_INCORRECT,
                         null);
             }
             // Update the password
-            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            user.setPassword(passwordEncoder.encode(request.getNewpassword()));
             userRepository.save(user);
 
             return new UserServiceResponse(

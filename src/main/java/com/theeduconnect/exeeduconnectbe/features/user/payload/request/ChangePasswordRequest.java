@@ -7,34 +7,34 @@ import jakarta.validation.constraints.Pattern;
 
 public class ChangePasswordRequest {
     @Schema(
-            name = "currentPassword",
+            name = "currentpassword",
             example = "currentPassword!",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    private String currentPassword;
+    private String currentpassword;
 
     @Schema(
-            name = "newPassword",
+            name = "newpassword",
             example = "newPassword!",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_PASSWORD_REGEX,
             message = AuthenticationValidationMessages.INVALID_PASSWORD)
-    private String newPassword;
+    private String newpassword;
 
     // Getters and setters
-    public String getCurrentPassword() {
-        return currentPassword;
+    public String getCurrentpassword() {
+        return currentpassword;
     }
 
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
+    public void setCurrentpassword(String currentpassword) {
+        this.currentpassword = currentpassword;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getNewpassword() {
+        return newpassword;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+    public void setNewpassword(String newpassword) {
+        this.newpassword = newpassword;
     }
 }

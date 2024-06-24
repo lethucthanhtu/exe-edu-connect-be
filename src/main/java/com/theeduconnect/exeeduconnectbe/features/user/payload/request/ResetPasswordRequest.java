@@ -20,11 +20,11 @@ public class ResetPasswordRequest {
     private String token;
 
     @Schema(
-            name = "newPassword",
+            name = "newpassword",
             example = "newPassword!",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_PASSWORD_REGEX,
             message = AuthenticationValidationMessages.INVALID_PASSWORD)
-    private String newPassword;
+    private String newpassword;
 }
