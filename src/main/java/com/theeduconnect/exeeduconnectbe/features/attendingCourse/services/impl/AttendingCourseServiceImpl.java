@@ -12,8 +12,9 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
     private final AttendingCourseRepository attendingCourseRepository;
     private final StudentRepository studentRepository;
 
-    public AttendingCourseServiceImpl(AttendingCourseRepository attendingCourseRepository,
-                                      StudentRepository studentRepository) {
+    public AttendingCourseServiceImpl(
+            AttendingCourseRepository attendingCourseRepository,
+            StudentRepository studentRepository) {
         InitializeChildServices();
         this.attendingCourseRepository = attendingCourseRepository;
         this.studentRepository = studentRepository;
@@ -26,6 +27,7 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
 
     private void InitializeChildServices() {
         getAllAttendingCoursesByUserIdServiceImpl =
-                new GetAllAttendingCoursesByStudentIdServiceImpl(attendingCourseRepository,studentRepository);
+                new GetAllAttendingCoursesByStudentIdServiceImpl(
+                        attendingCourseRepository, studentRepository);
     }
 }
