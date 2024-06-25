@@ -12,5 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface AttendingCourseRepository extends JpaRepository<AttendingCourse, Integer> {
     Optional<AttendingCourse> findByStudent(Student student);
 
+    List<AttendingCourse> findAllByStudent(Student student);
+
     List<AttendingCourse> findByCourse(Course course);
 }
