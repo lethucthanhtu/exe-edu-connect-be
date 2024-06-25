@@ -15,9 +15,9 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
     public AttendingCourseServiceImpl(
             AttendingCourseRepository attendingCourseRepository,
             StudentRepository studentRepository) {
-        InitializeChildServices();
         this.attendingCourseRepository = attendingCourseRepository;
         this.studentRepository = studentRepository;
+        InitializeChildServices();
     }
 
     @Override

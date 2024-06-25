@@ -74,7 +74,7 @@ public class GetAllAttendingCoursesByStudentIdServiceImpl {
         return new AttendingCourseServiceResponse(
                 AttendingCourseServiceHttpResponseCodes.GET_ALL_BY_STUDENT_ID_SUCCESSFUL,
                 AttendingCourseServiceMessages.GET_ALL_BY_STUDENT_ID_SUCCESSFUL,
-                null);
+                attendingCourseDtoList);
     }
 
     private AttendingCourseServiceResponse InternalServerErrorResult(Exception e) {

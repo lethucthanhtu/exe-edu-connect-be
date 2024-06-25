@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.configs.security;
 
+import com.theeduconnect.exeeduconnectbe.constants.attendingCourse.AttendingCourseEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationRoles;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.GoogleAuthenticationMode;
@@ -102,6 +103,9 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 CertificateEndpoints.UPLOAD_CERTIFICATES_URL)
                                         .hasAnyAuthority(AuthenticationRoles.TEACHER)
+                                        .requestMatchers(
+                                                AttendingCourseEndpoints.GET_ALL_BY_STUDENT_ID)
+                                        .hasAnyAuthority(AuthenticationRoles.STUDENT)
                                         //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()
