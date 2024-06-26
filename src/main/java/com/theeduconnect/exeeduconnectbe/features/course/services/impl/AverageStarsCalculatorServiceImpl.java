@@ -39,7 +39,7 @@ public class AverageStarsCalculatorServiceImpl {
     private void GetCourseFeedbackListFromAttendingCourseList() {
         for (AttendingCourse attendingCourse : attendingCourseList) {
             CourseFeedback courseFeedback = attendingCourse.getCourseFeedback();
-            courseFeedbackList.add(courseFeedback);
+            if (courseFeedback != null) courseFeedbackList.add(courseFeedback);
         }
     }
 
@@ -47,6 +47,7 @@ public class AverageStarsCalculatorServiceImpl {
         int sumOfStars = 0;
         int starsCount = courseFeedbackList.size();
         for (CourseFeedback courseFeedback : courseFeedbackList) {
+
             int star = courseFeedback.getStar();
             sumOfStars += star;
         }
