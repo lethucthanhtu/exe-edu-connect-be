@@ -64,7 +64,7 @@ public class CourseController {
             @RequestHeader("Authorization") String rawJwtToken,
             @Valid @RequestBody JoinCourseRequest request) {
         int userId = jwtService.extractUserId(rawJwtToken);
-        request.setStudentId(userId);
+        request.setStudentid(userId);
         CourseServiceResponse response = courseService.join(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

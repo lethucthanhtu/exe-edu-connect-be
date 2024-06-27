@@ -86,7 +86,7 @@ public class CreateCourseServiceImpl {
     }
 
     private boolean IsStartTimeBetweenStartDateAndEndDate() {
-        newCourseScheduleRequestList = request.getScheduleRequests();
+        newCourseScheduleRequestList = request.getSchedulerequests();
         LocalDate startDate = request.getStartdate();
         LocalDate endDate = request.getEnddate();
         for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {

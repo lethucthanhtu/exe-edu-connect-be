@@ -63,7 +63,7 @@ public class JoinCourseServiceImpl {
     }
 
     private boolean IsCourseScheduleAvailable() {
-        courseScheduleOptional = courseScheduleRepository.findById(request.getCourseScheduleId());
+        courseScheduleOptional = courseScheduleRepository.findById(request.getCoursescheduleid());
         if (courseScheduleOptional.isEmpty()) return false;
         return true;
     }
@@ -76,11 +76,11 @@ public class JoinCourseServiceImpl {
     }
 
     private void FindStudentById() {
-        student = studentRepository.findById(request.getStudentId()).get();
+        student = studentRepository.findById(request.getStudentid()).get();
     }
 
     private void FindCourseById() {
-        course = courseRepository.findById(request.getCourseId()).get();
+        course = courseRepository.findById(request.getCourseid()).get();
     }
 
     private void AddStudentToAttendingCourses() {
