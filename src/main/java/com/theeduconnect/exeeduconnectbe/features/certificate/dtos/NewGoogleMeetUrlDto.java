@@ -9,7 +9,7 @@ import lombok.Getter;
 public class NewGoogleMeetUrlDto {
     private String summary;
     private String description;
-    private DateTime startDateTime;
-    private DateTime endDateTime;
-    private String teacherEmail;
+    private DateTime startdatetime;
+    private DateTime enddatetime;
+    private String teacheremail;
 }

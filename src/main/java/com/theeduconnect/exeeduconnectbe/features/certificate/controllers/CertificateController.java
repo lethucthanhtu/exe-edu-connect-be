@@ -30,7 +30,7 @@ public class CertificateController {
             @RequestHeader("Authorization") String rawJwtToken,
             @Valid @ModelAttribute("request") CertificateListRequest request) {
         int teacherId = jwtService.extractUserId(rawJwtToken);
-        request.setTeacherId(teacherId);
+        request.setTeacherid(teacherId);
         CertificateServiceResponse response = certificateService.upload(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }

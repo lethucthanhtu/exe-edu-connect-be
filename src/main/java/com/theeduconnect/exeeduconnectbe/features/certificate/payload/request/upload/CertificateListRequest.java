@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CertificateListRequest {
-    @JsonIgnore private int teacherId;
+    @JsonIgnore private int teacherid;
 
-    @Valid private List<NewCertificateRequest> newCertificateRequestList;
+    @Valid private List<NewCertificateRequest> newcertificaterequestlist;
 }

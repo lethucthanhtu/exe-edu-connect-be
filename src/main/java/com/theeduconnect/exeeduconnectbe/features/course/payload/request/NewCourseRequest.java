@@ -50,5 +50,5 @@ public class NewCourseRequest {
     @NotNull(message = CourseValidationMessages.INVALID_CATEGORY_ID) private Integer categoryid;
 
     @Valid
-    @NotNull(message = CourseValidationMessages.INVALID_SCHEDULE_REQUESTS) private List<NewCourseScheduleRequest> scheduleRequests;
+    @NotNull(message = CourseValidationMessages.INVALID_SCHEDULE_REQUESTS) private List<NewCourseScheduleRequest> schedulerequests;
 }

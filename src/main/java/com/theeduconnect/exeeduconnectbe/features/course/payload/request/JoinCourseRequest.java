@@ -10,15 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JoinCourseRequest {
-    @JsonIgnore private int studentId;
+    @JsonIgnore private int studentid;
 
     @Min(
             value = CourseValidationSpecifications.MIN_COURSE_ID,
             message = CourseValidationMessages.INVALID_COURSE_ID)
-    private int courseId;
+    private int courseid;
 
     @Min(
             value = CourseValidationSpecifications.MIN_COURSE_SCHEDULE_ID,
             message = CourseValidationMessages.INVALID_COURSE_SCHEDULE_ID)
-    private int courseScheduleId;
+    private int coursescheduleid;
 }

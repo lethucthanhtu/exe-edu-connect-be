@@ -28,7 +28,7 @@ public class RegisterRequest {
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_NAME_REGEX,
             message = AuthenticationValidationMessages.INVALID_NAME)
-    private String fullName;
+    private String fullname;
 
     @Schema(
             name = "password",

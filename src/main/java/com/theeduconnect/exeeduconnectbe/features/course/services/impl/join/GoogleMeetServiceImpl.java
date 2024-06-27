@@ -43,20 +43,20 @@ public class GoogleMeetServiceImpl {
 
         EventDateTime start =
                 new EventDateTime()
-                        .setDateTime(request.getStartDateTime())
+                        .setDateTime(request.getStartdatetime())
                         .setTimeZone("Asia/Ho_Chi_Minh");
         event.setStart(start);
 
         EventDateTime end =
-                new EventDateTime().setDateTime(request.getEndDateTime()).setTimeZone(TIMEZONE);
+                new EventDateTime().setDateTime(request.getEnddatetime()).setTimeZone(TIMEZONE);
         event.setEnd(end);
 
         event.setRecurrence(Arrays.asList(RECURRENCE_SETTING));
 
         EventAttendee[] attendees =
                 new EventAttendee[] {
-                    new EventAttendee().setEmail(request.getTeacherEmail()),
-                    new EventAttendee().setEmail(request.getStudentEmail()),
+                    new EventAttendee().setEmail(request.getTeacheremail()),
+                    new EventAttendee().setEmail(request.getStudentemail()),
                 };
         event.setAttendees(Arrays.asList(attendees));
 

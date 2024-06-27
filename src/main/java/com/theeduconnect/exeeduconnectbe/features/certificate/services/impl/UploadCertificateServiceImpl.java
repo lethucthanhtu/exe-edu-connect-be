@@ -47,7 +47,7 @@ public class UploadCertificateServiceImpl {
 
     private boolean AreCertificateFilesValid() {
         List<NewCertificateRequest> newCertificateRequestList =
-                request.getNewCertificateRequestList();
+                request.getNewcertificaterequestlist();
         for (NewCertificateRequest certificateRequest : newCertificateRequestList) {
             if (!MultipartFileUtils.DoesFileMatchExtensions(
                     certificateRequest.getFile(), CertificateFileExtensions.ALLOWED_EXTENSIONS))
@@ -59,7 +59,7 @@ public class UploadCertificateServiceImpl {
     private void MapCertificateListRequestToCertificateList() throws IOException {
         certificateList = new ArrayList<>();
         List<NewCertificateRequest> newCertificateRequestList =
-                request.getNewCertificateRequestList();
+                request.getNewcertificaterequestlist();
         for (NewCertificateRequest newCertificateRequest : newCertificateRequestList) {
             Certificate certificate =
                     certificateMapper.NewCertificateRequestToCertificateEntity(
@@ -73,7 +73,7 @@ public class UploadCertificateServiceImpl {
     }
 
     private Teacher GetTeacherById() {
-        return teacherRepository.findById(request.getTeacherId()).get();
+        return teacherRepository.findById(request.getTeacherid()).get();
     }
 
     private CertificateServiceResponse InvalidFileResult() {
