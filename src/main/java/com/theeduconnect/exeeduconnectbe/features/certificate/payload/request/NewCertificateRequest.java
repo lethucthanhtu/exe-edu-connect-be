@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload;
+package com.theeduconnect.exeeduconnectbe.features.certificate.payload.request;
 
 import com.theeduconnect.exeeduconnectbe.constants.certificate.validation.CertificateValidationMessages;
 import com.theeduconnect.exeeduconnectbe.constants.certificate.validation.CertificateValidationSpecifications;

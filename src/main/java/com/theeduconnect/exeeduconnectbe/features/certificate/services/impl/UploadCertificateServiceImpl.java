@@ -6,8 +6,8 @@ import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateServic
 import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateServiceMessages;
 import com.theeduconnect.exeeduconnectbe.domain.Certificate;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;
-import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload.CertificateListRequest;
-import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload.NewCertificateRequest;
+import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.CertificateListRequest;
+import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.NewCertificateRequest;
 import com.theeduconnect.exeeduconnectbe.features.certificate.payload.response.CertificateServiceResponse;
 import com.theeduconnect.exeeduconnectbe.repositories.CertificateRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;

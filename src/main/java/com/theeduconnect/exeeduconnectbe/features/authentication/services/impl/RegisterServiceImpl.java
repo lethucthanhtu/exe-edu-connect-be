@@ -1,10 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.authentication.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.AuthenticationMapper;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationHttpResponseCodes;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationRoles;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.AuthenticationServiceMessages;
-import com.theeduconnect.exeeduconnectbe.constants.authentication.ProviderEnum;
+import com.theeduconnect.exeeduconnectbe.constants.authentication.*;
 import com.theeduconnect.exeeduconnectbe.domain.Role;
 import com.theeduconnect.exeeduconnectbe.domain.Student;
 import com.theeduconnect.exeeduconnectbe.domain.Teacher;
@@ -15,6 +12,7 @@ import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.StudentRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -74,8 +72,17 @@ public class RegisterServiceImpl {
     private void MapDtoToUserEntity() {
         user = authenticationMapper.RegisterRequestToUserEntity(request);
         user.setRole(role);
+        user.setFullname(request.getFullname());
         user.setProvider(ProviderEnum.LOCAL);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(RegistrationConstants.SAMPLE_USER_NAME);
+        user.setDateofbirth(LocalDate.of(2024, 1, 1));
+        user.setAvatarurl(RegistrationConstants.AVATAR_URL);
+        user.setPhone(RegistrationConstants.SAMPLE_PHONE_NUMBER);
+        user.setAddress(RegistrationConstants.SAMPLE_ADDRESS);
+        user.setStatus(true);
+        user.setBalance(0.0);
+        user.setResetPasswordToken("");
     }
 
     private void ConvertRoleToSpecificUser(int role) {

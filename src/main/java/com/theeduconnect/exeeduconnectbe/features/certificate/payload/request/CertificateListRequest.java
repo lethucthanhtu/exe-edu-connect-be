@@ -1,4 +1,4 @@
-package com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload;
+package com.theeduconnect.exeeduconnectbe.features.certificate.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;

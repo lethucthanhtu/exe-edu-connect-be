@@ -2,7 +2,7 @@ package com.theeduconnect.exeeduconnectbe.features.certificate.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.certificate.CertificateEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
-import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload.CertificateListRequest;
+import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.CertificateListRequest;
 import com.theeduconnect.exeeduconnectbe.features.certificate.payload.response.CertificateServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.certificate.services.CertificateService;
 import io.swagger.v3.oas.annotations.Operation;

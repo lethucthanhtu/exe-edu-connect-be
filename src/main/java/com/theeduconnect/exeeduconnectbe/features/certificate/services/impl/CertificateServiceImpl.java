@@ -1,7 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.features.certificate.services.impl;
 
 import com.theeduconnect.exeeduconnectbe.configs.mappers.CertificateMapper;
-import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.upload.CertificateListRequest;
+import com.theeduconnect.exeeduconnectbe.features.certificate.payload.request.CertificateListRequest;
 import com.theeduconnect.exeeduconnectbe.features.certificate.payload.response.CertificateServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.certificate.services.CertificateService;
 import com.theeduconnect.exeeduconnectbe.repositories.*;

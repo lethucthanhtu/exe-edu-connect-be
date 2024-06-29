@@ -22,7 +22,7 @@ public class RegisterRequest {
     private String email;
 
     @Schema(
-            name = "fullName",
+            name = "fullname",
             example = "Edu Connect Is Awesome",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
