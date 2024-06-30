@@ -11,9 +11,7 @@ import com.theeduconnect.exeeduconnectbe.features.user.payload.response.UserServ
 import com.theeduconnect.exeeduconnectbe.features.user.services.UserService;
 import com.theeduconnect.exeeduconnectbe.repositories.RoleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.UserRepository;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,10 +43,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceResponse getAllUsers() {
         List<User> users = userRepository.findAll();
+        List<Map<String, Object>> customUserResponses = new ArrayList<>();
+        for (User user : users) {
+            customUserResponses.add(convertUserToCustomResponse(user));
+        }
         return new UserServiceResponse(
                 UserServiceHttpResponseCodes.FOUND_ALL_USER,
                 UserServiceMessages.FOUND_ALL_USER,
-                users);
+                customUserResponses);
     }
 
     @Override
@@ -73,10 +75,11 @@ public class UserServiceImpl implements UserService {
     public UserServiceResponse getUserById(int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
+            User user = userOptional.get();
             return new UserServiceResponse(
                     UserServiceHttpResponseCodes.GET_USER_BY_ID_SUCCESSFUL,
                     UserServiceMessages.GET_USER_BY_ID_SUCCESSFUL,
-                    userOptional.get());
+                    convertUserToCustomResponse(user));
         }
         return new UserServiceResponse(
                 UserServiceHttpResponseCodes.USER_NOT_FOUND,
@@ -95,7 +98,6 @@ public class UserServiceImpl implements UserService {
             user.setAvatarurl(request.getAvatarurl());
             user.setEmail(request.getEmail());
             user.setPhone(request.getPhone());
-            //            user.setPassword(request.getPassword());
             user.setAddress(request.getAddress());
             user.setStatus(request.getStatus());
             user.setBalance(request.getBalance());
@@ -214,5 +216,37 @@ public class UserServiceImpl implements UserService {
                     UserServiceMessages.INVALID_RESET_PASSWORD_TOKEN,
                     null);
         }
+    }
+
+    private Map<String, Object> convertUserToCustomResponse(User user) {
+        Map<String, Object> customResponse = new LinkedHashMap<>();
+        customResponse.put("id", user.getId());
+        customResponse.put("username", user.getUsername());
+        customResponse.put("fullname", user.getFullname());
+        customResponse.put("dateofbirth", user.getDateofbirth());
+        customResponse.put("avatarurl", user.getAvatarurl());
+        customResponse.put("email", user.getEmail());
+        customResponse.put("phone", user.getPhone());
+        customResponse.put("password", user.getPassword());
+        customResponse.put("address", user.getAddress());
+        customResponse.put("status", user.getStatus());
+        customResponse.put("balance", user.getBalance());
+        customResponse.put("resetPasswordToken", user.getResetPasswordToken());
+        customResponse.put("provider", user.getProvider());
+        customResponse.put("enabled", user.isEnabled());
+        customResponse.put("accountNonLocked", user.isAccountNonLocked());
+        customResponse.put("accountNonExpired", user.isAccountNonExpired());
+        customResponse.put("credentialsNonExpired", user.isCredentialsNonExpired());
+        customResponse.put("authorities", user.getAuthorities());
+
+        List<Map<String, Object>> roles = new ArrayList<>();
+        Role role = user.getRole();
+        Map<String, Object> roleMap = new HashMap<>();
+        roleMap.put("id", role.getId());
+        roleMap.put("rolename", role.getRolename());
+        roles.add(roleMap);
+        customResponse.put("role", roles);
+
+        return customResponse;
     }
 }

@@ -11,11 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewUserRequest {
-    @Schema(name = "username", example = "johndoe")
+    @Schema(name = "username", example = "dohieu")
     @NotBlank(message = "Username is required")
     private String username;
 
-    @Schema(name = "fullname", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "fullname", example = "Do Hieu", requiredMode = Schema.RequiredMode.REQUIRED)
     @Pattern(
             regexp = AuthenticationValidationSpecifications.VALID_NAME_REGEX,
             message = AuthenticationValidationMessages.INVALID_NAME)
@@ -33,7 +33,7 @@ public class NewUserRequest {
             message = AuthenticationValidationMessages.INVALID_EMAIL)
     private String email;
 
-    @Schema(name = "phone", example = "1234567890")
+    @Schema(name = "phone", example = "0123456789")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
     private String phone;
 
