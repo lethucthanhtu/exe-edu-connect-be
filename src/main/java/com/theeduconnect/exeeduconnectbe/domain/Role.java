@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,6 @@ public class Role {
     private String rolename;
 
     @OneToMany(mappedBy = "role")
-    @JsonManagedReference
+    @JsonBackReference
     private Set<User> users = new LinkedHashSet<>();
 }
