@@ -129,6 +129,10 @@ public class SpringSecurityConfig {
                                         //
                                         .requestMatchers("/api/transactions/**")
                                         .permitAll()
+                                        //
+                                        .requestMatchers("/api/meetings/**")
+                                        .permitAll()
+                                        //
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
