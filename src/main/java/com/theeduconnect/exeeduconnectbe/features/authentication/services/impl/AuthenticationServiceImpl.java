@@ -71,7 +71,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         roleRepository,
                         passwordEncoder,
                         teacherRepository,
-                        studentRepository);
+                        studentRepository,
+                        jwtService);
         getRolesServiceImpl = new GetRolesServiceImpl(roleRepository, authenticationMapper);
         loginServiceImpl =
                 new LoginServiceImpl(
