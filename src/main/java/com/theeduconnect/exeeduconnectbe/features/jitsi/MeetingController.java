@@ -1,10 +1,9 @@
 package com.theeduconnect.exeeduconnectbe.features.jitsi;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/meetings")
@@ -20,4 +19,3 @@ public class MeetingController {
         return ResponseEntity.ok(meetingLink);
     }
 }
-

@@ -73,7 +73,6 @@ public class User implements UserDetails {
     @JsonManagedReference
     private Role role;
 
-
     @OneToOne(mappedBy = "user")
     @JsonBackReference
     private Student student;

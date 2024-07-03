@@ -15,13 +15,11 @@ import com.theeduconnect.exeeduconnectbe.utils.FirebaseUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+import org.springframework.web.multipart.MultipartFile;
 
 public class UpdateTeacherProfileServiceImpl {
 
@@ -63,13 +61,14 @@ public class UpdateTeacherProfileServiceImpl {
         ConvertConstraintViolationSetToConstraintViolationDtoList();
         return false;
     }
-    private void ConvertConstraintViolationSetToConstraintViolationDtoList(){
+
+    private void ConvertConstraintViolationSetToConstraintViolationDtoList() {
         constraintViolationDtoList = new ArrayList<>();
-        for(ConstraintViolation<UpdateTeacherProfileDto> constraintViolation:violations){
-            constraintViolationDtoList.add(new ConstraintViolationDto(
-                    constraintViolation.getPropertyPath().toString(),
-                    constraintViolation.getMessage()
-            ));
+        for (ConstraintViolation<UpdateTeacherProfileDto> constraintViolation : violations) {
+            constraintViolationDtoList.add(
+                    new ConstraintViolationDto(
+                            constraintViolation.getPropertyPath().toString(),
+                            constraintViolation.getMessage()));
         }
     }
 
@@ -78,54 +77,53 @@ public class UpdateTeacherProfileServiceImpl {
         user.setFullname(dto.getFullname());
         user.setDateofbirth(dto.getDateofbirth());
         user.setAddress(dto.getAddress());
-        user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
         userRepository.save(user);
     }
-    private void UpdateFieldsInTeacherTable(){
+
+    private void UpdateFieldsInTeacherTable() {
         teacher = teacherRepository.findById(dto.getTeacherId()).get();
         teacher.setOccupation(dto.getOccupation());
         teacher.setSchool(dto.getSchool());
         teacher.setSpecialty(dto.getSpecialization());
         teacherRepository.save(teacher);
     }
-    private void UploadCertificates()throws IOException {
+
+    private void UploadCertificates() throws IOException {
         MultipartFile[] certificateFiles = dto.getCertificates();
-        for(MultipartFile certificateFile:certificateFiles){
-            String certificateUrl =
-                    FirebaseUtils.UploadFileToFirebase(certificateFile);
-            Certificate certificate = BuildCertificate(certificateFile.getName(),certificateUrl);
+        for (MultipartFile certificateFile : certificateFiles) {
+            String certificateUrl = FirebaseUtils.UploadFileToFirebase(certificateFile);
+            Certificate certificate = BuildCertificate(certificateFile.getName(), certificateUrl);
             certificateRepository.save(certificate);
         }
     }
-    private Certificate BuildCertificate(String name, String url){
+
+    private Certificate BuildCertificate(String name, String url) {
         Certificate certificate = new Certificate();
         certificate.setName(name);
         certificate.setUrl(url);
         certificate.setTeacher(teacher);
         return certificate;
     }
+
     private TeacherProfileServiceResponse UpdateTeacherProfileSuccessfulResult() {
         return new TeacherProfileServiceResponse(
                 TeacherProfileServiceHttpResponseCodes.UPDATE_PROFILE_SUCCESS,
                 TeacherProfileServiceMessages.UPDATE_PROFILE_SUCCESS,
-                null
-        );
+                null);
     }
 
     private TeacherProfileServiceResponse InvalidDtoResult() {
         return new TeacherProfileServiceResponse(
                 TeacherProfileServiceHttpResponseCodes.INVALID_DTO,
                 TeacherProfileServiceMessages.INVALID_DTO,
-                constraintViolationDtoList
-        );
+                constraintViolationDtoList);
     }
 
     private TeacherProfileServiceResponse InternalServerErrorResult(Exception e) {
         return new TeacherProfileServiceResponse(
                 TeacherProfileServiceHttpResponseCodes.INTERNAL_SERVER_ERROR,
                 TeacherProfileServiceMessages.INTERNAL_SERVER_ERROR,
-                e.getMessage()
-        );
+                e.getMessage());
     }
 }

@@ -21,6 +21,5 @@ public class LoginRequest {
             name = "password",
             example = "Educonnect123!",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = AuthenticationValidationMessages.PASSWORD_EMPTY)
-    private String password;
+    @NotNull(message = AuthenticationValidationMessages.PASSWORD_EMPTY) private String password;
 }

@@ -49,6 +49,8 @@ public class NewCourseRequest {
     @Schema(name = "categoryid", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = CourseValidationMessages.INVALID_CATEGORY_ID) private Integer categoryid;
 
+    @NotNull(message = CourseValidationMessages.INVALID_MEET_URL) private String meeturl;
+
     @Valid
     @NotNull(message = CourseValidationMessages.INVALID_SCHEDULE_REQUESTS) private List<NewCourseScheduleRequest> schedulerequests;
 }

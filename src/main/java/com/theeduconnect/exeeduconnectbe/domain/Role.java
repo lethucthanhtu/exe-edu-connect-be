@@ -1,7 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.util.LinkedHashSet;

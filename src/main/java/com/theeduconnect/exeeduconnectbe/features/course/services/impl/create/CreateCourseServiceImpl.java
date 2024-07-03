@@ -16,11 +16,8 @@ import com.theeduconnect.exeeduconnectbe.repositories.CourseCategoryRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.CourseScheduleRepository;
 import com.theeduconnect.exeeduconnectbe.repositories.TeacherRepository;
-import com.theeduconnect.exeeduconnectbe.utils.TimeUtils;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.*;
 
 public class CreateCourseServiceImpl {
@@ -36,8 +33,8 @@ public class CreateCourseServiceImpl {
     private CourseCategory courseCategory;
     private Teacher teacher;
     private List<NewCourseScheduleRequest> newCourseScheduleRequestList;
-
-    private Set<CourseSchedule> courseScheduleList;
+    private CreateCourseScheduleServiceImpl createCourseScheduleServiceImpl;
+    private Set<CourseSchedule> courseSchedules;
 
     public CreateCourseServiceImpl(
             CourseRepository courseRepository,
@@ -53,6 +50,7 @@ public class CreateCourseServiceImpl {
         this.courseScheduleRepository = courseScheduleRepository;
         this.scheduleMapper = scheduleMapper;
         this.googleMeetServiceImpl = new GoogleMeetServiceImpl();
+        this.createCourseScheduleServiceImpl = new CreateCourseScheduleServiceImpl();
     }
 
     public CourseServiceResponse Handle(NewCourseRequest request) {
@@ -60,12 +58,11 @@ public class CreateCourseServiceImpl {
             this.request = request;
             if (!IsStartDateBeforeEndDate()) return StartDateNotBeforeEndDateResult();
             if (!IsCourseCategoryIdValid()) return InvalidCourseCategoryIdResult();
-            if (!IsStartTimeBetweenStartDateAndEndDate()) return InvalidStartTimeResult();
             MapNewCourseRequestToCourseEntity();
-            MapScheduleRequestListToScheduleEntityList();
-            course.setCourseSchedules(courseScheduleList);
+            ConvertCourseScheduleRequestsToCourseScheduleEntities();
+            course.setCourseSchedules(courseSchedules);
             courseRepository.save(course);
-            courseScheduleRepository.saveAll(courseScheduleList);
+            courseScheduleRepository.saveAll(courseSchedules);
             return CreateCourseSuccessfulResult();
         } catch (Exception e) {
             return InternalServerErrorResult(e);
@@ -85,16 +82,18 @@ public class CreateCourseServiceImpl {
         return true;
     }
 
-    private boolean IsStartTimeBetweenStartDateAndEndDate() {
-        newCourseScheduleRequestList = request.getSchedulerequests();
-        LocalDate startDate = request.getStartdate();
-        LocalDate endDate = request.getEnddate();
-        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {
-            Instant startTime = newCourseScheduleRequest.getStarttime();
-            if (!TimeUtils.IsInstantBetweenLocalDates(startTime, startDate, endDate)) return false;
-        }
-        return true;
-    }
+    //    private boolean IsStartTimeBetweenStartDateAndEndDate() {
+    //        newCourseScheduleRequestList = request.getSchedulerequests();
+    //        LocalDate startDate = request.getStartdate();
+    //        LocalDate endDate = request.getEnddate();
+    //        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList)
+    // {
+    //            Instant startTime = newCourseScheduleRequest.getStarttime();
+    //            if (!TimeUtils.IsInstantBetweenLocalDates(startTime, startDate, endDate)) return
+    // false;
+    //        }
+    //        return true;
+    //    }
 
     private void MapNewCourseRequestToCourseEntity() {
         course = courseMapper.NewCourseRequestToCourseEntity(request);
@@ -103,17 +102,16 @@ public class CreateCourseServiceImpl {
         course.setTeacher(teacher);
     }
 
-    private void MapScheduleRequestListToScheduleEntityList()
+    private void ConvertCourseScheduleRequestsToCourseScheduleEntities()
             throws IOException, GeneralSecurityException {
-        courseScheduleList = new HashSet<>();
-        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList) {
-            CourseSchedule courseSchedule =
-                    scheduleMapper.NewCourseScheduleRequestToCourseScheduleEntity(
-                            newCourseScheduleRequest);
-            courseSchedule.setStarttime(newCourseScheduleRequest.getStarttime());
-            courseSchedule.setCourse(course);
-            courseScheduleList.add(courseSchedule);
-        }
+        courseSchedules =
+                createCourseScheduleServiceImpl.Handle(
+                        new CreateCourseScheduleServiceImpl.CreateCourseScheduleServiceParams(
+                                request.getStartdate(),
+                                request.getEnddate(),
+                                request.getMeeturl(),
+                                course,
+                                request.getSchedulerequests()));
     }
 
     private CourseServiceResponse CreateCourseSuccessfulResult() {

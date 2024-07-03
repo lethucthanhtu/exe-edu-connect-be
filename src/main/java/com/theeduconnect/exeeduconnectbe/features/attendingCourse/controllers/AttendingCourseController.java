@@ -32,4 +32,16 @@ public class AttendingCourseController {
                 attendingCourseService.getAllByStudentId(studentId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
+
+    @PostMapping(AttendingCourseEndpoints.APPROVE_TRANSACTION_FOR_COURSE)
+    @Operation(
+            summary =
+                    "Let an administrator approve a transaction made by a Student, for an"
+                            + " attendingCourse.")
+    public ResponseEntity<AttendingCourseServiceResponse> approveTransactionForCourse(
+            @PathVariable int attendingCourseId) {
+        AttendingCourseServiceResponse response =
+                attendingCourseService.approveTransaction(attendingCourseId);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
 }

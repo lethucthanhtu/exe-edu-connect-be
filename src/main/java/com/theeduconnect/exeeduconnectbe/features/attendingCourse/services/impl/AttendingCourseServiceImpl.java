@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AttendingCourseServiceImpl implements AttendingCourseService {
     private GetAllAttendingCoursesByStudentIdServiceImpl getAllAttendingCoursesByUserIdServiceImpl;
+    private ApproveAttendingCourseTransactionServiceImpl
+            approveAttendingCourseTransactionServiceImpl;
     private final AttendingCourseRepository attendingCourseRepository;
     private final StudentRepository studentRepository;
 
@@ -25,9 +27,16 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
         return getAllAttendingCoursesByUserIdServiceImpl.Handle(userId);
     }
 
+    @Override
+    public AttendingCourseServiceResponse approveTransaction(int attendingCourseId) {
+        return approveAttendingCourseTransactionServiceImpl.Handle(attendingCourseId);
+    }
+
     private void InitializeChildServices() {
         getAllAttendingCoursesByUserIdServiceImpl =
                 new GetAllAttendingCoursesByStudentIdServiceImpl(
                         attendingCourseRepository, studentRepository);
+        approveAttendingCourseTransactionServiceImpl =
+                new ApproveAttendingCourseTransactionServiceImpl(attendingCourseRepository);
     }
 }

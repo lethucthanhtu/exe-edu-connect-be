@@ -4,4 +4,6 @@ import com.theeduconnect.exeeduconnectbe.features.attendingCourse.payload.respon
 
 public interface AttendingCourseService {
     AttendingCourseServiceResponse getAllByStudentId(int studentId);
+
+    AttendingCourseServiceResponse approveTransaction(int attendingCourseId);
 }

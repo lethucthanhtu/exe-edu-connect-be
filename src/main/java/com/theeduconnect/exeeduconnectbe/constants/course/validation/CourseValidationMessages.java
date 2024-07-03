@@ -13,6 +13,12 @@ public class CourseValidationMessages {
     public static final String INVALID_END_DATE = "The end date is not valid. Please try again.";
     public static final String INVALID_CATEGORY_ID =
             "The category id chosen is not valid. Please try another one.";
+    public static final String INVALID_MEET_URL =
+            "The given meet url must not be empty. Please try again.";
+
+    public static final String INVALID_DAY_OF_WEEK =
+            "The input day of week is invalid. Please make sure that it is within these options:"
+                    + "MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.";
     public static final String INVALID_START_TIME =
             "The input course start time is invalid. Please make sure that it follows this format:"
                     + "2024-05-24T09:00:00.";

@@ -107,6 +107,10 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 AttendingCourseEndpoints.GET_ALL_BY_STUDENT_ID)
                                         .hasAnyAuthority(AuthenticationRoles.STUDENT)
+                                        .requestMatchers(
+                                                AttendingCourseEndpoints
+                                                        .APPROVE_TRANSACTION_FOR_COURSE)
+                                        .hasAuthority(AuthenticationRoles.ADMIN)
                                         .requestMatchers(TeacherProfileEndpoints.UPDATE_PROFILE)
                                         .hasAuthority(AuthenticationRoles.TEACHER)
                                         //                                        comment users
@@ -136,6 +140,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers("/api/meetings/**")
                                         .permitAll()
                                         //
+
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(

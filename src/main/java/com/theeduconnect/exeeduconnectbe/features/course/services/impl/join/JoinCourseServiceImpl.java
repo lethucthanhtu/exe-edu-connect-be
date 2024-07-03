@@ -69,7 +69,6 @@ public class JoinCourseServiceImpl {
     }
 
     private boolean IsCourseScheduleTaken() {
-
         String testMeetUrl = courseSchedule.getMeeturl();
         if (testMeetUrl == null || testMeetUrl.isEmpty()) return false;
         return true;
@@ -87,7 +86,7 @@ public class JoinCourseServiceImpl {
         AttendingCourse attendingCourse = new AttendingCourse();
         attendingCourse.setStudent(student);
         attendingCourse.setCourse(course);
-        attendingCourse.setStatus(true);
+        attendingCourse.setStatus(false);
         attendingCourseRepository.save(attendingCourse);
     }
 

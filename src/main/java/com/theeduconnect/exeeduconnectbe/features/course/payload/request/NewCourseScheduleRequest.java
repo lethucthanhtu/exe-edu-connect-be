@@ -4,7 +4,8 @@ import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValid
 import com.theeduconnect.exeeduconnectbe.constants.course.validation.CourseValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -12,11 +13,11 @@ import org.hibernate.validator.constraints.Range;
 @Getter
 @Setter
 public class NewCourseScheduleRequest {
-    @Schema(
-            name = "starttime",
-            example = "2024-05-24T08:30:00.000Z",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = CourseValidationMessages.INVALID_START_TIME) private Instant starttime;
+    @Schema(name = "dayofweek", example = "MONDAY", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = CourseValidationMessages.INVALID_DAY_OF_WEEK) private DayOfWeek dayofweek;
+
+    @Schema(name = "starttime", example = "08:30:00", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = CourseValidationMessages.INVALID_START_TIME) private LocalTime starttime;
 
     @Schema(name = "duration", example = "60", requiredMode = Schema.RequiredMode.REQUIRED)
     @Range(

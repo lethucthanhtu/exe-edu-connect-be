@@ -15,23 +15,24 @@ public class TeacherProfileServiceImpl implements TeacherProfileService {
     private final TeacherRepository teacherRepository;
     private final CertificateRepository certificateRepository;
 
-    public TeacherProfileServiceImpl(UserRepository userRepository,
-                                     TeacherRepository teacherRepository,
-                                     CertificateRepository certificateRepository){
+    public TeacherProfileServiceImpl(
+            UserRepository userRepository,
+            TeacherRepository teacherRepository,
+            CertificateRepository certificateRepository) {
         this.userRepository = userRepository;
         this.teacherRepository = teacherRepository;
         this.certificateRepository = certificateRepository;
         InitializeChildServices();
     }
+
     @Override
     public TeacherProfileServiceResponse update(UpdateTeacherProfileDto dto) {
         return updateTeacherProfileServiceImpl.Handle(dto);
     }
-    private void InitializeChildServices(){
-        updateTeacherProfileServiceImpl = new UpdateTeacherProfileServiceImpl(
-                userRepository,
-                teacherRepository,
-                certificateRepository
-        );
+
+    private void InitializeChildServices() {
+        updateTeacherProfileServiceImpl =
+                new UpdateTeacherProfileServiceImpl(
+                        userRepository, teacherRepository, certificateRepository);
     }
 }
