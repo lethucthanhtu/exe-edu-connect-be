@@ -17,4 +17,6 @@ public class AuthenticationValidationMessages {
                     + " - The login credentials might be non-existent in the system.\n"
                     + " - System error occurred.\n\n"
                     + "Check the log below for more details: ";
+
+    public static final String PASSWORD_EMPTY = "The password must not be empty. Please try again.";
 }

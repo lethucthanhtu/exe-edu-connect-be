@@ -2,6 +2,8 @@ package com.theeduconnect.exeeduconnectbe.utils;
 
 import com.google.api.client.util.DateTime;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TimeUtils {
     public static boolean IsInstantBetweenLocalDates(
@@ -15,5 +17,9 @@ public class TimeUtils {
     public static DateTime InstantToGoogleDateTime(Instant instant) {
         java.util.Date date = java.util.Date.from(instant);
         return new DateTime(date);
+    }
+    public static LocalDate StringToLocalDate(String input){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(input, formatter);
     }
 }

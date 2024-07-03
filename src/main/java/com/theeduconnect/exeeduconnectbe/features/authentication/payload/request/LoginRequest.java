@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.features.authentication.payload.reques
 import com.theeduconnect.exeeduconnectbe.constants.authentication.validation.AuthenticationValidationMessages;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.validation.AuthenticationValidationSpecifications;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,6 @@ public class LoginRequest {
             name = "password",
             example = "Educonnect123!",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    @Pattern(
-            regexp = AuthenticationValidationSpecifications.VALID_PASSWORD_REGEX,
-            message = AuthenticationValidationMessages.INVALID_PASSWORD)
+    @NotNull(message = AuthenticationValidationMessages.PASSWORD_EMPTY)
     private String password;
 }

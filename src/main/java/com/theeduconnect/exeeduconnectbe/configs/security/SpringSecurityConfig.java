@@ -10,6 +10,7 @@ import com.theeduconnect.exeeduconnectbe.constants.courseCategory.CourseCategory
 import com.theeduconnect.exeeduconnectbe.constants.feedback.FeedbackEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.swagger.SwaggerEndpoints;
 import com.theeduconnect.exeeduconnectbe.constants.teacher.TeacherEndpoints;
+import com.theeduconnect.exeeduconnectbe.constants.teacherProfile.TeacherProfileEndpoints;
 import com.theeduconnect.exeeduconnectbe.features.authentication.dtos.OAuth2User;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.JwtAuthenticationFilterImpl;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.impl.LoadOAuth2UserServiceImpl;
@@ -106,6 +107,8 @@ public class SpringSecurityConfig {
                                         .requestMatchers(
                                                 AttendingCourseEndpoints.GET_ALL_BY_STUDENT_ID)
                                         .hasAnyAuthority(AuthenticationRoles.STUDENT)
+                                        .requestMatchers(TeacherProfileEndpoints.UPDATE_PROFILE)
+                                        .hasAuthority(AuthenticationRoles.TEACHER)
                                         //                                        comment users
                                         .requestMatchers("/api/users")
                                         .permitAll()
