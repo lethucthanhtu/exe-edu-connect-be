@@ -1,6 +1,7 @@
 package com.theeduconnect.exeeduconnectbe.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.theeduconnect.exeeduconnectbe.constants.authentication.ProviderEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -42,8 +43,8 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @Size(max = 11)
-    @Column(name = "phone", length = 11)
+    @Size(max = 10)
+    @Column(name = "phone", length = 10)
     private String phone;
 
     @Size(max = 255)
@@ -69,8 +70,9 @@ public class User implements UserDetails {
 
     @NotNull @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "roleid", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
     private Role role;
+
 
     @OneToOne(mappedBy = "user")
     @JsonBackReference
