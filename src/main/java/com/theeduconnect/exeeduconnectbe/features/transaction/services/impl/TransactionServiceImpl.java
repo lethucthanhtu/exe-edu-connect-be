@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Optional<User> user = userRepository.findById(request.getUserid());
         if (user.isPresent()) {
-            transaction.setUserid(user.get());
+            transaction.setUser(user.get());
         } else {
             return new TransactionResponse(
                     HttpStatus.NOT_FOUND.value(), TransactionMessages.USER_NOT_FOUND, null);
@@ -107,7 +107,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             Optional<User> user = userRepository.findById(request.getUserid());
             if (user.isPresent()) {
-                transaction.setUserid(user.get());
+                transaction.setUser(user.get());
             } else {
                 return new TransactionResponse(
                         HttpStatus.NOT_FOUND.value(), TransactionMessages.USER_NOT_FOUND, null);
@@ -196,7 +196,7 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionDto dto = new TransactionDto();
         dto.setId(transaction.getId());
         dto.setCourseid(transaction.getCourseid());
-        dto.setUserid(transaction.getUserid().getId());
+        dto.setUserid(transaction.getUser().getId());
         dto.setPrice(transaction.getPrice());
         dto.setDatetime(transaction.getDatetime());
         dto.setTransactioncategoryid(transaction.getTransactioncategory().getId());

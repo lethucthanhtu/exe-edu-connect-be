@@ -17,8 +17,8 @@ public class JoinCourseRequest {
             message = CourseValidationMessages.INVALID_COURSE_ID)
     private int courseid;
 
-    @Min(
-            value = CourseValidationSpecifications.MIN_COURSE_SCHEDULE_ID,
-            message = CourseValidationMessages.INVALID_COURSE_SCHEDULE_ID)
-    private int coursescheduleid;
+    //    @Min(
+    //            value = CourseValidationSpecifications.MIN_COURSE_SCHEDULE_ID,
+    //            message = CourseValidationMessages.INVALID_COURSE_SCHEDULE_ID)
+    //    private int coursescheduleid;
 }

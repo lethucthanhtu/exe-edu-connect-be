@@ -18,9 +18,9 @@ public class CourseServiceMessages {
 
     public static final String INVALID_START_TIME =
             "All Start Times must be between the Start Date and the End Date.";
-    public static final String COURSE_SCHEDULE_TAKEN =
-            "The selected course schedule is already taken by another student. Please choose a"
-                    + " different course schedule.";
+    public static final String COURSE_TAKEN =
+            "The selected course is already taken by another student. Please choose a"
+                    + " different course.";
     public static final String COURSE_SCHEDULE_NOT_FOUND =
             "The given course schedule is not found in the selected class. Plesae choose another"
                     + " course schedule.";

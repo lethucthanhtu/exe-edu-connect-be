@@ -1,9 +1,9 @@
 package com.theeduconnect.exeeduconnectbe.features.attendingCourse.services.impl;
 
+import com.theeduconnect.exeeduconnectbe.features.attendingCourse.payload.request.ApproveAttendingCourseTransactionRequest;
 import com.theeduconnect.exeeduconnectbe.features.attendingCourse.payload.response.AttendingCourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.attendingCourse.services.AttendingCourseService;
-import com.theeduconnect.exeeduconnectbe.repositories.AttendingCourseRepository;
-import com.theeduconnect.exeeduconnectbe.repositories.StudentRepository;
+import com.theeduconnect.exeeduconnectbe.repositories.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,12 +13,21 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
             approveAttendingCourseTransactionServiceImpl;
     private final AttendingCourseRepository attendingCourseRepository;
     private final StudentRepository studentRepository;
+    private final CourseScheduleRepository courseScheduleRepository;
+    private final TransactionRepository transactionRepository;
+    private final CourseRepository courseRepository;
 
     public AttendingCourseServiceImpl(
             AttendingCourseRepository attendingCourseRepository,
-            StudentRepository studentRepository) {
+            StudentRepository studentRepository,
+            CourseScheduleRepository courseScheduleRepository,
+            TransactionRepository transactionRepository,
+            CourseRepository courseRepository) {
         this.attendingCourseRepository = attendingCourseRepository;
         this.studentRepository = studentRepository;
+        this.courseScheduleRepository = courseScheduleRepository;
+        this.transactionRepository = transactionRepository;
+        this.courseRepository = courseRepository;
         InitializeChildServices();
     }
 
@@ -28,8 +37,9 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
     }
 
     @Override
-    public AttendingCourseServiceResponse approveTransaction(int attendingCourseId) {
-        return approveAttendingCourseTransactionServiceImpl.Handle(attendingCourseId);
+    public AttendingCourseServiceResponse approveTransaction(
+            ApproveAttendingCourseTransactionRequest request) {
+        return approveAttendingCourseTransactionServiceImpl.Handle(request);
     }
 
     private void InitializeChildServices() {
@@ -37,6 +47,11 @@ public class AttendingCourseServiceImpl implements AttendingCourseService {
                 new GetAllAttendingCoursesByStudentIdServiceImpl(
                         attendingCourseRepository, studentRepository);
         approveAttendingCourseTransactionServiceImpl =
-                new ApproveAttendingCourseTransactionServiceImpl(attendingCourseRepository);
+                new ApproveAttendingCourseTransactionServiceImpl(
+                        attendingCourseRepository,
+                        courseScheduleRepository,
+                        transactionRepository,
+                        studentRepository,
+                        courseRepository);
     }
 }

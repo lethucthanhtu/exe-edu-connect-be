@@ -81,7 +81,7 @@ public class User implements UserDetails {
     @JsonBackReference
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "userid")
+    @OneToMany(mappedBy = "user")
     @JsonBackReference
     private Set<Transaction> transactions = new LinkedHashSet<>();
 

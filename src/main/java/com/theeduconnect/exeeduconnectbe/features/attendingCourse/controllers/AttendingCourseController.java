@@ -1,10 +1,12 @@
 package com.theeduconnect.exeeduconnectbe.features.attendingCourse.controllers;
 
 import com.theeduconnect.exeeduconnectbe.constants.attendingCourse.AttendingCourseEndpoints;
+import com.theeduconnect.exeeduconnectbe.features.attendingCourse.payload.request.ApproveAttendingCourseTransactionRequest;
 import com.theeduconnect.exeeduconnectbe.features.attendingCourse.payload.response.AttendingCourseServiceResponse;
 import com.theeduconnect.exeeduconnectbe.features.attendingCourse.services.AttendingCourseService;
 import com.theeduconnect.exeeduconnectbe.features.authentication.services.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +41,9 @@ public class AttendingCourseController {
                     "Let an administrator approve a transaction made by a Student, for an"
                             + " attendingCourse.")
     public ResponseEntity<AttendingCourseServiceResponse> approveTransactionForCourse(
-            @PathVariable int attendingCourseId) {
+            @RequestBody ApproveAttendingCourseTransactionRequest request) {
         AttendingCourseServiceResponse response =
-                attendingCourseService.approveTransaction(attendingCourseId);
+                attendingCourseService.approveTransaction(request);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 }

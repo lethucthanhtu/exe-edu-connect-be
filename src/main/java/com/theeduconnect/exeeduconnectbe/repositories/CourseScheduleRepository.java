@@ -1,5 +1,6 @@
 package com.theeduconnect.exeeduconnectbe.repositories;
 
+import com.theeduconnect.exeeduconnectbe.domain.Course;
 import com.theeduconnect.exeeduconnectbe.domain.CourseSchedule;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ public interface CourseScheduleRepository extends JpaRepository<CourseSchedule, 
     List<CourseSchedule> findByStudent_Id(int studentId);
 
     List<CourseSchedule> findByStudent_IdAndCourse_Id(int studentId, int courseId);
+
+    List<CourseSchedule> findByCourse(Course course);
 }
