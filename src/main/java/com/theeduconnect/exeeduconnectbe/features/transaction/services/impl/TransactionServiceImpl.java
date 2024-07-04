@@ -74,9 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
             transaction.setTransactioncategory(category.get());
         } else {
             return new TransactionResponse(
-                    HttpStatus.NOT_FOUND.value(),
-                    TransactionMessages.TRANSACTION_CATEGORY_NOT_FOUND,
-                    null);
+                    HttpStatus.NOT_FOUND.value(), TransactionMessages.TRANSACTION_CATEGORY_NOT_FOUND, null);
         }
 
         Optional<Course> course = courseRepository.findById(request.getCourseid());
@@ -87,11 +85,10 @@ public class TransactionServiceImpl implements TransactionService {
                     HttpStatus.NOT_FOUND.value(), TransactionMessages.COURSE_NOT_FOUND, null);
         }
 
+        transaction.setStatus(request.getStatus());
         transactionRepository.save(transaction);
         return new TransactionResponse(
-                HttpStatus.CREATED.value(),
-                TransactionMessages.TRANSACTION_CREATED,
-                convertToDto(transaction));
+                HttpStatus.CREATED.value(), TransactionMessages.TRANSACTION_CREATED, convertToDto(transaction));
     }
 
     @Override
@@ -103,9 +100,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             if (request.getPrice() <= 0) {
                 return new TransactionResponse(
-                        HttpStatus.BAD_REQUEST.value(),
-                        TransactionMessages.PRICE_GREATER_THAN_0,
-                        null);
+                        HttpStatus.BAD_REQUEST.value(), TransactionMessages.PRICE_GREATER_THAN_0, null);
             } else {
                 transaction.setPrice(request.getPrice());
             }
@@ -124,9 +119,7 @@ public class TransactionServiceImpl implements TransactionService {
                 transaction.setTransactioncategory(category.get());
             } else {
                 return new TransactionResponse(
-                        HttpStatus.NOT_FOUND.value(),
-                        TransactionMessages.TRANSACTION_CATEGORY_NOT_FOUND,
-                        null);
+                        HttpStatus.NOT_FOUND.value(), TransactionMessages.TRANSACTION_CATEGORY_NOT_FOUND, null);
             }
 
             Optional<Course> course = courseRepository.findById(request.getCourseid());
@@ -137,16 +130,16 @@ public class TransactionServiceImpl implements TransactionService {
                         HttpStatus.NOT_FOUND.value(), TransactionMessages.COURSE_NOT_FOUND, null);
             }
 
+            transaction.setStatus(request.getStatus());
             transactionRepository.save(transaction);
             return new TransactionResponse(
-                    HttpStatus.OK.value(),
-                    TransactionMessages.TRANSACTION_UPDATED,
-                    convertToDto(transaction));
+                    HttpStatus.OK.value(), TransactionMessages.TRANSACTION_UPDATED, convertToDto(transaction));
         } else {
             return new TransactionResponse(
                     HttpStatus.NOT_FOUND.value(), TransactionMessages.TRANSACTION_NOT_FOUND, null);
         }
     }
+
 
     @Override
     public TransactionResponse deleteTransaction(int id) {
@@ -182,6 +175,23 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    @Override
+    public TransactionResponse updateTransactionStatus(int id, String status) {
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if (optionalTransaction.isPresent()) {
+            Transaction transaction = optionalTransaction.get();
+            transaction.setStatus(status); // Cập nhật trạng thái
+            transactionRepository.save(transaction);
+            return new TransactionResponse(
+                    HttpStatus.OK.value(),
+                    TransactionMessages.TRANSACTION_STATUS_UPDATED,
+                    convertToDto(transaction));
+        } else {
+            return new TransactionResponse(
+                    HttpStatus.NOT_FOUND.value(), TransactionMessages.TRANSACTION_NOT_FOUND, null);
+        }
+    }
+
     private TransactionDto convertToDto(Transaction transaction) {
         TransactionDto dto = new TransactionDto();
         dto.setId(transaction.getId());
@@ -190,6 +200,7 @@ public class TransactionServiceImpl implements TransactionService {
         dto.setPrice(transaction.getPrice());
         dto.setDatetime(transaction.getDatetime());
         dto.setTransactioncategoryid(transaction.getTransactioncategory().getId());
+        dto.setStatus(transaction.getStatus());
         return dto;
     }
 }

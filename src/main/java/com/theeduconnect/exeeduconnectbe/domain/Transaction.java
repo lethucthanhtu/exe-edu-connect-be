@@ -34,4 +34,7 @@ public class Transaction {
     @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "transactioncategoryid", nullable = false)
     private TransactionCategory transactioncategory;
+
+    @Column(name = "status")
+    private String status;
 }

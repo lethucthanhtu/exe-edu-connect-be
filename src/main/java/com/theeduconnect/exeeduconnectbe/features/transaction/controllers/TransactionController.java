@@ -65,4 +65,12 @@ public class TransactionController {
         TransactionResponse response = transactionService.getTransactionsByUserId(userid);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
+
+    @PutMapping(TransactionEndpoints.UPDATE_STATUS)
+    @Operation(summary = "Update the status of a transaction by Id")
+    public ResponseEntity<TransactionResponse> updateTransactionStatus(
+            @PathVariable int id, @RequestParam String status) {
+        TransactionResponse response = transactionService.updateTransactionStatus(id, status);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
+    }
 }

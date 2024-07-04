@@ -23,4 +23,7 @@ public class TransactionRequest {
 
     @Schema(name = "transactioncategoryid", example = "1")
     @NotNull(message = "transactioncategoryid is required") private Integer transactioncategoryid;
+
+    @Schema(name = "status", example = "completed")
+    private String status;
 }

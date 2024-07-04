@@ -9,4 +9,5 @@ public class TransactionEndpoints {
     public static final String DELETE = "/{id}";
     public static final String GET_BY_USERID = "/user/{userid}";
     public static final String ALL_TRANSACTION_FEATURE = "/api/transactions/**";
+    public static final String UPDATE_STATUS = "/{id}/status";
 }

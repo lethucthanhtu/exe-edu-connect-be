@@ -13,4 +13,5 @@ public class TransactionDto {
     private Double price;
     private LocalDate datetime;
     private Integer transactioncategoryid;
+    private String status;
 }

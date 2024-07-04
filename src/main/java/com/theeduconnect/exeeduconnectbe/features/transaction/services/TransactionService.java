@@ -15,4 +15,6 @@ public interface TransactionService {
     TransactionResponse deleteTransaction(int id);
 
     TransactionResponse getTransactionsByUserId(int userid);
+
+    TransactionResponse updateTransactionStatus(int id, String status);
 }
