@@ -140,6 +140,7 @@ public class GetAllCoursesByRequestServiceImpl {
         for (Course course : courses) {
             CourseDto courseDto = courseMapper.CourseEntityToCourseDto(course);
             courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
+            courseDto.setTeacherid(course.getTeacher().getId());
             courseDto.setTeachername(GetTeacherNameByTeacherId(course.getTeacher().getId()));
             courseDto.setRating(
                     averageStarsCalculatorServiceImpl.GetAverageStarsByCourseId(course));
