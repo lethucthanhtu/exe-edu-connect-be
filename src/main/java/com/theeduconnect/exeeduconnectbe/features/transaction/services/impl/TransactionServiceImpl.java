@@ -172,7 +172,7 @@ public class TransactionServiceImpl implements TransactionService {
                     HttpStatus.NOT_FOUND.value(), TransactionMessages.USER_NOT_FOUND, null);
         }
 
-        List<Transaction> transactions = transactionRepository.findByUserid_Id(userid);
+        List<Transaction> transactions = transactionRepository.findByUser_Id(userid);
         if (!transactions.isEmpty()) {
             List<TransactionDto> dtos =
                     transactions.stream().map(this::convertToDto).collect(Collectors.toList());
