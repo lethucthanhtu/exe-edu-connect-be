@@ -11,5 +11,6 @@ public class TransactionMessages {
     public static final String TRANSACTION_UPDATED = "Transaction updated";
     public static final String TRANSACTION_DELETED = "Transaction deleted";
     public static final String PRICE_GREATER_THAN_0 = "Price must be greater than 0";
-    public static final String TRANSACTION_STATUS_UPDATED = "Transaction status updated successfully.";
+    public static final String TRANSACTION_STATUS_UPDATED =
+            "Transaction status updated successfully.";
 }
