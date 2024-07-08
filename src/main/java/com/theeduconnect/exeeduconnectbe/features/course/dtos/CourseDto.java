@@ -21,6 +21,7 @@ public class CourseDto {
 
     private LocalDate enddate;
 
+    private Integer teacherid;
     private String teachername;
 
     private String categoryname;
