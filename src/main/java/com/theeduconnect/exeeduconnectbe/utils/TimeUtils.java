@@ -32,6 +32,11 @@ public class TimeUtils {
         return String.format("%02d:%02d:%02d", hour, minute, second);
     }
 
+    public static String InstantToLocalDateString(Instant instant) {
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        return zonedDateTime.toLocalDate().toString();
+    }
+
     public static String GetDayOfWeekString(int dayOfWeek) {
         switch (dayOfWeek) {
             case Calendar.SUNDAY:

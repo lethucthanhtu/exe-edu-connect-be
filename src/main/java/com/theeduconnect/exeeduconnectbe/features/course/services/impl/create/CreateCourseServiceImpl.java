@@ -82,19 +82,6 @@ public class CreateCourseServiceImpl {
         return true;
     }
 
-    //    private boolean IsStartTimeBetweenStartDateAndEndDate() {
-    //        newCourseScheduleRequestList = request.getSchedulerequests();
-    //        LocalDate startDate = request.getStartdate();
-    //        LocalDate endDate = request.getEnddate();
-    //        for (NewCourseScheduleRequest newCourseScheduleRequest : newCourseScheduleRequestList)
-    // {
-    //            Instant startTime = newCourseScheduleRequest.getStarttime();
-    //            if (!TimeUtils.IsInstantBetweenLocalDates(startTime, startDate, endDate)) return
-    // false;
-    //        }
-    //        return true;
-    //    }
-
     private void MapNewCourseRequestToCourseEntity() {
         course = courseMapper.NewCourseRequestToCourseEntity(request);
         course.setCoursecategory(courseCategory);
