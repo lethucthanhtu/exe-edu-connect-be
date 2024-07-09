@@ -3,6 +3,7 @@ package com.theeduconnect.exeeduconnectbe.utils;
 import com.google.api.client.util.DateTime;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class TimeUtils {
     public static boolean IsInstantBetweenLocalDates(
@@ -22,15 +23,33 @@ public class TimeUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(input, formatter);
     }
-    //    public static Instant TimeStringToInstant(String input){
-    //        LocalTime localTime = LocalTime.parse(input);
-    //        // Combine the date and time to get a LocalDateTime
-    //        LocalDateTime dateTime = LocalDateTime.of(currentDate, localTime);
-    //
-    //        // Convert LocalDateTime to ZonedDateTime with UTC zone
-    //        ZonedDateTime zonedDateTime = dateTime.atZone(ZoneId.of("UTC"));
-    //
-    //        // Convert ZonedDateTime to Instant
-    //        return zonedDateTime.toInstant();
-    //    }
+
+    public static String InstantToTimeString(Instant instant) {
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        int hour = zonedDateTime.getHour();
+        int minute = zonedDateTime.getMinute();
+        int second = zonedDateTime.getSecond();
+        return String.format("%02d:%02d:%02d", hour, minute, second);
+    }
+
+    public static String GetDayOfWeekString(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.SUNDAY:
+                return "SUNDAY";
+            case Calendar.MONDAY:
+                return "MONDAY";
+            case Calendar.TUESDAY:
+                return "TUESDAY";
+            case Calendar.WEDNESDAY:
+                return "WEDNESDAY";
+            case Calendar.THURSDAY:
+                return "THURSDAY";
+            case Calendar.FRIDAY:
+                return "FRIDAY";
+            case Calendar.SATURDAY:
+                return "SATURDAY";
+            default:
+                return "INVALID DAY";
+        }
+    }
 }

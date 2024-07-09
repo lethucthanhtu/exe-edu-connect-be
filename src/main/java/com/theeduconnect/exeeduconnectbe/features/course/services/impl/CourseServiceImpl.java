@@ -93,7 +93,8 @@ public class CourseServiceImpl implements CourseService {
                         courseScheduleRepository,
                         teacherRepository);
         getCourseByIdServiceImpl =
-                new GetCourseByIdServiceImpl(courseRepository, courseMapper, userRepository);
+                new GetCourseByIdServiceImpl(
+                        courseRepository, courseMapper, userRepository, courseScheduleRepository);
         joinCourseServiceImpl =
                 new JoinCourseServiceImpl(
                         attendingCourseRepository,

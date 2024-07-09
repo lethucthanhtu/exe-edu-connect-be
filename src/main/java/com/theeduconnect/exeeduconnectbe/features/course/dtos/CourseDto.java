@@ -2,6 +2,7 @@ package com.theeduconnect.exeeduconnectbe.features.course.dtos;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class CourseDto {
     private LocalDate startdate;
 
     private LocalDate enddate;
+    private List<CourseScheduleDto> coursescheduledtos;
 
     private Integer teacherid;
     private String teachername;
