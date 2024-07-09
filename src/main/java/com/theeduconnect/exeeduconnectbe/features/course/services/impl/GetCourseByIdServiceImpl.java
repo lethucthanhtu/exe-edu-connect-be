@@ -48,6 +48,7 @@ public class GetCourseByIdServiceImpl {
     private void MapCourseEntityToCourseDto() {
         Course course = courseOptional.get();
         courseDto = courseMapper.CourseEntityToCourseDto(course);
+        courseDto.setTeacherid(course.getTeacher().getId());
         courseDto.setCategoryname(course.getCoursecategory().getCategoryname());
         courseDto.setTeachername(GetTeacherNameByTeacherId(course.getTeacher().getId()));
     }
